@@ -1,17 +1,11 @@
 package com.example.mytunes;
 
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 public class MytunesController {
-    @FXML
-    private Label welcomeText;
-
-    @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
-    }
 
     public void Rewind(MouseEvent mouseEvent) {
     }
@@ -59,6 +53,7 @@ public class MytunesController {
     }
 
     public void CloseButton(MouseEvent mouseEvent) {
+
     }
 
     public void PlayPauseButton(MouseEvent mouseEvent) {
