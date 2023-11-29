@@ -9,10 +9,10 @@ public class SongDaoimpl implements SongDao{
 
     public SongDaoimpl() {
         try{
-            con = DriverManager.getConnection("jdbc:sqlserver://10.176.111.34:1433;database=Mytunesgrp2;encrypt=true;trustServerCertificate=true");
+            con = DriverManager.getConnection("jdbc:sqlserver://10.176.111.34:1433;database=Mytunesgrp2;userName=CSe2023t_t_2;password=CSe2023tT2#23;encrypt=true;trustServerCertificate=true");
 
         } catch (SQLException e) {
-            System.out.println("Cant connect to Database");
+            System.out.println("Cant connect to Database" + e);
         }
     }
 
