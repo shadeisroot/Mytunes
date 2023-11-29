@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 
 public class MytunesController {
+    private SongDao sdi = new SongDaoimpl();
 
     public void Rewind(MouseEvent mouseEvent) {
     }

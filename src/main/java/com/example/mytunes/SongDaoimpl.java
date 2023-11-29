@@ -6,9 +6,8 @@ import java.sql.*;
 import javafx.scene.control.TextArea;
 public class SongDaoimpl implements SongDao{
     private Connection con;
-    private TextArea status;
-    public SongDaoimpl(TextArea s) {
-        status = s;
+
+    public SongDaoimpl() {
         try{
             con = DriverManager.getConnection("jdbc:sqlserver://10.176.111.34:1433;database=Mytunesgrp2;encrypt=true;trustServerCertificate=true");
 
