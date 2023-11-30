@@ -7,6 +7,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -22,29 +28,122 @@ public class MytunesController {
     private boolean id3v1 = false;
     private boolean id3v2 = false;
 
-    private SongDao sdi = new SongDaoimpl();
+    @FXML
+    private Button AddSongToPlaylistButton;
 
-    public void Rewind(MouseEvent mouseEvent) {
+    @FXML
+    private Button CloseButton;
+
+    @FXML
+    private TableColumn<?, ?> ColumnArtist;
+
+    @FXML
+    private TableColumn<?, ?> ColumnGenre;
+
+    @FXML
+    private TableColumn<?, ?> ColumnLength;
+
+    @FXML
+    private TableColumn<?, ?> ColumnLength2;
+
+    @FXML
+    private TableColumn<?, ?> ColumnName;
+
+    @FXML
+    private TableColumn<?, ?> ColumnSongs;
+
+    @FXML
+    private TableColumn<?, ?> ColumnTitle;
+
+    @FXML
+    private ImageView FilterButton;
+
+    @FXML
+    private ImageView NextButton;
+
+    @FXML
+    private Button PlayButton;
+
+    @FXML
+    private ImageView PlayPauseButton;
+
+    @FXML
+    private Button PlaylistDeleteButton;
+
+    @FXML
+    private Button PlaylistEditButton;
+
+    @FXML
+    private Button PlaylistNewButton;
+
+    @FXML
+    private TableView<?> PlaylistTableview;
+
+    @FXML
+    private ImageView RewindButton;
+
+    @FXML
+    private Button SongDeleteButton;
+
+    @FXML
+    private Button SongEditButton;
+
+    @FXML
+    private Button SongNewButton;
+
+    @FXML
+    private Button SongOnPlaylistDeleteButton;
+
+    @FXML
+    private ImageView SongOnPlaylistDownButton;
+
+    @FXML
+    private ImageView SongOnPlaylistUpButton;
+
+    @FXML
+    private ListView<?> SongsOnPlaylistTableview;
+
+    @FXML
+    private TableView<?> SongsTableview;
+
+    @FXML
+    private ImageView VolumeButton;
+
+    @FXML
+    private Slider VolumeSliderButton;
+
+    @FXML
+    void AddSongToPlaylistButton(MouseEvent event) {
 
     }
 
-    public void Filter(MouseEvent mouseEvent) {
+    @FXML
+    void CloseButton(MouseEvent event) {
+
     }
 
-    public void AddSongToPlaylistButton(MouseEvent mouseEvent) {
+    @FXML
+    void Filter(MouseEvent event) {
+
     }
 
-    public void PlaylistNewButton(MouseEvent mouseEvent) {
+    @FXML
+    void Next(MouseEvent event) {
+
     }
 
-    public void PlaylistEditButton(MouseEvent mouseEvent) {
+    @FXML
+    void PlayPauseButton(MouseEvent event) {
+
     }
 
-    public void PlaylistDeleteButton(MouseEvent mouseEvent) {
+    @FXML
+    void PlaylistDeleteButton(MouseEvent event) {
+
     }
 
-    public void SongNewButton(MouseEvent mouseEvent) {
-        FileChooser filechooser = new FileChooser();
+    @FXML
+    void PlaylistEditButton(MouseEvent event) {
 
         Stage stage = new Stage();
         filechooser.setTitle("Add new song");
@@ -135,45 +234,50 @@ public class MytunesController {
                      throw new RuntimeException(e);
                  }
 
-             } catch (InvalidDataException e) {
-                 throw new RuntimeException(e);
-             } catch (UnsupportedTagException e) {
-                 throw new RuntimeException(e);
-             } catch (IOException e) {
-                 throw new RuntimeException(e);
-             }
+    @FXML
+    void PlaylistNewButton(MouseEvent event) {
 
-            System.out.println(mediaPath);
-        }
     }
 
-    public void SongEditButton(MouseEvent mouseEvent) {
+    @FXML
+    void Rewind(MouseEvent event) {
+
     }
 
-    public void SongDeleteButton(MouseEvent mouseEvent) {
+    @FXML
+    void SongDeleteButton(MouseEvent event) {
+
     }
 
-    public void VolumeSlider(MouseEvent mouseEvent) {
+    @FXML
+    void SongEditButton(MouseEvent event) {
+
     }
 
-    public void PlayPause(MouseEvent mouseEvent) {
+    @FXML
+    void SongNewButton(MouseEvent event) {
+
     }
 
-    public void Next(MouseEvent mouseEvent) {
-    }
+    @FXML
+    void SongOnPlaylistDeleteButton(MouseEvent event) {
 
-    public void SongOnPlaylistUpButton(MouseEvent mouseEvent) {
-    }
-
-    public void SongOnPlaylistDownButton(MouseEvent mouseEvent) {
-    }
-
-    public void SongOnPlaylistDeleteButton(MouseEvent mouseEvent) {
     }
 
     public void CloseButton(MouseEvent mouseEvent) {
+    @FXML
+    void SongOnPlaylistDownButton(MouseEvent event) {
+
     }
 
-    public void PlayPauseButton(MouseEvent mouseEvent) {
+    @FXML
+    void SongOnPlaylistUpButton(MouseEvent event) {
+
     }
+
+    @FXML
+    void VolumeSlider(MouseEvent event) {
+
+    }
+
 }
