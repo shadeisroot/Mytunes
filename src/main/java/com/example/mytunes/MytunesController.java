@@ -1,132 +1,178 @@
 package com.example.mytunes;
 
-import com.mpatric.mp3agic.*;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
 
 public class MytunesController {
-    private String media_url;
-    private String mediaPath;
 
+    @FXML
+    private Button AddSongToPlaylistButton;
 
-    private SongDao sdi = new SongDaoimpl();
+    @FXML
+    private Button CloseButton;
 
+    @FXML
+    private TableColumn<?, ?> ColumnArtist;
 
-    public void Rewind(MouseEvent mouseEvent) {
+    @FXML
+    private TableColumn<?, ?> ColumnGenre;
 
-    }
+    @FXML
+    private TableColumn<?, ?> ColumnLength;
 
-    public void Filter(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private TableColumn<?, ?> ColumnLength2;
 
-    public void AddSongToPlaylistButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private TableColumn<?, ?> ColumnName;
 
-    public void PlaylistNewButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private TableColumn<?, ?> ColumnSongs;
 
-    public void PlaylistEditButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private TableColumn<?, ?> ColumnTitle;
 
-    public void PlaylistDeleteButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private ImageView FilterButton;
 
-    public void SongNewButton(MouseEvent mouseEvent) {
-        FileChooser filechooser = new FileChooser();
+    @FXML
+    private ImageView NextButton;
 
-        Stage stage = new Stage();
-        filechooser.setTitle("Add new song");
-        filechooser.getExtensionFilters().addAll(
-                new FileChooser.ExtensionFilter("Audio Files", "*.wav", "*.mp3", "*.aac", "*.m4a"),
-                new FileChooser.ExtensionFilter("All Files", "*."));
-        File selectedFile = filechooser.showOpenDialog(stage);
-        if (selectedFile != null) {
-            media_url = selectedFile.toPath().toString();
-            String filename = selectedFile.getName();
-             mediaPath = media_url.substring(media_url.indexOf("src"));
-             try{
-                 Mp3File mp3file = new Mp3File(mediaPath);
-                 Song ssong = new Song(mp3file.getId3v1Tag().getTitle(), mp3file.getId3v1Tag().getArtist() , "mp3file.getId3v1Tag().getGenre()", mp3file.getLengthInSeconds());
+    @FXML
+    private Button PlayButton;
 
-             } catch (InvalidDataException e) {
-                 throw new RuntimeException(e);
-             } catch (UnsupportedTagException e) {
-                 throw new RuntimeException(e);
-             } catch (IOException e) {
-                 throw new RuntimeException(e);
-             }
+    @FXML
+    private ImageView PlayPauseButton;
 
-            System.out.println(mediaPath);
-        }
-    }
+    @FXML
+    private Button PlaylistDeleteButton;
 
-    public void SongEditButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private Button PlaylistEditButton;
 
-    public void SongDeleteButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private Button PlaylistNewButton;
 
-    public void VolumeSlider(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private TableView<?> PlaylistTableview;
 
-    public void PlayPause(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private ImageView RewindButton;
 
-    public void Next(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private Button SongDeleteButton;
 
-    public void SongOnPlaylistUpButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private Button SongEditButton;
 
-    public void SongOnPlaylistDownButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private Button SongNewButton;
 
-    public void SongOnPlaylistDeleteButton(MouseEvent mouseEvent) {
-    }
+    @FXML
+    private Button SongOnPlaylistDeleteButton;
 
-    public void CloseButton(MouseEvent mouseEvent) {
-        try{
-            System.out.println("here");
-            Mp3File mp3file = new Mp3File(mediaPath);
-            System.out.println("Length of this mp3 is: " + mp3file.getLengthInSeconds() + " seconds");
-            System.out.println(mp3file.getId3v2Tag().getTitle());
-            if (mp3file.hasId3v1Tag()) {
-                ID3v1 id3v1Tag = mp3file.getId3v1Tag();
-                System.out.println("Track: " + id3v1Tag.getTrack());
-                System.out.println("Artist: " + id3v1Tag.getArtist());
-                System.out.println("Title: " + id3v1Tag.getTitle());
-                System.out.println("Album: " + id3v1Tag.getAlbum());
-                System.out.println("Year: " + id3v1Tag.getYear());
-                System.out.println("Genre: " + id3v1Tag.getGenre() + " (" + id3v1Tag.getGenreDescription() + ")");
-                System.out.println("Comment: " + id3v1Tag.getComment());
-            } else if (mp3file.hasId3v2Tag()) {
-                ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-                System.out.println("Track: " + id3v2Tag.getTrack());
-                System.out.println("Artist: " + id3v2Tag.getArtist());
-                System.out.println("Title: " + id3v2Tag.getTitle());
-                System.out.println("Album: " + id3v2Tag.getAlbum());
-                System.out.println("Year: " + id3v2Tag.getYear());
-                System.out.println("Genre: " + id3v2Tag.getGenre() + " (" + id3v2Tag.getGenreDescription() + ")");
-                System.out.println("Comment: " + id3v2Tag.getComment());
+    @FXML
+    private ImageView SongOnPlaylistDownButton;
 
-            }
-        } catch (InvalidDataException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedTagException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    @FXML
+    private ImageView SongOnPlaylistUpButton;
+
+    @FXML
+    private ListView<?> SongsOnPlaylistTableview;
+
+    @FXML
+    private TableView<?> SongsTableview;
+
+    @FXML
+    private ImageView VolumeButton;
+
+    @FXML
+    private Slider VolumeSliderButton;
+
+    @FXML
+    void AddSongToPlaylistButton(MouseEvent event) {
 
     }
 
-    public void PlayPauseButton(MouseEvent mouseEvent) {
+    @FXML
+    void CloseButton(MouseEvent event) {
+
     }
+
+    @FXML
+    void Filter(MouseEvent event) {
+
+    }
+
+    @FXML
+    void Next(MouseEvent event) {
+
+    }
+
+    @FXML
+    void PlayPauseButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void PlaylistDeleteButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void PlaylistEditButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void PlaylistNewButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void Rewind(MouseEvent event) {
+
+    }
+
+    @FXML
+    void SongDeleteButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void SongEditButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void SongNewButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void SongOnPlaylistDeleteButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void SongOnPlaylistDownButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void SongOnPlaylistUpButton(MouseEvent event) {
+
+    }
+
+    @FXML
+    void VolumeSlider(MouseEvent event) {
+
+    }
+
 }
