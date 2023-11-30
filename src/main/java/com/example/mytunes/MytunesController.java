@@ -2,10 +2,15 @@ package com.example.mytunes;
 
 import com.mpatric.mp3agic.*;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -14,10 +19,10 @@ import java.io.IOException;
 public class MytunesController {
     private String media_url;
     private String mediaPath;
-
+    private boolean id3v1 = false;
+    private boolean id3v2 = false;
 
     private SongDao sdi = new SongDaoimpl();
-
 
     public void Rewind(MouseEvent mouseEvent) {
 
@@ -53,7 +58,82 @@ public class MytunesController {
              mediaPath = media_url.substring(media_url.indexOf("src"));
              try{
                  Mp3File mp3file = new Mp3File(mediaPath);
-                 Song ssong = new Song(mp3file.getId3v1Tag().getTitle(), mp3file.getId3v1Tag().getArtist() , "mp3file.getId3v1Tag().getGenre()", mp3file.getLengthInSeconds());
+                 try{
+                     if (mp3file.hasId3v1Tag()) {
+                         id3v1 = true;
+                     } else if (mp3file.hasId3v2Tag()) {
+                         id3v2 = true;
+
+
+                         Stage editStage = new Stage();
+                     editStage.initModality(Modality.APPLICATION_MODAL);
+                     editStage.setTitle("Add Song");
+
+                     GridPane dialogLayout = new GridPane();
+                     dialogLayout.setHgap(10);
+                     dialogLayout.setVgap(10);
+                     dialogLayout.setPadding(new Insets(10));
+
+                     TextField artisttTextField = new TextField();
+                     TextField titleTextField = new TextField();
+                     TextField genreTextField = new TextField();
+
+                     dialogLayout.add(new Label("Artist:"), 0, 0);
+                     dialogLayout.add(artisttTextField, 1, 0);
+                     if (id3v1){
+                         artisttTextField.setText(mp3file.getId3v1Tag().getArtist());
+                     } else if (id3v2) {
+                         artisttTextField.setText(mp3file.getId3v2Tag().getArtist());
+                     } else {
+                         artisttTextField.setText("");
+                     }
+
+                     dialogLayout.add(new Label("Title:"), 0, 1);
+                     dialogLayout.add(titleTextField, 1, 1);
+                     if (id3v1){
+                             titleTextField.setText(mp3file.getId3v1Tag().getTitle());
+                     } else if (id3v2) {
+                             titleTextField.setText(mp3file.getId3v2Tag().getTitle());
+                     }else {
+                         titleTextField.setText("");
+                     }
+
+
+
+                     dialogLayout.add(new Label("Genre:"), 0, 2);
+                     dialogLayout.add(genreTextField, 1, 2);
+                     if (id3v1){
+                         genreTextField.setText(mp3file.getId3v1Tag().getGenreDescription());
+                             id3v1 = false;
+                     } else if (id3v2) {
+                         genreTextField.setText(mp3file.getId3v2Tag().getGenreDescription());
+                             id3v2 = false;
+                     }else {
+                         genreTextField.setText("");
+                     }
+
+
+
+                     Button submitButton = new Button("Submit");
+                     submitButton.setOnAction(e -> {
+
+                         Song ssong = new Song(titleTextField.getText(), artisttTextField.getText() , genreTextField.getText(), mp3file.getLengthInSeconds());
+
+                         sdi.saveSong(ssong);
+
+                         editStage.close();
+                     });
+
+                     dialogLayout.add(submitButton, 1, 3);
+
+                     Scene editScene = new Scene(dialogLayout, 300, 200);
+                     editStage.setScene(editScene);
+
+                     editStage.showAndWait();
+                 }
+             } catch (Exception e) {
+                     throw new RuntimeException(e);
+                 }
 
              } catch (InvalidDataException e) {
                  throw new RuntimeException(e);
@@ -92,39 +172,6 @@ public class MytunesController {
     }
 
     public void CloseButton(MouseEvent mouseEvent) {
-        try{
-            System.out.println("here");
-            Mp3File mp3file = new Mp3File(mediaPath);
-            System.out.println("Length of this mp3 is: " + mp3file.getLengthInSeconds() + " seconds");
-            System.out.println(mp3file.getId3v2Tag().getTitle());
-            if (mp3file.hasId3v1Tag()) {
-                ID3v1 id3v1Tag = mp3file.getId3v1Tag();
-                System.out.println("Track: " + id3v1Tag.getTrack());
-                System.out.println("Artist: " + id3v1Tag.getArtist());
-                System.out.println("Title: " + id3v1Tag.getTitle());
-                System.out.println("Album: " + id3v1Tag.getAlbum());
-                System.out.println("Year: " + id3v1Tag.getYear());
-                System.out.println("Genre: " + id3v1Tag.getGenre() + " (" + id3v1Tag.getGenreDescription() + ")");
-                System.out.println("Comment: " + id3v1Tag.getComment());
-            } else if (mp3file.hasId3v2Tag()) {
-                ID3v2 id3v2Tag = mp3file.getId3v2Tag();
-                System.out.println("Track: " + id3v2Tag.getTrack());
-                System.out.println("Artist: " + id3v2Tag.getArtist());
-                System.out.println("Title: " + id3v2Tag.getTitle());
-                System.out.println("Album: " + id3v2Tag.getAlbum());
-                System.out.println("Year: " + id3v2Tag.getYear());
-                System.out.println("Genre: " + id3v2Tag.getGenre() + " (" + id3v2Tag.getGenreDescription() + ")");
-                System.out.println("Comment: " + id3v2Tag.getComment());
-
-            }
-        } catch (InvalidDataException e) {
-            throw new RuntimeException(e);
-        } catch (UnsupportedTagException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 
     public void PlayPauseButton(MouseEvent mouseEvent) {

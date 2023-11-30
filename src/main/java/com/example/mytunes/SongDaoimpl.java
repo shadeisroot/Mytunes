@@ -19,18 +19,16 @@ public class SongDaoimpl implements SongDao{
     @Override
     public boolean saveSong(Song song) {
         try{
-            Statement database = con.createStatement();
-            String sql = "INSERT INTO Song(Title, Artist, Genre, Length) VALUES "
-                    + "('" + song.getTitle()
-                    + "','" + song.getArtist()
-                    + "','" + song.getGenre()
-                    + "','" + song.getLength()
-                    + ")";
-            database.executeUpdate(sql);
+            PreparedStatement ps = con.prepareStatement("INSERT INTO Songs VALUES(?,?,?,?);");
+            ps.setString(1, song.getTitle());
+            ps.setString(2,song.getArtist());
+            ps.setString(3,song.getGenre());
+            ps.setDouble(4, song.getLength());
+            ps.executeUpdate();
             System.out.println(("Song Created"));
             return true;
         } catch (SQLException e) {
-            System.out.println("Cannot Add Song");
+            System.out.println("Cannot Add Song" + e);
             return false;
         }
 
