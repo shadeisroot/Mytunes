@@ -27,6 +27,7 @@ public class MytunesController {
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
+    private SongDao sdi = new SongDaoimpl();
 
     @FXML
     private Button AddSongToPlaylistButton;
@@ -144,7 +145,7 @@ public class MytunesController {
 
     @FXML
     void PlaylistEditButton(MouseEvent event) {
-
+        FileChooser filechooser = new FileChooser();
         Stage stage = new Stage();
         filechooser.setTitle("Add new song");
         filechooser.getExtensionFilters().addAll(
@@ -155,9 +156,9 @@ public class MytunesController {
             media_url = selectedFile.toPath().toString();
             String filename = selectedFile.getName();
              mediaPath = media_url.substring(media_url.indexOf("src"));
-             try{
+             try {
                  Mp3File mp3file = new Mp3File(mediaPath);
-                 try{
+                 try {
                      if (mp3file.hasId3v1Tag()) {
                          id3v1 = true;
                      } else if (mp3file.hasId3v2Tag()) {
@@ -165,119 +166,125 @@ public class MytunesController {
 
 
                          Stage editStage = new Stage();
-                     editStage.initModality(Modality.APPLICATION_MODAL);
-                     editStage.setTitle("Add Song");
+                         editStage.initModality(Modality.APPLICATION_MODAL);
+                         editStage.setTitle("Add Song");
 
-                     GridPane dialogLayout = new GridPane();
-                     dialogLayout.setHgap(10);
-                     dialogLayout.setVgap(10);
-                     dialogLayout.setPadding(new Insets(10));
+                         GridPane dialogLayout = new GridPane();
+                         dialogLayout.setHgap(10);
+                         dialogLayout.setVgap(10);
+                         dialogLayout.setPadding(new Insets(10));
 
-                     TextField artisttTextField = new TextField();
-                     TextField titleTextField = new TextField();
-                     TextField genreTextField = new TextField();
+                         TextField artisttTextField = new TextField();
+                         TextField titleTextField = new TextField();
+                         TextField genreTextField = new TextField();
 
-                     dialogLayout.add(new Label("Artist:"), 0, 0);
-                     dialogLayout.add(artisttTextField, 1, 0);
-                     if (id3v1){
-                         artisttTextField.setText(mp3file.getId3v1Tag().getArtist());
-                     } else if (id3v2) {
-                         artisttTextField.setText(mp3file.getId3v2Tag().getArtist());
-                     } else {
-                         artisttTextField.setText("");
-                     }
+                         dialogLayout.add(new Label("Artist:"), 0, 0);
+                         dialogLayout.add(artisttTextField, 1, 0);
+                         if (id3v1) {
+                             artisttTextField.setText(mp3file.getId3v1Tag().getArtist());
+                         } else if (id3v2) {
+                             artisttTextField.setText(mp3file.getId3v2Tag().getArtist());
+                         } else {
+                             artisttTextField.setText("");
+                         }
 
-                     dialogLayout.add(new Label("Title:"), 0, 1);
-                     dialogLayout.add(titleTextField, 1, 1);
-                     if (id3v1){
+                         dialogLayout.add(new Label("Title:"), 0, 1);
+                         dialogLayout.add(titleTextField, 1, 1);
+                         if (id3v1) {
                              titleTextField.setText(mp3file.getId3v1Tag().getTitle());
-                     } else if (id3v2) {
+                         } else if (id3v2) {
                              titleTextField.setText(mp3file.getId3v2Tag().getTitle());
-                     }else {
-                         titleTextField.setText("");
-                     }
+                         } else {
+                             titleTextField.setText("");
+                         }
 
 
-
-                     dialogLayout.add(new Label("Genre:"), 0, 2);
-                     dialogLayout.add(genreTextField, 1, 2);
-                     if (id3v1){
-                         genreTextField.setText(mp3file.getId3v1Tag().getGenreDescription());
+                         dialogLayout.add(new Label("Genre:"), 0, 2);
+                         dialogLayout.add(genreTextField, 1, 2);
+                         if (id3v1) {
+                             genreTextField.setText(mp3file.getId3v1Tag().getGenreDescription());
                              id3v1 = false;
-                     } else if (id3v2) {
-                         genreTextField.setText(mp3file.getId3v2Tag().getGenreDescription());
+                         } else if (id3v2) {
+                             genreTextField.setText(mp3file.getId3v2Tag().getGenreDescription());
                              id3v2 = false;
-                     }else {
-                         genreTextField.setText("");
+                         } else {
+                             genreTextField.setText("");
+                         }
+
+
+                         Button submitButton = new Button("Submit");
+                         submitButton.setOnAction(e -> {
+
+                             Song ssong = new Song(titleTextField.getText(), artisttTextField.getText(), genreTextField.getText(), mp3file.getLengthInSeconds());
+
+                             sdi.saveSong(ssong);
+
+                             editStage.close();
+                         });
+
+                         dialogLayout.add(submitButton, 1, 3);
+
+                         Scene editScene = new Scene(dialogLayout, 300, 200);
+                         editStage.setScene(editScene);
+
+                         editStage.showAndWait();
                      }
-
-
-
-                     Button submitButton = new Button("Submit");
-                     submitButton.setOnAction(e -> {
-
-                         Song ssong = new Song(titleTextField.getText(), artisttTextField.getText() , genreTextField.getText(), mp3file.getLengthInSeconds());
-
-                         sdi.saveSong(ssong);
-
-                         editStage.close();
-                     });
-
-                     dialogLayout.add(submitButton, 1, 3);
-
-                     Scene editScene = new Scene(dialogLayout, 300, 200);
-                     editStage.setScene(editScene);
-
-                     editStage.showAndWait();
-                 }
-             } catch (Exception e) {
+                 } catch (Exception e) {
                      throw new RuntimeException(e);
                  }
+             } catch (InvalidDataException e) {
+                 throw new RuntimeException(e);
+             } catch (UnsupportedTagException e) {
+                 throw new RuntimeException(e);
+             } catch (IOException e) {
+                 throw new RuntimeException(e);
+             }
+        }}
 
-    @FXML
-    void PlaylistNewButton(MouseEvent event) {
+                 @FXML
+                 void PlaylistNewButton (MouseEvent event){
 
-    }
+                 }
 
-    @FXML
-    void Rewind(MouseEvent event) {
+                 @FXML
+                 void Rewind (MouseEvent event){
 
-    }
+                 }
 
-    @FXML
-    void SongDeleteButton(MouseEvent event) {
+                 @FXML
+                 void SongDeleteButton (MouseEvent event){
 
-    }
+                 }
 
-    @FXML
-    void SongEditButton(MouseEvent event) {
+                 @FXML
+                 void SongEditButton (MouseEvent event){
 
-    }
+                 }
 
-    @FXML
-    void SongNewButton(MouseEvent event) {
+                 @FXML
+                 void SongNewButton (MouseEvent event){
 
-    }
+                 }
 
-    @FXML
-    void SongOnPlaylistDeleteButton(MouseEvent event) {
+                 @FXML
+                 void SongOnPlaylistDeleteButton (MouseEvent event){
 
-    }
+                 }
 
-    public void CloseButton(MouseEvent mouseEvent) {
-    @FXML
-    void SongOnPlaylistDownButton(MouseEvent event) {
 
-    }
+                 @FXML
+                 void SongOnPlaylistDownButton (MouseEvent event){
 
-    @FXML
-    void SongOnPlaylistUpButton(MouseEvent event) {
+                }
 
-    }
+                @FXML
+                void SongOnPlaylistUpButton (MouseEvent event){
 
-    @FXML
-    void VolumeSlider(MouseEvent event) {
+                }
 
-    }
+                @FXML
+                void VolumeSlider (MouseEvent event){
+
+                }
 
 }
