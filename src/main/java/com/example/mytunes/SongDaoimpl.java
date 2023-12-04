@@ -73,16 +73,16 @@ public class SongDaoimpl implements SongDao {
 
     }
 
-    public void deleteSong(Song song){
+    public boolean deleteSong(Song song){
         try{
             PreparedStatement ps = con.prepareStatement("DELETE FROM Songs WHERE Titel = ?");
             ps.setString(1, song.getTitel());
             ps.executeUpdate();
+            return true;
 
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-
         }
     }
 

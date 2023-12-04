@@ -10,7 +10,7 @@ public interface SongDao {
 
     boolean deletePlaylist(Playlist p);
 
-    public void deleteSong(Song song);
+    boolean deleteSong(Song song);
 
     void getAllSongs(ObservableList<Song> SongTabledata);
 
