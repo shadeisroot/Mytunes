@@ -60,7 +60,7 @@ public class MytunesController {
     private TableColumn<Playlist, String> ColumnSongs = new TableColumn();
 
     @FXML
-    private TableColumn<Song, String> ColumnTitle = new TableColumn();
+    private TableColumn<Song, String> ColumnTitel = new TableColumn();
 
     @FXML
     private ImageView FilterButton;
@@ -134,7 +134,7 @@ public class MytunesController {
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
         ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
 
-        ColumnTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("Title"));
+        ColumnTitel.setCellValueFactory(new PropertyValueFactory<Song, String>("Title"));
         ColumnArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("Artist"));
         ColumnGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("Genre"));
         ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
@@ -151,8 +151,8 @@ public class MytunesController {
         PlaylistTableview.getSortOrder().add(ColumnName);
         PlaylistTableview.sort();
 
-        ColumnTitle.setSortType(TableColumn.SortType.ASCENDING);
-        SongsTableview.getSortOrder().add(ColumnTitle);
+        ColumnTitel.setSortType(TableColumn.SortType.ASCENDING);
+        SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
     }
     @FXML

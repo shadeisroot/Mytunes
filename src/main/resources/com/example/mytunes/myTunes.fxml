@@ -39,7 +39,7 @@
             </Button>
             <TableView fx:id="SongsTableview" prefHeight="452.0" prefWidth="670.0">
               <columns>
-                <TableColumn fx:id="ColumnTitle" minWidth="250.0" prefWidth="0.0" text="Title" />
+                <TableColumn fx:id="ColumnTitel" minWidth="250.0" prefWidth="0.0" text="Titel" />
                 <TableColumn minWidth="0.0" prefWidth="0.0" text="Artist" />
                   <TableColumn fx:id="ColumnArtist" minWidth="52.43658447265625" prefWidth="208.5" text="Artist" />
                   <TableColumn fx:id="ColumnGenre" minWidth="0.0" prefWidth="97.2022705078125" text="Genre" />
