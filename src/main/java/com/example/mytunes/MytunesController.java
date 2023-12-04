@@ -125,7 +125,6 @@ public class MytunesController {
 
     public void initialize() {
         // Start database og sæt gui op med alle bøger i en tabel
-        sdi = new SongDaoimpl();
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
@@ -134,7 +133,7 @@ public class MytunesController {
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
         ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
 
-        ColumnTitel.setCellValueFactory(new PropertyValueFactory<Song, String>("Title"));
+        ColumnTitel.setCellValueFactory(new PropertyValueFactory<Song, String>("Titel"));
         ColumnArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("Artist"));
         ColumnGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("Genre"));
         ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
@@ -176,6 +175,7 @@ public class MytunesController {
 
     @FXML
     void PlayPauseButton(MouseEvent event) {
+        System.out.println(SongsTableview.getSelectionModel().getSelectedIndex());
         String path = "/Users/shadeisroot/IdeaProjects/Mytunes/src/main/resources/com/example/mytunes/Songs/01 Anywhere I Go.mp3";
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
