@@ -134,7 +134,7 @@ public class MytunesController {
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
         ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
 
-        ColumnTitel.setCellValueFactory(new PropertyValueFactory<Song, String>("Title"));
+        ColumnTitel.setCellValueFactory(new PropertyValueFactory<Song, String>("Titel"));
         ColumnArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("Artist"));
         ColumnGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("Genre"));
         ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
