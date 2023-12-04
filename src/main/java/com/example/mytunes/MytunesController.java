@@ -42,16 +42,16 @@ public class MytunesController {
     private Button CloseButton;
 
     @FXML
-    private TableColumn<?, ?> ColumnArtist;
+    private TableColumn<Song, String> ColumnArtist = new TableColumn();
 
     @FXML
-    private TableColumn<?, ?> ColumnGenre;
+    private TableColumn<Song, String> ColumnGenre = new TableColumn();
 
     @FXML
-    private TableColumn<Playlist, String> ColumnLength;
+    private TableColumn<Playlist, String> ColumnLength = new TableColumn();
 
     @FXML
-    private TableColumn<Playlist, String> ColumnLength2 = new TableColumn();
+    private TableColumn<Song, String> ColumnLength2 = new TableColumn();
 
     @FXML
     private TableColumn<Playlist, String> ColumnName = new TableColumn();
@@ -60,7 +60,7 @@ public class MytunesController {
     private TableColumn<Playlist, String> ColumnSongs = new TableColumn();
 
     @FXML
-    private TableColumn<?, ?> ColumnTitle;
+    private TableColumn<Song, String> ColumnTitle;
 
     @FXML
     private ImageView FilterButton;
@@ -111,7 +111,7 @@ public class MytunesController {
     private ListView<?> SongsOnPlaylistTableview;
 
     @FXML
-    private TableView<?> SongsTableview;
+    private TableView<Song> SongsTableview = new TableView<Song>();
 
     @FXML
     private ImageView VolumeButton;
@@ -121,25 +121,39 @@ public class MytunesController {
 
     private final ObservableList<Playlist> tabeldata = FXCollections.observableArrayList();
 
+    private final ObservableList<Song> SongTabledata = FXCollections.observableArrayList();
+
     public void initialize() {
         // Start database og sæt gui op med alle bøger i en tabel
         sdi = new SongDaoimpl();
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         // Kolonnerne sættes op med forbindelse til klassen Person med hver sit felt
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
         ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
 
+        ColumnTitle.setCellValueFactory(new PropertyValueFactory<Song, String>("Title"));
+        ColumnArtist.setCellValueFactory(new PropertyValueFactory<Song, String>("Artist"));
+        ColumnGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("Genre"));
+        ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
+
         PlaylistTableview.setItems(tabeldata);
+        SongsTableview.setItems(SongTabledata);
 
         // Læs alle bøger ind i tabellen
         sdi.getAllPlaylists(tabeldata);
+        sdi.getAllSongs(SongTabledata);
 
         // Sortér som udgangspunkt efter id
         ColumnName.setSortType(TableColumn.SortType.ASCENDING);
         PlaylistTableview.getSortOrder().add(ColumnName);
         PlaylistTableview.sort();
+
+        ColumnTitle.setSortType(TableColumn.SortType.ASCENDING);
+        SongsTableview.getSortOrder().add(ColumnTitle);
+        SongsTableview.sort();
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {

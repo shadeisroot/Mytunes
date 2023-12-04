@@ -68,16 +68,15 @@ public class SongDaoimpl implements SongDao {
         } catch (SQLException e) {
             System.err.println("Sletning lykkedes ikke" + e.getMessage());
             return false;
-
-
         }
+
 
     }
 
-    public void deleteSong(Song song) {
-        try {
+    public void deleteSong(Song song){
+        try{
             PreparedStatement ps = con.prepareStatement("DELETE FROM Songs WHERE Titel = ?");
-            ps.setString(1, song.getTitle());
+            ps.setString(1, song.getTitel());
             ps.executeUpdate();
 
 
@@ -85,5 +84,28 @@ public class SongDaoimpl implements SongDao {
             throw new RuntimeException(e);
 
         }
+    }
+
+    public void getAllSongs(ObservableList<Song> SongTabledata) {
+        SongTabledata.clear();
+        int antal = 0;
+        try{
+            Statement database = con.createStatement();
+            String sql = "SELECT * FROM Songs";
+            ResultSet rs = database.executeQuery(sql);
+            while (rs.next()) {
+                String title     = rs.getString("Title");
+                String artist    = rs.getString("Artist");
+                String genre = rs.getString("Genre");
+                Double length     = Double.valueOf(rs.getString("Length"));
+
+                Song song = new Song(title, artist, genre, length);
+                SongTabledata.add(song);
+                ++antal;
+            }
+        } catch (SQLException e){
+            System.err.println("Kan ikke læse records" +e);
+        }
+
     }
 }

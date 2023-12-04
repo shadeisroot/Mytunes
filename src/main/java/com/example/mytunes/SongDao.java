@@ -12,4 +12,6 @@ public interface SongDao {
 
     public void deleteSong(Song song);
 
+    void getAllSongs(ObservableList<Song> SongTabledata);
+
 }
