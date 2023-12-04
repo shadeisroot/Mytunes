@@ -1,5 +1,7 @@
 package com.example.mytunes;
 
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.control.TextArea;
 
 import java.sql.*;
@@ -34,6 +36,39 @@ public class SongDaoimpl implements SongDao{
 
     }
 
+
+    public void getAllPlaylists(ObservableList<Playlist> tabeldata) {
+        tabeldata.clear();
+        int antal = 0;
+        try{
+            Statement database = con.createStatement();
+            String sql = "SELECT * FROM Playlist";
+            ResultSet rs = database.executeQuery(sql);
+            while (rs.next()) {
+                String name     = rs.getString("name");
+                Integer songs    = Integer.valueOf(rs.getString("songs"));
+                Double length     = Double.valueOf(rs.getString("length"));
+
+                Playlist playlist = new Playlist(name, songs, length);
+                tabeldata.add(playlist);
+                ++antal;
+            }
+        } catch (SQLException e){
+            System.err.println("Kan ikke læse records");
+        }
+
+    }
+
+    public boolean deletePlaylist(Playlist playlist) {
+        try{
+            Statement database = con.createStatement();
+            String sql = "DELETE FROM Playlist WHERE name = '" + playlist.getName() + "'";
+            database.executeUpdate(sql);
+            return true;
+        } catch (SQLException e){
+            System.err.println("Sletning lykkedes ikke"+e.getMessage());
+            return false;
+
     public void deleteSong(Song song){
         try{
             PreparedStatement ps = con.prepareStatement("DELETE FROM Songs WHERE Titel = ?");
@@ -43,6 +78,7 @@ public class SongDaoimpl implements SongDao{
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+
         }
     }
 }

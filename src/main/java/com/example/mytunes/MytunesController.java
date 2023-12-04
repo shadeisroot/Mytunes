@@ -1,17 +1,14 @@
 package com.example.mytunes;
 
 import com.mpatric.mp3agic.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -42,16 +39,16 @@ public class MytunesController {
     private TableColumn<?, ?> ColumnGenre;
 
     @FXML
-    private TableColumn<?, ?> ColumnLength;
+    private TableColumn<Playlist, String> ColumnLength;
 
     @FXML
-    private TableColumn<?, ?> ColumnLength2;
+    private TableColumn<Playlist, String> ColumnLength2 = new TableColumn();
 
     @FXML
-    private TableColumn<?, ?> ColumnName;
+    private TableColumn<Playlist, String> ColumnName = new TableColumn();
 
     @FXML
-    private TableColumn<?, ?> ColumnSongs;
+    private TableColumn<Playlist, String> ColumnSongs = new TableColumn();
 
     @FXML
     private TableColumn<?, ?> ColumnTitle;
@@ -78,7 +75,7 @@ public class MytunesController {
     private Button PlaylistNewButton;
 
     @FXML
-    private TableView<?> PlaylistTableview;
+    private TableView<Playlist> PlaylistTableview = new TableView<Playlist>();
 
     @FXML
     private ImageView RewindButton;
@@ -113,6 +110,28 @@ public class MytunesController {
     @FXML
     private Slider VolumeSliderButton;
 
+    private final ObservableList<Playlist> tabeldata = FXCollections.observableArrayList();
+
+    public void initialize() {
+        // Start database og sæt gui op med alle bøger i en tabel
+        sdi = new SongDaoimpl();
+        PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+        // Kolonnerne sættes op med forbindelse til klassen Person med hver sit felt
+        ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
+        ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
+        ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
+
+        PlaylistTableview.setItems(tabeldata);
+
+        // Læs alle bøger ind i tabellen
+        sdi.getAllPlaylists(tabeldata);
+
+        // Sortér som udgangspunkt efter id
+        ColumnName.setSortType(TableColumn.SortType.ASCENDING);
+        PlaylistTableview.getSortOrder().add(ColumnName);
+        PlaylistTableview.sort();
+    }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
 
@@ -140,7 +159,10 @@ public class MytunesController {
 
     @FXML
     void PlaylistDeleteButton(MouseEvent event) {
-
+            Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
+            if (p != null)
+                if (sdi.deletePlaylist(p))
+                    tabeldata.remove(p);
     }
 
     @FXML
