@@ -22,7 +22,7 @@ public class Song {
         this.URL.set(URL);
     }
 
-    public Song(String titel, String artist, String genre, String url, double length) {
+    public Song(String titel, String artist, String genre, double length, String url) {
         this.Titel = new SimpleStringProperty(titel);
         this.Artist = new SimpleStringProperty(artist);
         this.Genre = new SimpleStringProperty(genre);

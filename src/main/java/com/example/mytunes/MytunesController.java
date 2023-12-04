@@ -249,6 +249,7 @@ public class MytunesController {
                         TextField artisttTextField = new TextField();
                         TextField titleTextField = new TextField();
                         TextField genreTextField = new TextField();
+                        TextField urlTextField = new TextField();
 
                         dialogLayout.add(new Label("Artist:"), 0, 0);
                         dialogLayout.add(artisttTextField, 1, 0);
@@ -283,18 +284,31 @@ public class MytunesController {
                             genreTextField.setText("");
                         }
 
+                        dialogLayout.add(new Label("Url:"), 0, 3);
+                        dialogLayout.add(urlTextField, 1, 3);
+                        if (id3v1) {
+                            urlTextField.setText(mediaPath);
+                            id3v1 = false;
+                        } else if (id3v2) {
+                            urlTextField.setText(mediaPath);
+                            id3v2 = false;
+                        } else {
+                            urlTextField.setText(mediaPath);
+                        }
+
 
                         Button submitButton = new Button("Submit");
                         submitButton.setOnAction(e -> {
 
-                            Song ssong = new Song(titleTextField.getText(), artisttTextField.getText(), genreTextField.getText(), mp3file.getLengthInSeconds());
+                            Song ssong = new Song(titleTextField.getText(), artisttTextField.getText(), genreTextField.getText(), mp3file.getLengthInSeconds(), urlTextField.getText());
 
                             sdi.saveSong(ssong);
+                            sdi.getAllSongs(SongTabledata);
 
                             editStage.close();
                         });
 
-                        dialogLayout.add(submitButton, 1, 3);
+                        dialogLayout.add(submitButton, 1, 4);
 
                         Scene editScene = new Scene(dialogLayout, 300, 200);
                         editStage.setScene(editScene);

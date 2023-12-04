@@ -21,11 +21,12 @@ public class SongDaoimpl implements SongDao {
     @Override
     public boolean saveSong(Song song) {
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO Songs VALUES(?,?,?,?);");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO Songs VALUES(?,?,?,?,?);");
             ps.setString(1, song.getTitel());
             ps.setString(2, song.getArtist());
             ps.setString(3, song.getGenre());
             ps.setDouble(4, song.getLength());
+            ps.setString(5, song.getURL());
             ps.executeUpdate();
             System.out.println(("Song Created"));
             return true;
@@ -98,8 +99,9 @@ public class SongDaoimpl implements SongDao {
                 String artist    = rs.getString("Artist");
                 String genre = rs.getString("Genre");
                 Double length     = Double.valueOf(rs.getString("Length"));
+                String url = rs.getString("Url");
 
-                Song song = new Song(titel, artist, genre, length);
+                Song song = new Song(titel, artist, genre, length, url);
                 SongTabledata.add(song);
                 ++antal;
             }
