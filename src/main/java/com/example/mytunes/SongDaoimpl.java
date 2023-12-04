@@ -36,6 +36,7 @@ public class SongDaoimpl implements SongDao{
 
     }
 
+
     public void getAllPlaylists(ObservableList<Playlist> tabeldata) {
         tabeldata.clear();
         int antal = 0;
@@ -67,6 +68,17 @@ public class SongDaoimpl implements SongDao{
         } catch (SQLException e){
             System.err.println("Sletning lykkedes ikke"+e.getMessage());
             return false;
+
+    public void deleteSong(Song song){
+        try{
+            PreparedStatement ps = con.prepareStatement("DELETE FROM Songs WHERE Titel = ?");
+            ps.setString(1, song.getTitle());
+            ps.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+
         }
     }
 }
