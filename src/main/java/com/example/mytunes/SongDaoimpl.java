@@ -22,7 +22,7 @@ public class SongDaoimpl implements SongDao {
     public boolean saveSong(Song song) {
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO Songs VALUES(?,?,?,?);");
-            ps.setString(1, song.getTitle());
+            ps.setString(1, song.getTitel());
             ps.setString(2, song.getArtist());
             ps.setString(3, song.getGenre());
             ps.setDouble(4, song.getLength());
@@ -94,12 +94,12 @@ public class SongDaoimpl implements SongDao {
             String sql = "SELECT * FROM Songs";
             ResultSet rs = database.executeQuery(sql);
             while (rs.next()) {
-                String title     = rs.getString("Title");
+                String titel     = rs.getString("Titel");
                 String artist    = rs.getString("Artist");
                 String genre = rs.getString("Genre");
                 Double length     = Double.valueOf(rs.getString("Length"));
 
-                Song song = new Song(title, artist, genre, length);
+                Song song = new Song(titel, artist, genre, length);
                 SongTabledata.add(song);
                 ++antal;
             }

@@ -3,28 +3,28 @@ package com.example.mytunes;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Song {
-    private SimpleStringProperty Title;
+    private SimpleStringProperty Titel;
     private SimpleStringProperty Artist;
     private SimpleStringProperty Genre;
     private double Length;
 
-    public Song(String title, String artist, String genre, double length) {
-        this.Title = new SimpleStringProperty(title);
+    public Song(String titel, String artist, String genre, double length) {
+        this.Titel = new SimpleStringProperty(titel);
         this.Artist = new SimpleStringProperty(artist);
         this.Genre = new SimpleStringProperty(genre);
 
     }
 
-    public String getTitle() {
-        return Title.get();
+    public String getTitel() {
+        return Titel.get();
     }
 
     public SimpleStringProperty titleProperty() {
-        return Title;
+        return Titel;
     }
 
-    public void setTitle(String title) {
-        this.Title.set(title);
+    public void setTitel(String title) {
+        this.Titel.set(title);
     }
 
     public String getArtist() {

@@ -60,7 +60,7 @@ public class MytunesController {
     private TableColumn<Playlist, String> ColumnSongs = new TableColumn();
 
     @FXML
-    private TableColumn<Song, String> ColumnTitle;
+    private TableColumn<Song, String> ColumnTitle = new TableColumn();
 
     @FXML
     private ImageView FilterButton;
