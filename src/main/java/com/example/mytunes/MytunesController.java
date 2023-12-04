@@ -175,8 +175,7 @@ public class MytunesController {
 
     @FXML
     void PlayPauseButton(MouseEvent event) {
-        System.out.println(SongsTableview.getSelectionModel().getSelectedIndex());
-        String path = "/Users/shadeisroot/IdeaProjects/Mytunes/src/main/resources/com/example/mytunes/Songs/01 Anywhere I Go.mp3";
+        String path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
         Media media = new Media(new File(path).toURI().toString());
         MediaPlayer mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
