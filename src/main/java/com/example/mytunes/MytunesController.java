@@ -8,10 +8,18 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -24,6 +32,7 @@ public class MytunesController {
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
+
     private SongDao sdi = new SongDaoimpl();
 
     @FXML
@@ -134,7 +143,6 @@ public class MytunesController {
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
-
     }
 
     @FXML
@@ -154,7 +162,10 @@ public class MytunesController {
 
     @FXML
     void PlayPauseButton(MouseEvent event) {
-
+        String path = "/Users/shadeisroot/IdeaProjects/Mytunes/src/main/resources/com/example/mytunes/Songs/01 Anywhere I Go.mp3";
+        Media media = new Media(new File(path).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.setAutoPlay(true);
     }
 
     @FXML

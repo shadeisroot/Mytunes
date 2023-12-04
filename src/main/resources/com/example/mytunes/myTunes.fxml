@@ -60,9 +60,9 @@
             <Image url="@../mytunes/Images/Sound.png" />
          </image>
       </ImageView>
-      <Button fx:id="PlayButton" contentDisplay="GRAPHIC_ONLY" layoutX="117.0" layoutY="27.0" minHeight="70.0" minWidth="70.0" mnemonicParsing="false" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="PlayButton" contentDisplay="GRAPHIC_ONLY" layoutX="117.0" layoutY="27.0" minHeight="70.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlayPauseButton" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
          <graphic>
-            <ImageView fx:id="PlayPauseButton" fitHeight="40.0" fitWidth="31.0" onMouseClicked="#PlayPauseButton" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="40.0" fitWidth="31.0" onMouseClicked="#PlayPauseButton" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../mytunes/Images/Play.png" />
                </image>
