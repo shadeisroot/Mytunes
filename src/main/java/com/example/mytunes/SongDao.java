@@ -14,4 +14,5 @@ public interface SongDao {
 
     void getAllSongs(ObservableList<Song> SongTabledata);
 
+    void editPlaylist(Playlist playlist);
 }

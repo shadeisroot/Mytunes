@@ -9,10 +9,26 @@ public class Playlist {
     private SimpleIntegerProperty songs;
     private SimpleDoubleProperty length;
 
-    public Playlist(String name, Integer songs, Double length) {
+    private SimpleIntegerProperty id;
+
+    public Playlist(String name, Integer songs, Double length, Integer id) {
         this.name = new SimpleStringProperty(name);
         this.songs = new SimpleIntegerProperty(songs);
         this.length = new SimpleDoubleProperty(length);
+        this.id = new SimpleIntegerProperty(id);
+    }
+
+
+    public int getId() {
+        return id.get();
+    }
+
+    public SimpleIntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
     }
 
     public String getName() {
