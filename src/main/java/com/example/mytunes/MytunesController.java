@@ -36,7 +36,6 @@ public class MytunesController {
     private boolean id3v2 = false;
     private String path;
     private String sourcepath;
-    private String srcpath;
     private SongDao sdi = new SongDaoimpl();
     private Player player = new Player();
 
