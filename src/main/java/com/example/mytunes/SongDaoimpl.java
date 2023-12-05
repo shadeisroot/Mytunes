@@ -102,7 +102,7 @@ public class SongDaoimpl implements SongDao {
                 Double length     = Double.valueOf(rs.getString("Length"));
                 String url = rs.getString("Url");
 
-                Double length = Double.valueOf(rs.getString("length"));
+
 
 
                 Song song = new Song(titel, artist, genre, length, url);
