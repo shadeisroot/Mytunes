@@ -104,13 +104,13 @@ public class MytunesController {
     private Button SongOnPlaylistDeleteButton;
 
     @FXML
-    private ImageView SongOnPlaylistDownButton;
+    private Button SongOnPlaylistDownButton;
 
     @FXML
-    private ImageView SongOnPlaylistUpButton;
+    private Button SongOnPlaylistUpButton;
 
     @FXML
-    private ListView<?> SongsOnPlaylistTableview;
+    private ListView<Song> SongsOnPlaylistListview;
 
     @FXML
     private TableView<Song> SongsTableview = new TableView<Song>();
@@ -155,7 +155,16 @@ public class MytunesController {
         ColumnTitel.setSortType(TableColumn.SortType.ASCENDING);
         SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
-        
+
+    }
+
+    @FXML
+    void handlePlaylistSelection(MouseEvent event) {
+        Playlist selectedPlaylist = PlaylistTableview.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null) {
+            ObservableList<Song> songsInPlaylist = FXCollections.observableArrayList(selectedPlaylist.getSongsOnPlaylist());
+            SongsOnPlaylistListview.setItems(songsInPlaylist);
+        }
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
@@ -176,6 +185,7 @@ public class MytunesController {
     void Next(MouseEvent event) {
 
     }
+
 
     @FXML
     void PlayPauseButton(MouseEvent event) {
