@@ -153,6 +153,7 @@ public class MytunesController {
         ColumnTitel.setSortType(TableColumn.SortType.ASCENDING);
         SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
+        
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
@@ -160,7 +161,8 @@ public class MytunesController {
 
     @FXML
     void CloseButton(MouseEvent event) {
-
+        Stage stage = (Stage) CloseButton.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -206,7 +208,10 @@ public class MytunesController {
 
     @FXML
     void SongDeleteButton (MouseEvent event){
-
+        Song song = SongsTableview.getSelectionModel().getSelectedItem();
+        if (song != null)
+            if (sdi.deleteSong(song))
+                SongTabledata.remove(song);
     }
 
     @FXML
