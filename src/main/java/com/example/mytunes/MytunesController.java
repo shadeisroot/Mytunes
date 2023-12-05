@@ -27,6 +27,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.Objects;
 
 public class MytunesController {
     private String media_url;
@@ -34,6 +35,8 @@ public class MytunesController {
     private boolean id3v1 = false;
     private boolean id3v2 = false;
     private String path;
+    private String sourcepath;
+    private String srcpath;
     private SongDao sdi = new SongDaoimpl();
     private Player player = new Player();
 
@@ -181,8 +184,29 @@ public class MytunesController {
     @FXML
     void PlayPauseButton(MouseEvent event) throws MalformedURLException {
         path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
-        player.setPath(path);
-        player.getMediaPlayer().play();
+        String pathstring = path.replaceAll("\\s+" , "%20");
+        try {
+            sourcepath = player.getMediaPlayer().getMedia().getSource();
+            sourcepath = sourcepath.substring(sourcepath.indexOf("src"));
+        } catch (NullPointerException e){
+
+        }
+        try{
+            if(player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)){
+                player.getMediaPlayer().pause();
+            }else {
+                if(!Objects.equals(sourcepath, pathstring)){
+                    player.getMediaPlayer().stop();
+                    player.setPath(path);
+                    player.getMediaPlayer().play();
+                }else{
+                    player.getMediaPlayer().play();
+                }
+            }
+        }catch (NullPointerException e){
+            player.setPath(path);
+            player.getMediaPlayer().play();
+        }
 
     }
 
