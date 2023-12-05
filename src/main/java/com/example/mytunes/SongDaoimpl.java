@@ -99,7 +99,6 @@ public class SongDaoimpl implements SongDao {
                 String titel     = rs.getString("Titel");
                 String artist    = rs.getString("Artist");
                 String genre = rs.getString("Genre");
-
                 Double length     = Double.valueOf(rs.getString("Length"));
                 String url = rs.getString("Url");
 

@@ -27,6 +27,10 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+
+import java.net.MalformedURLException;
+import java.util.Objects;
+
 import java.util.Optional;
 
 public class MytunesController {
@@ -34,8 +38,10 @@ public class MytunesController {
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
-
+    private String path;
+    private String sourcepath;
     private SongDao sdi = new SongDaoimpl();
+    private Player player = new Player();
 
     @FXML
     private Button AddSongToPlaylistButton;
@@ -125,6 +131,9 @@ public class MytunesController {
 
     private final ObservableList<Song> SongTabledata = FXCollections.observableArrayList();
 
+    public MytunesController() throws MalformedURLException {
+    }
+
     public void initialize() {
         // Start database og sæt gui op med alle bøger i en tabel
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -188,11 +197,32 @@ public class MytunesController {
 
 
     @FXML
-    void PlayPauseButton(MouseEvent event) {
-        String path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
-        Media media = new Media(new File(path).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+    void PlayPauseButton(MouseEvent event) throws MalformedURLException {
+        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        String pathstring = path.replaceAll("\\s+" , "%20");
+        try {
+            sourcepath = player.getMediaPlayer().getMedia().getSource();
+            sourcepath = sourcepath.substring(sourcepath.indexOf("src"));
+        } catch (NullPointerException e){
+
+        }
+        try{
+            if(player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)){
+                player.getMediaPlayer().pause();
+            }else {
+                if(!Objects.equals(sourcepath, pathstring)){
+                    player.getMediaPlayer().stop();
+                    player.setPath(path);
+                    player.getMediaPlayer().play();
+                }else{
+                    player.getMediaPlayer().play();
+                }
+            }
+        }catch (NullPointerException e){
+            player.setPath(path);
+            player.getMediaPlayer().play();
+        }
+
     }
 
     @FXML
@@ -213,6 +243,8 @@ public class MytunesController {
 
     @FXML
     void PlaylistEditButton(MouseEvent event) {
+
+
         Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
         if (p != null) {
             Dialog<ButtonType> dialogvindue = new Dialog();
@@ -235,6 +267,7 @@ public class MytunesController {
                 sdi.editPlaylist(p);
             }
         }
+
     }
 
     @FXML
@@ -244,6 +277,7 @@ public class MytunesController {
 
     @FXML
     void Rewind (MouseEvent event){
+
 
     }
 
