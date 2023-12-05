@@ -154,6 +154,7 @@ public class MytunesController {
         ColumnTitel.setSortType(TableColumn.SortType.ASCENDING);
         SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
+        
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
