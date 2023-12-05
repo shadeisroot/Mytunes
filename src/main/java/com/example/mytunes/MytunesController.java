@@ -26,14 +26,16 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class MytunesController {
     private String media_url;
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
-
+    private String path;
     private SongDao sdi = new SongDaoimpl();
+    private Player player = new Player();
 
     @FXML
     private Button AddSongToPlaylistButton;
@@ -123,6 +125,9 @@ public class MytunesController {
 
     private final ObservableList<Song> SongTabledata = FXCollections.observableArrayList();
 
+    public MytunesController() throws MalformedURLException {
+    }
+
     public void initialize() {
         // Start database og sæt gui op med alle bøger i en tabel
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
@@ -174,11 +179,11 @@ public class MytunesController {
     }
 
     @FXML
-    void PlayPauseButton(MouseEvent event) {
-        String path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
-        Media media = new Media(new File(path).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
-        mediaPlayer.setAutoPlay(true);
+    void PlayPauseButton(MouseEvent event) throws MalformedURLException {
+        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        player.setPath(path);
+        player.getMediaPlayer().play();
+
     }
 
     @FXML
@@ -191,7 +196,6 @@ public class MytunesController {
 
     @FXML
     void PlaylistEditButton(MouseEvent event) {
-
     }
 
     @FXML
@@ -201,6 +205,7 @@ public class MytunesController {
 
     @FXML
     void Rewind (MouseEvent event){
+
 
     }
 
