@@ -4,15 +4,45 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Playlist {
     private SimpleStringProperty name;
     private SimpleIntegerProperty songs;
     private SimpleDoubleProperty length;
+    private List<Song> songsOnPlaylist;
 
-    public Playlist(String name, Integer songs, Double length) {
+    private SimpleIntegerProperty id;
+
+    public Playlist(String name, Integer songs, Double length, Integer id) {
         this.name = new SimpleStringProperty(name);
         this.songs = new SimpleIntegerProperty(songs);
         this.length = new SimpleDoubleProperty(length);
+        this.id = new SimpleIntegerProperty(id);
+    }
+
+
+    public int getId() {
+        return id.get();
+    }
+
+    public SimpleIntegerProperty idProperty() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id.set(id);
+
+        this.songsOnPlaylist = new ArrayList<>();
+    }
+
+    public void addSong (Song song) {
+        songsOnPlaylist.add(song);
+    }
+
+    public List<Song> getSongsOnPlaylist() {
+        return songsOnPlaylist;
     }
 
     public String getName() {

@@ -49,8 +49,9 @@ public class SongDaoimpl implements SongDao {
                 String name = rs.getString("name");
                 Integer songs = Integer.valueOf(rs.getString("songs"));
                 Double length = Double.valueOf(rs.getString("length"));
+                int id = Integer.valueOf(rs.getString("id"));
 
-                Playlist playlist = new Playlist(name, songs, length);
+                Playlist playlist = new Playlist(name, songs, length, id);
                 tabeldata.add(playlist);
                 ++antal;
             }
@@ -74,16 +75,16 @@ public class SongDaoimpl implements SongDao {
 
     }
 
-    public void deleteSong(Song song){
+    public boolean deleteSong(Song song){
         try{
             PreparedStatement ps = con.prepareStatement("DELETE FROM Songs WHERE Titel = ?");
             ps.setString(1, song.getTitel());
             ps.executeUpdate();
+            return true;
 
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-
         }
     }
 
@@ -108,6 +109,19 @@ public class SongDaoimpl implements SongDao {
             }
         } catch (SQLException e){
             System.err.println("Kan ikke læse records" +e);
+        }
+
+    }
+
+    @Override
+    public void editPlaylist(Playlist playlist) {
+        try{
+            Statement database = con.createStatement();
+            String sql = "UPDATE Playlist SET name='"
+                    + playlist.getName() + "' WHERE Id='" + playlist.getId() + "'";
+            database.executeUpdate(sql);
+        } catch (SQLException e){
+            System.err.println("Opdatering lykkedes ikke: "+e.getMessage());
         }
 
     }

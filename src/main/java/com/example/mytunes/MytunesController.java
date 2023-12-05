@@ -18,6 +18,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
@@ -26,8 +27,11 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+
 import java.net.MalformedURLException;
 import java.util.Objects;
+
+import java.util.Optional;
 
 public class MytunesController {
     private String media_url;
@@ -106,13 +110,13 @@ public class MytunesController {
     private Button SongOnPlaylistDeleteButton;
 
     @FXML
-    private ImageView SongOnPlaylistDownButton;
+    private Button SongOnPlaylistDownButton;
 
     @FXML
-    private ImageView SongOnPlaylistUpButton;
+    private Button SongOnPlaylistUpButton;
 
     @FXML
-    private ListView<?> SongsOnPlaylistTableview;
+    private ListView<Song> SongsOnPlaylistListview;
 
     @FXML
     private TableView<Song> SongsTableview = new TableView<Song>();
@@ -160,6 +164,16 @@ public class MytunesController {
         ColumnTitel.setSortType(TableColumn.SortType.ASCENDING);
         SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
+
+    }
+
+    @FXML
+    void handlePlaylistSelection(MouseEvent event) {
+        Playlist selectedPlaylist = PlaylistTableview.getSelectionModel().getSelectedItem();
+        if (selectedPlaylist != null) {
+            ObservableList<Song> songsInPlaylist = FXCollections.observableArrayList(selectedPlaylist.getSongsOnPlaylist());
+            SongsOnPlaylistListview.setItems(songsInPlaylist);
+        }
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
@@ -167,7 +181,8 @@ public class MytunesController {
 
     @FXML
     void CloseButton(MouseEvent event) {
-
+        Stage stage = (Stage) CloseButton.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -179,6 +194,7 @@ public class MytunesController {
     void Next(MouseEvent event) {
 
     }
+
 
     @FXML
     void PlayPauseButton(MouseEvent event) throws MalformedURLException {
@@ -212,13 +228,46 @@ public class MytunesController {
     @FXML
     void PlaylistDeleteButton(MouseEvent event) {
             Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
-            if (p != null)
-                if (sdi.deletePlaylist(p))
+            String pn = PlaylistTableview.getSelectionModel().getSelectedItem().getName();
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + pn + " ?", ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+
+        if (p != null){
+            if (alert.getResult() == ButtonType.YES) {
+                if (sdi.deletePlaylist(p)){
                     tabeldata.remove(p);
+                }
+            }
+        }
     }
 
     @FXML
     void PlaylistEditButton(MouseEvent event) {
+
+
+        Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
+        if (p != null) {
+            Dialog<ButtonType> dialogvindue = new Dialog();
+            dialogvindue.setTitle("Edit playlist");
+            dialogvindue.setHeaderText("Playlist");
+            //Scene editScene = new Scene(dialogLayout, 300, 200);
+            dialogvindue.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            TextField name = new TextField(p.getName());
+            VBox box = new VBox(name);
+            box.setPrefHeight(50);
+            box.setPrefWidth(300);
+            dialogvindue.getDialogPane().setContent(box);
+
+            name.setText(p.getName());
+
+            Optional<ButtonType> button = dialogvindue.showAndWait();
+            if (button.get() == ButtonType.OK) {
+                p.setName(name.getText());
+                PlaylistTableview.refresh();
+                sdi.editPlaylist(p);
+            }
+        }
+
     }
 
     @FXML
@@ -234,7 +283,18 @@ public class MytunesController {
 
     @FXML
     void SongDeleteButton (MouseEvent event){
+        Song song = SongsTableview.getSelectionModel().getSelectedItem();
+        String sn = SongsTableview.getSelectionModel().getSelectedItem().getTitel();
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + sn + " ?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
 
+        if (song != null){
+            if (alert.getResult() == ButtonType.YES) {
+                if (sdi.deleteSong(song)){
+                    SongTabledata.remove(song);
+                }
+            }
+        }
     }
 
     @FXML
