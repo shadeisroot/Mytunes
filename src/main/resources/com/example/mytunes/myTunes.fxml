@@ -54,7 +54,7 @@
       <Button fx:id="SongNewButton" layoutX="538.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongNewButton" text="New" />
       <Button fx:id="SongEditButton" layoutX="619.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongEditButton" text="Edit" />
       <Button fx:id="SongDeleteButton" layoutX="699.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongDeleteButton" text="Delete" />
-      <Slider fx:id="VolumeSliderButton" layoutX="100.0" layoutY="119.0" onMouseClicked="#VolumeSlider" />
+      <Slider fx:id="VolumeSliderButton" layoutX="100.0" layoutY="119.0" onMouseDragged="#VolumeSlider" />
       <ImageView fx:id="VolumeButton" fitHeight="32.0" fitWidth="40.0" layoutX="56.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../mytunes/Images/Sound.png" />
@@ -69,18 +69,18 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button contentDisplay="GRAPHIC_ONLY" layoutX="202.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="NextButton" contentDisplay="GRAPHIC_ONLY" layoutX="202.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#NextButtonclicked" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
          <graphic>
-            <ImageView fx:id="NextButton" fitHeight="25.0" fitWidth="27.0" onMouseClicked="#Next" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../mytunes/Images/Skip1.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button contentDisplay="GRAPHIC_ONLY" layoutX="48.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="RewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="48.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#Rewind" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
          <graphic>
-            <ImageView fx:id="RewindButton" fitHeight="33.0" fitWidth="29.0" onMouseClicked="#Rewind" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../mytunes/Images/backward.png" />
                </image>

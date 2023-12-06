@@ -74,9 +74,6 @@ public class MytunesController {
     private ImageView FilterButton;
 
     @FXML
-    private ImageView NextButton;
-
-    @FXML
     private Button PlayButton;
 
     @FXML
@@ -93,9 +90,6 @@ public class MytunesController {
 
     @FXML
     private TableView<Playlist> PlaylistTableview = new TableView<Playlist>();
-
-    @FXML
-    private ImageView RewindButton;
 
     @FXML
     private Button SongDeleteButton;
@@ -165,6 +159,10 @@ public class MytunesController {
         SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
 
+        VolumeSliderButton.setMin(0);
+        VolumeSliderButton.setMax(1.0);
+        VolumeSliderButton.setBlockIncrement(0.1);
+        VolumeSliderButton.setValue(0.5);
     }
 
     @FXML
@@ -190,10 +188,6 @@ public class MytunesController {
 
     }
 
-    @FXML
-    void Next(MouseEvent event) {
-
-    }
 
 
     @FXML
@@ -213,13 +207,16 @@ public class MytunesController {
                 if(!Objects.equals(sourcepath, pathstring)){
                     player.getMediaPlayer().stop();
                     player.setPath(path);
+                    player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
                 }else{
+                    player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
                 }
             }
         }catch (NullPointerException e){
             player.setPath(path);
+            player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
             player.getMediaPlayer().play();
         }
 
@@ -276,8 +273,12 @@ public class MytunesController {
     }
 
     @FXML
-    void Rewind (MouseEvent event){
-
+    void Rewind (MouseEvent event) throws MalformedURLException {
+        SongsTableview.getSelectionModel().selectPrevious();
+        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        player.getMediaPlayer().stop();
+        player.setPath(path);
+        player.getMediaPlayer().play();
 
     }
 
@@ -433,7 +434,23 @@ public class MytunesController {
 
     @FXML
     void VolumeSlider (MouseEvent event){
+        if (VolumeSliderButton.isValueChanging()){
+            try{
+                player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
+            }catch (NullPointerException e){
+
+            }
+
+        }
 
     }
 
+    public void NextButtonclicked(MouseEvent event) throws MalformedURLException {
+        SongsTableview.getSelectionModel().selectNext();
+        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        player.getMediaPlayer().stop();
+        player.setPath(path);
+        player.getMediaPlayer().play();
+
+    }
 }
