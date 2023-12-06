@@ -25,6 +25,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -117,6 +118,8 @@ public class MytunesController {
 
     @FXML
     private Button SongOnPlaylistUpButton;
+    @FXML
+    private Label isplayingText;
 
     @FXML
     private ListView<Song> SongsOnPlaylistListview;
@@ -172,6 +175,9 @@ public class MytunesController {
         VolumeSliderButton.setMax(1.0);
         VolumeSliderButton.setBlockIncrement(0.1);
         VolumeSliderButton.setValue(0.5);
+
+        SongsTableview.getSelectionModel().select(0);
+        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
     }
 
     @FXML
@@ -198,7 +204,6 @@ public class MytunesController {
     }
 
 
-
     @FXML
     void PlayPauseButton(MouseEvent event) throws MalformedURLException {
         try {
@@ -219,6 +224,7 @@ public class MytunesController {
                     player.setPath(path);
                     player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
+                    isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
                     pauseplaybutton.setImage(pauseit);
                 }else{
                     player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
@@ -231,6 +237,7 @@ public class MytunesController {
                 player.setPath(path);
                 player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                 player.getMediaPlayer().play();
+                isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
                 pauseplaybutton.setImage(pauseit);
             }catch (NullPointerException ee){
             }
@@ -295,6 +302,7 @@ public class MytunesController {
         player.getMediaPlayer().stop();
         player.setPath(path);
         player.getMediaPlayer().play();
+        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
     }
 
@@ -467,19 +475,25 @@ public class MytunesController {
         player.getMediaPlayer().stop();
         player.setPath(path);
         player.getMediaPlayer().play();
+        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
     }
 
     public void Volumebuttonclicked(MouseEvent event) throws URISyntaxException {
-        if (player.getMediaPlayer().isMute()){
-            VolumeButton.setImage(mute);
-            player.getMediaPlayer().setMute(false);
-        }
+        try{
+            if (player.getMediaPlayer().isMute()){
+                VolumeButton.setImage(mute);
+                VolumeSliderButton.setValue(player.getMediaPlayer().getVolume());
+                player.getMediaPlayer().setMute(false);
+            }
 
-        else{
-            VolumeButton.setImage(unmute);
-            player.getMediaPlayer().setMute(true);
-        }
+            else{
+                VolumeButton.setImage(unmute);
+                VolumeSliderButton.setValue(0);
+                player.getMediaPlayer().setMute(true);
+            }
+        }catch (NullPointerException e){
 
+        }
     }
 }

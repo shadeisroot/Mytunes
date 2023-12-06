@@ -109,10 +109,10 @@
       </Button>
       <Button fx:id="SongOnPlaylistDeleteButton" layoutX="387.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistDeleteButton" text="Delete" />
       <Button fx:id="CloseButton" layoutX="1103.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#CloseButton" text="Close" />
-      <Text fx:id="isplayingText" layoutX="542.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="is playing">
+      <Label fx:id="isplayingText" layoutX="501.0" layoutY="64.0" prefHeight="44.0" prefWidth="283.0" text="Label" textAlignment="CENTER">
          <font>
-            <Font size="30.0" />
+            <Font size="36.0" />
          </font>
-      </Text>
+      </Label>
    </children>
 </Pane>
