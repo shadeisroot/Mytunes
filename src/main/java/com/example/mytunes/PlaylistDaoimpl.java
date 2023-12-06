@@ -64,4 +64,19 @@ public class PlaylistDaoimpl implements PlaylistDao {
         }
 
     }
+
+    public boolean newPlaylist(Playlist playlist) {
+        try{
+            Statement database = con.createStatement();
+            String sql = "INSERT INTO Playlist (Name, Songs, Length) VALUES "
+                    + "('"+playlist.getName()
+                    + "', '0', '0.0')";;
+            database.executeUpdate(sql);
+            return true;
+        } catch (SQLException e){
+            System.err.println("Kan ikke indsætte playlisten");
+            return false;
+        }
+
+    }
 }
