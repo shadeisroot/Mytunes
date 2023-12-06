@@ -62,14 +62,27 @@ public class SongDaoimpl implements SongDao {
                 String genre = rs.getString("Genre");
                 Double length     = Double.valueOf(rs.getString("Length"));
                 String url = rs.getString("Url");
+                Integer id = Integer.valueOf(rs.getString("id"));
 
 
-                Song song = new Song(titel, artist, genre, length, url);
+                Song song = new Song(id, titel, artist, genre, length, url);
                 SongTabledata.add(song);
                 ++antal;
             }
         } catch (SQLException e){
             System.err.println("Kan ikke læse records" +e);
+        }
+
+    }
+
+    public void editSong(Song song) {
+        try{
+            Statement database = con.createStatement();
+            String sql = "UPDATE Songs SET Titel='"
+                    + song.getTitel() + "' WHERE Id='" + song.getId() + "'";
+            database.executeUpdate(sql);
+        } catch (SQLException e){
+            System.err.println("Opdatering lykkedes ikke: "+e.getMessage());
         }
 
     }

@@ -1,6 +1,7 @@
 package com.example.mytunes;
 
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class Song {
@@ -9,6 +10,8 @@ public class Song {
     private SimpleStringProperty Genre;
     private SimpleStringProperty URL;
     private double Length;
+
+    private SimpleIntegerProperty id;
 
     public String getURL() {
         return URL.get();
@@ -22,15 +25,23 @@ public class Song {
         this.URL.set(URL);
     }
 
-    public Song(String titel, String artist, String genre, double length, String url) {
+    public Song(Integer id, String titel, String artist, String genre, double length, String url) {
         this.Titel = new SimpleStringProperty(titel);
         this.Artist = new SimpleStringProperty(artist);
         this.Genre = new SimpleStringProperty(genre);
         this.URL = new SimpleStringProperty(url);
-
-
-
+        this.id = new SimpleIntegerProperty(id);
     }
+
+    public int getId() {
+        return id.get();
+    }
+
+    public SimpleIntegerProperty idProperty() {
+        return id;
+    }
+
+
 
     public String getTitel() {
         return Titel.get();

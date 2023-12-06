@@ -371,7 +371,48 @@ public class MytunesController {
 
     @FXML
     void SongEditButton (MouseEvent event){
+        Song s = SongsTableview.getSelectionModel().getSelectedItem();
+        System.out.println(s.getId());
+        if (s != null) {
+            Dialog<ButtonType> dialogvindue = new Dialog();
+            dialogvindue.setTitle("Edit song");
+            dialogvindue.setHeaderText("Edit name on song");
+            ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+            dialogvindue.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
+            TextField name = new TextField(s.getTitel());
+            VBox box = new VBox(name);
+            box.setPrefHeight(50);
+            box.setPrefWidth(300);
+            dialogvindue.getDialogPane().setContent(box);
 
+            name.setText(s.getTitel());
+
+            Optional<ButtonType> button = dialogvindue.showAndWait();
+            if (button.get() == saveButton) {
+                String enteredTitel = name.getText().trim();
+                if (isTitelDuplicate(enteredTitel)) {
+                    s.setTitel(enteredTitel);
+                    SongsTableview.refresh();
+                    SongsTableview.sort();
+                    sdi.editSong(s);
+                } else {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText(null);
+                    alert.setContentText("You already have a song with the name: " + enteredTitel + "\nThe changes has failed.");
+                    alert.showAndWait();
+                }
+            }
+        }
+    }
+
+    private boolean isTitelDuplicate(String newTitel) {
+        for (Song existingSong : SongTabledata) {
+            if (existingSong.getTitel().equalsIgnoreCase(newTitel)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @FXML
@@ -459,7 +500,7 @@ public class MytunesController {
                         Button submitButton = new Button("Submit");
                         submitButton.setOnAction(e -> {
 
-                            Song ssong = new Song(titleTextField.getText(), artisttTextField.getText(), genreTextField.getText(), mp3file.getLengthInSeconds(), urlTextField.getText());
+                            Song ssong = new Song(0, titleTextField.getText(), artisttTextField.getText(), genreTextField.getText(), mp3file.getLengthInSeconds(), urlTextField.getText());
 
                             sdi.saveSong(ssong);
                             sdi.getAllSongs(SongTabledata);
