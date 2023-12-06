@@ -15,6 +15,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -29,12 +30,15 @@ import java.io.File;
 import java.io.IOException;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 import java.util.Optional;
 
 public class MytunesController {
     private String media_url;
+    @FXML
+    private Image mute, unmute, playit, pauseit;
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
@@ -42,6 +46,9 @@ public class MytunesController {
     private String sourcepath;
     private SongDao sdi = new SongDaoimpl();
     private Player player = new Player();
+
+    private ImageView imageView = new ImageView();
+    private String pathstring;
 
     @FXML
     private Button AddSongToPlaylistButton;
@@ -78,6 +85,8 @@ public class MytunesController {
 
     @FXML
     private ImageView PlayPauseButton;
+    @FXML
+    private ImageView pauseplaybutton;
 
     @FXML
     private Button PlaylistDeleteButton;
@@ -192,9 +201,9 @@ public class MytunesController {
 
     @FXML
     void PlayPauseButton(MouseEvent event) throws MalformedURLException {
-        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
-        String pathstring = path.replaceAll("\\s+" , "%20");
         try {
+            path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+            pathstring = path.replaceAll("\\s+" , "%20");
             sourcepath = player.getMediaPlayer().getMedia().getSource();
             sourcepath = sourcepath.substring(sourcepath.indexOf("src"));
         } catch (NullPointerException e){
@@ -203,21 +212,28 @@ public class MytunesController {
         try{
             if(player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)){
                 player.getMediaPlayer().pause();
+                pauseplaybutton.setImage(playit);
             }else {
                 if(!Objects.equals(sourcepath, pathstring)){
                     player.getMediaPlayer().stop();
                     player.setPath(path);
                     player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
+                    pauseplaybutton.setImage(pauseit);
                 }else{
                     player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
+                    pauseplaybutton.setImage(pauseit);
                 }
             }
         }catch (NullPointerException e){
-            player.setPath(path);
-            player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
-            player.getMediaPlayer().play();
+            try{
+                player.setPath(path);
+                player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
+                player.getMediaPlayer().play();
+                pauseplaybutton.setImage(pauseit);
+            }catch (NullPointerException ee){
+            }
         }
 
     }
@@ -451,6 +467,19 @@ public class MytunesController {
         player.getMediaPlayer().stop();
         player.setPath(path);
         player.getMediaPlayer().play();
+
+    }
+
+    public void Volumebuttonclicked(MouseEvent event) throws URISyntaxException {
+        if (player.getMediaPlayer().isMute()){
+            VolumeButton.setImage(mute);
+            player.getMediaPlayer().setMute(false);
+        }
+
+        else{
+            VolumeButton.setImage(unmute);
+            player.getMediaPlayer().setMute(true);
+        }
 
     }
 }
