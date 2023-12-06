@@ -136,11 +136,9 @@ public class MytunesController {
     }
 
     public void initialize() {
-        // Start database og sæt gui op med alle bøger i en tabel
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
-        // Kolonnerne sættes op med forbindelse til klassen Person med hver sit felt
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
         ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
@@ -153,11 +151,9 @@ public class MytunesController {
         PlaylistTableview.setItems(tabeldata);
         SongsTableview.setItems(SongTabledata);
 
-        // Læs alle bøger ind i tabellen
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
 
-        // Sortér som udgangspunkt efter id
         ColumnName.setSortType(TableColumn.SortType.ASCENDING);
         PlaylistTableview.getSortOrder().add(ColumnName);
         PlaylistTableview.sort();
@@ -245,15 +241,13 @@ public class MytunesController {
 
     @FXML
     void PlaylistEditButton(MouseEvent event) {
-
-
         Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
         if (p != null) {
             Dialog<ButtonType> dialogvindue = new Dialog();
             dialogvindue.setTitle("Edit playlist");
-            dialogvindue.setHeaderText("Playlist");
-            //Scene editScene = new Scene(dialogLayout, 300, 200);
-            dialogvindue.getDialogPane().getButtonTypes().addAll(ButtonType.OK, ButtonType.CANCEL);
+            dialogvindue.setHeaderText("Edit name on playlist");
+            ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+            dialogvindue.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
             TextField name = new TextField(p.getName());
             VBox box = new VBox(name);
             box.setPrefHeight(50);
@@ -263,10 +257,20 @@ public class MytunesController {
             name.setText(p.getName());
 
             Optional<ButtonType> button = dialogvindue.showAndWait();
-            if (button.get() == ButtonType.OK) {
-                p.setName(name.getText());
-                PlaylistTableview.refresh();
-                pdi.editPlaylist(p);
+            if (button.get() == saveButton) {
+                String enteredName = name.getText().trim();
+                if (isNameDuplicate(enteredName)) {
+                    p.setName(enteredName);
+                    PlaylistTableview.refresh();
+                    PlaylistTableview.sort();
+                    pdi.editPlaylist(p);
+                } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("You already have a playlist with the name: " + enteredName + "\nThe changes has failed.");
+                alert.showAndWait();
+            }
             }
         }
 
@@ -274,7 +278,48 @@ public class MytunesController {
 
     @FXML
     void PlaylistNewButton (MouseEvent event){
+        Playlist p = new Playlist("", 0, 0.0, 0);
 
+        Dialog<ButtonType> dialogvindue = new Dialog();
+        dialogvindue.setTitle("New playlist");
+        dialogvindue.setHeaderText("Add new playlist");
+        ButtonType addButton = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
+        dialogvindue.getDialogPane().getButtonTypes().addAll(addButton, ButtonType.CANCEL);
+        TextField name = new TextField();
+        name.setPromptText("Name");
+        VBox box = new VBox(name);
+        box.setPrefHeight(50);
+        box.setPrefWidth(300);
+        dialogvindue.getDialogPane().setContent(box);
+
+        name.setText(p.getName());
+
+        Optional<ButtonType> button = dialogvindue.showAndWait();
+        if (button.get() == addButton) {
+            String enteredName = name.getText().trim();
+            if (isNameDuplicate(enteredName)) {
+                p.setName(enteredName);
+                PlaylistTableview.refresh();
+                pdi.newPlaylist(p);
+                pdi.getAllPlaylists(tabeldata);
+                PlaylistTableview.sort();
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText(null);
+                alert.setContentText("You already have a playlist with the name: " + enteredName);
+                alert.showAndWait();
+            }
+        }
+    }
+
+    private boolean isNameDuplicate(String newName) {
+        for (Playlist existingPlaylist : tabeldata) {
+            if (existingPlaylist.getName().equalsIgnoreCase(newName)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @FXML
