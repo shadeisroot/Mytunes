@@ -41,6 +41,7 @@ public class MytunesController {
     private String path;
     private String sourcepath;
     private SongDao sdi = new SongDaoimpl();
+    private PlaylistDao pdi = new PlaylistDaoimpl();
     private Player player = new Player();
 
     @FXML
@@ -153,7 +154,7 @@ public class MytunesController {
         SongsTableview.setItems(SongTabledata);
 
         // Læs alle bøger ind i tabellen
-        sdi.getAllPlaylists(tabeldata);
+        pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
 
         // Sortér som udgangspunkt efter id
@@ -177,6 +178,7 @@ public class MytunesController {
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
+
     }
 
     @FXML
@@ -234,7 +236,7 @@ public class MytunesController {
 
         if (p != null){
             if (alert.getResult() == ButtonType.YES) {
-                if (sdi.deletePlaylist(p)){
+                if (pdi.deletePlaylist(p)){
                     tabeldata.remove(p);
                 }
             }
@@ -264,7 +266,7 @@ public class MytunesController {
             if (button.get() == ButtonType.OK) {
                 p.setName(name.getText());
                 PlaylistTableview.refresh();
-                sdi.editPlaylist(p);
+                pdi.editPlaylist(p);
             }
         }
 
