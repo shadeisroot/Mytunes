@@ -15,6 +15,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -24,17 +25,21 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
 
 import java.net.MalformedURLException;
+import java.net.URISyntaxException;
 import java.util.Objects;
 
 import java.util.Optional;
 
 public class MytunesController {
     private String media_url;
+    @FXML
+    private Image mute, unmute, playit, pauseit;
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
@@ -43,6 +48,9 @@ public class MytunesController {
     private SongDao sdi = new SongDaoimpl();
     private PlaylistDao pdi = new PlaylistDaoimpl();
     private Player player = new Player();
+
+    private ImageView imageView = new ImageView();
+    private String pathstring;
 
     @FXML
     private Button AddSongToPlaylistButton;
@@ -75,13 +83,12 @@ public class MytunesController {
     private ImageView FilterButton;
 
     @FXML
-    private ImageView NextButton;
-
-    @FXML
     private Button PlayButton;
 
     @FXML
     private ImageView PlayPauseButton;
+    @FXML
+    private ImageView pauseplaybutton;
 
     @FXML
     private Button PlaylistDeleteButton;
@@ -94,9 +101,6 @@ public class MytunesController {
 
     @FXML
     private TableView<Playlist> PlaylistTableview = new TableView<Playlist>();
-
-    @FXML
-    private ImageView RewindButton;
 
     @FXML
     private Button SongDeleteButton;
@@ -115,6 +119,8 @@ public class MytunesController {
 
     @FXML
     private Button SongOnPlaylistUpButton;
+    @FXML
+    private Label isplayingText;
 
     @FXML
     private ListView<Song> SongsOnPlaylistListview;
@@ -162,6 +168,13 @@ public class MytunesController {
         SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
 
+        VolumeSliderButton.setMin(0);
+        VolumeSliderButton.setMax(1.0);
+        VolumeSliderButton.setBlockIncrement(0.1);
+        VolumeSliderButton.setValue(0.5);
+
+        SongsTableview.getSelectionModel().select(0);
+        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
     }
 
     @FXML
@@ -188,17 +201,12 @@ public class MytunesController {
 
     }
 
-    @FXML
-    void Next(MouseEvent event) {
-
-    }
-
 
     @FXML
     void PlayPauseButton(MouseEvent event) throws MalformedURLException {
-        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
-        String pathstring = path.replaceAll("\\s+" , "%20");
         try {
+            path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+            pathstring = path.replaceAll("\\s+" , "%20");
             sourcepath = player.getMediaPlayer().getMedia().getSource();
             sourcepath = sourcepath.substring(sourcepath.indexOf("src"));
         } catch (NullPointerException e){
@@ -207,18 +215,30 @@ public class MytunesController {
         try{
             if(player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)){
                 player.getMediaPlayer().pause();
+                pauseplaybutton.setImage(playit);
             }else {
                 if(!Objects.equals(sourcepath, pathstring)){
                     player.getMediaPlayer().stop();
                     player.setPath(path);
+                    player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
+                    isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+                    pauseplaybutton.setImage(pauseit);
                 }else{
+                    player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
+                    pauseplaybutton.setImage(pauseit);
                 }
             }
         }catch (NullPointerException e){
-            player.setPath(path);
-            player.getMediaPlayer().play();
+            try{
+                player.setPath(path);
+                player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
+                player.getMediaPlayer().play();
+                isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+                pauseplaybutton.setImage(pauseit);
+            }catch (NullPointerException ee){
+            }
         }
 
     }
@@ -323,8 +343,13 @@ public class MytunesController {
     }
 
     @FXML
-    void Rewind (MouseEvent event){
-
+    void Rewind (MouseEvent event) throws MalformedURLException {
+        SongsTableview.getSelectionModel().selectPrevious();
+        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        player.getMediaPlayer().stop();
+        player.setPath(path);
+        player.getMediaPlayer().play();
+        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
     }
 
@@ -480,7 +505,42 @@ public class MytunesController {
 
     @FXML
     void VolumeSlider (MouseEvent event){
+        if (VolumeSliderButton.isValueChanging()){
+            try{
+                player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
+            }catch (NullPointerException e){
+
+            }
+
+        }
 
     }
 
+    public void NextButtonclicked(MouseEvent event) throws MalformedURLException {
+        SongsTableview.getSelectionModel().selectNext();
+        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        player.getMediaPlayer().stop();
+        player.setPath(path);
+        player.getMediaPlayer().play();
+        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+
+    }
+
+    public void Volumebuttonclicked(MouseEvent event) throws URISyntaxException {
+        try{
+            if (player.getMediaPlayer().isMute()){
+                VolumeButton.setImage(mute);
+                VolumeSliderButton.setValue(player.getMediaPlayer().getVolume());
+                player.getMediaPlayer().setMute(false);
+            }
+
+            else{
+                VolumeButton.setImage(unmute);
+                VolumeSliderButton.setValue(0);
+                player.getMediaPlayer().setMute(true);
+            }
+        }catch (NullPointerException e){
+
+        }
+    }
 }

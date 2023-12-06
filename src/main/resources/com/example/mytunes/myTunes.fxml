@@ -54,33 +54,35 @@
       <Button fx:id="SongNewButton" layoutX="538.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongNewButton" text="New" />
       <Button fx:id="SongEditButton" layoutX="619.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongEditButton" text="Edit" />
       <Button fx:id="SongDeleteButton" layoutX="699.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongDeleteButton" text="Delete" />
-      <Slider fx:id="VolumeSliderButton" layoutX="100.0" layoutY="119.0" onMouseClicked="#VolumeSlider" />
-      <ImageView fx:id="VolumeButton" fitHeight="32.0" fitWidth="40.0" layoutX="56.0" layoutY="111.0" pickOnBounds="true" preserveRatio="true">
+      <Slider fx:id="VolumeSliderButton" layoutX="100.0" layoutY="119.0" onMouseDragged="#VolumeSlider" />
+      <ImageView fx:id="VolumeButton" fitHeight="32.0" fitWidth="40.0" layoutX="56.0" layoutY="111.0" onMouseClicked="#Volumebuttonclicked" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../mytunes/Images/Sound.png" />
+            <Image fx:id="unmute" url="@../mytunes/Images/mute.png" />
+            <Image fx:id="mute" url="@../mytunes/Images/Sound.png" />
          </image>
       </ImageView>
       <Button fx:id="PlayButton" contentDisplay="GRAPHIC_ONLY" layoutX="117.0" layoutY="27.0" minHeight="70.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlayPauseButton" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
          <graphic>
-            <ImageView fitHeight="40.0" fitWidth="31.0" onMouseClicked="#PlayPauseButton" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="pauseplaybutton" fitHeight="40.0" fitWidth="31.0" onMouseClicked="#PlayPauseButton" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../mytunes/Images/Play.png" />
+                  <Image fx:id="pauseit" url="@../mytunes/Images/pause.png" />
+                  <Image fx:id="playit" url="@../mytunes/Images/Play.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button contentDisplay="GRAPHIC_ONLY" layoutX="202.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="NextButton" contentDisplay="GRAPHIC_ONLY" layoutX="202.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#NextButtonclicked" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
          <graphic>
-            <ImageView fx:id="NextButton" fitHeight="25.0" fitWidth="27.0" onMouseClicked="#Next" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../mytunes/Images/Skip1.png" />
                </image>
             </ImageView>
          </graphic>
       </Button>
-      <Button contentDisplay="GRAPHIC_ONLY" layoutX="48.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="RewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="48.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#Rewind" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
          <graphic>
-            <ImageView fx:id="RewindButton" fitHeight="33.0" fitWidth="29.0" onMouseClicked="#Rewind" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="33.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../mytunes/Images/backward.png" />
                </image>
@@ -107,10 +109,10 @@
       </Button>
       <Button fx:id="SongOnPlaylistDeleteButton" layoutX="387.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistDeleteButton" text="Delete" />
       <Button fx:id="CloseButton" layoutX="1103.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#CloseButton" text="Close" />
-      <Text layoutX="542.0" layoutY="82.0" strokeType="OUTSIDE" strokeWidth="0.0" text="is playing">
+      <Label fx:id="isplayingText" layoutX="501.0" layoutY="64.0" prefHeight="44.0" prefWidth="283.0" text="Label" textAlignment="CENTER">
          <font>
-            <Font size="30.0" />
+            <Font size="36.0" />
          </font>
-      </Text>
+      </Label>
    </children>
 </Pane>
