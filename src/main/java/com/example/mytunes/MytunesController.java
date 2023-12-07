@@ -32,6 +32,7 @@ import java.io.IOException;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Objects;
 
 import java.util.Optional;
@@ -186,20 +187,32 @@ public class MytunesController {
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterSongs(newValue);
         });
+
+        PlaylistTableview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                populateSongsOnPlaylist(newValue);
+            }
+        });
     }
 
-    @FXML
-    void handlePlaylistSelection(MouseEvent event) {
-        Playlist selectedPlaylist = PlaylistTableview.getSelectionModel().getSelectedItem();
-        if (selectedPlaylist != null) {
-            ObservableList<Song> songsInPlaylist = FXCollections.observableArrayList(selectedPlaylist.getSongsOnPlaylist());
-            SongsOnPlaylistListview.setItems(songsInPlaylist);
+    void populateSongsOnPlaylist(Playlist selectedPlaylist) {
+        try {
+            if (selectedPlaylist != null && selectedPlaylist.getSongsOnPlaylist() != null) {
+                ObservableList<Song> songsInPlaylist = FXCollections.observableArrayList(selectedPlaylist.getSongsOnPlaylist());
+                SongsOnPlaylistListview.setItems(songsInPlaylist);
+            } else {
+                SongsOnPlaylistListview.setItems(FXCollections.emptyObservableList());
+            }
+        } catch (NullPointerException e) {
+            System.err.println("A NullPointerException occurred: " + e.getMessage());
         }
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
 
     }
+
+
 
     @FXML
     void CloseButton(MouseEvent event) {
