@@ -7,11 +7,12 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mytunes.MytunesController">
    <children>
-      <Button contentDisplay="GRAPHIC_ONLY" layoutX="1127.0" layoutY="38.0" mnemonicParsing="false" text="Button">
+      <Button fx:id="FilterButton" contentDisplay="GRAPHIC_ONLY" layoutX="1127.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#FilterButton" text="Filter">
          <graphic>
-            <ImageView fx:id="FilterButton" fitHeight="25.0" fitWidth="29.0" onMouseClicked="#Filter" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="FilterButtonImage" fitHeight="25.0" fitWidth="29.0" onMouseClicked="#Filter" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../mytunes/Images/Search.png" />
+                  <Image fx:id="close" url="@../mytunes/Images/close.png" />
+                  <Image fx:id="Search" url="@../mytunes/Images/Search.png" />
                </image>
             </ImageView>
          </graphic>

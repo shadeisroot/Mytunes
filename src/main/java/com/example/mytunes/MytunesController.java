@@ -80,7 +80,10 @@ public class MytunesController {
     private TableColumn<Song, String> ColumnTitel = new TableColumn();
 
     @FXML
-    private ImageView FilterButton;
+    private ImageView FilterButtonImage = new ImageView();
+
+    @FXML
+    private Button FilterButton;
 
     @FXML
     private Button PlayButton;
@@ -553,6 +556,11 @@ public class MytunesController {
     }
 
     @FXML
+    void FilterButton (MouseEvent event) {
+        filterTextField.clear();
+    }
+
+    @FXML
     void VolumeSlider (MouseEvent event){
         if (VolumeSliderButton.isValueChanging()){
             try{
@@ -560,9 +568,7 @@ public class MytunesController {
             }catch (NullPointerException e){
 
             }
-
         }
-
     }
 
     public void NextButtonclicked(MouseEvent event) throws MalformedURLException {
@@ -593,15 +599,17 @@ public class MytunesController {
         }
     }
 
-    private void filterSongs(String keyword) {
+    void filterSongs(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
             SongsTableview.setItems(SongTabledata);
+            FilterButtonImage.setImage(Search);
         } else {
             ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
 
             for (Song song : SongTabledata) {
                 if (song.getTitel().toLowerCase().contains(keyword.toLowerCase())) {
                     filteredSongs.add(song);
+                    FilterButtonImage.setImage(close);
                 }
             }
             SongsTableview.setItems(filteredSongs);
