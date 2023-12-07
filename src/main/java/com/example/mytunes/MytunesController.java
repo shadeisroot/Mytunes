@@ -190,6 +190,7 @@ public class MytunesController {
             filterSongs(newValue);
         });
 
+
         Playlist stuff = PlaylistTableview.getSelectionModel().getSelectedItem();
         if (stuff != null) {
             List<Integer> songIds = pdi.showallsongsfromPlaylist(stuff);
@@ -204,31 +205,19 @@ public class MytunesController {
             System.out.println("Please select a playlist.");
         }
 
+
+
     }
     void getplaylistname(){
 
     }
 
-    void populateSongsOnPlaylist(Playlist selectedPlaylist) {
-        try {
-            if (selectedPlaylist != null && selectedPlaylist.getSongsOnPlaylist() != null) {
-                ObservableList<Song> songsInPlaylist = FXCollections.observableArrayList(selectedPlaylist.getSongsOnPlaylist());
-                SongsOnPlaylistListview.setItems(songsInPlaylist);
-            } else {
-                SongsOnPlaylistListview.setItems(FXCollections.emptyObservableList());
-            }
-        } catch (NullPointerException e) {
-            System.err.println("A NullPointerException occurred: " + e.getMessage());
-        }
-    }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
         Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
         Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
         pdi.addtoplaylistsong(plst, sngs);
     }
-
-
 
     @FXML
     void CloseButton(MouseEvent event) {
