@@ -182,6 +182,7 @@ public class MytunesController {
         VolumeSliderButton.setValue(0.5);
 
         SongsTableview.getSelectionModel().select(0);
+        PlaylistTableview.getSelectionModel().select(0);
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -192,7 +193,11 @@ public class MytunesController {
             if (newValue != null) {
                 populateSongsOnPlaylist(newValue);
             }
-        })
+        });
+
+    }
+    void getplaylistname(){
+
     }
 
     void populateSongsOnPlaylist(Playlist selectedPlaylist) {
@@ -209,6 +214,9 @@ public class MytunesController {
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
+        Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
+        Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
+        pdi.addtoplaylistsong(plst, sngs);
     }
 
 
