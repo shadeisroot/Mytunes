@@ -183,6 +183,8 @@ public class MytunesController {
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterSongs(newValue);
         });
+
+        PlaylistTableview.getSelectionModel().select(0);
     }
 
     @FXML
@@ -195,7 +197,9 @@ public class MytunesController {
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
-
+        Playlist pslt = PlaylistTableview.getSelectionModel().getSelectedItem();
+        Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
+        pdi.addtoplaylistsong(pslt, sngs);
     }
 
     @FXML
@@ -606,5 +610,6 @@ public class MytunesController {
             }
             SongsTableview.setItems(filteredSongs);
         }
+
     }
 }

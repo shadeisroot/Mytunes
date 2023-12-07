@@ -79,4 +79,20 @@ public class PlaylistDaoimpl implements PlaylistDao {
         }
 
     }
+
+    public void addtoplaylistsong(Playlist playlist, Song song){
+
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "INSERT INTO PlaylistSongs (PlaylistId, SongId) VALUES (?, ?)"
+            );
+            preparedStatement.setInt(1, playlist.getId());
+            preparedStatement.setInt(2, song.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception according to your application's error handling strategy
+        }
+    }
 }
