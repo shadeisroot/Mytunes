@@ -7,5 +7,6 @@ public interface PlaylistDao {
     boolean deletePlaylist(Playlist p);
     void editPlaylist(Playlist playlist);
     boolean newPlaylist(Playlist playlist);
+    void addtoplaylistsong(Playlist playlist, Song song);
 
 }

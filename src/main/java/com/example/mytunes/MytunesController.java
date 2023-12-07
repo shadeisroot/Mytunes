@@ -32,6 +32,7 @@ import java.io.IOException;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Objects;
 
 import java.util.Optional;
@@ -39,7 +40,7 @@ import java.util.Optional;
 public class MytunesController {
     private String media_url;
     @FXML
-    private Image mute, unmute, playit, pauseit;
+    private Image mute, unmute, playit, pauseit, close, Search;
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
@@ -80,7 +81,10 @@ public class MytunesController {
     private TableColumn<Song, String> ColumnTitel = new TableColumn();
 
     @FXML
-    private ImageView FilterButton;
+    private ImageView FilterButtonImage = new ImageView();
+
+    @FXML
+    private Button FilterButton;
 
     @FXML
     private Button PlayButton;
@@ -119,8 +123,12 @@ public class MytunesController {
 
     @FXML
     private Button SongOnPlaylistUpButton;
+
     @FXML
     private Label isplayingText;
+
+    @FXML
+    private TextField filterTextField;
 
     @FXML
     private ListView<Song> SongsOnPlaylistListview;
@@ -174,20 +182,22 @@ public class MytunesController {
         VolumeSliderButton.setValue(0.5);
 
         SongsTableview.getSelectionModel().select(0);
+        PlaylistTableview.getSelectionModel().select(0);
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+
+        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterSongs(newValue);
+        });
+    }
+    void getplaylistname(){
+
     }
 
-    @FXML
-    void handlePlaylistSelection(MouseEvent event) {
-        Playlist selectedPlaylist = PlaylistTableview.getSelectionModel().getSelectedItem();
-        if (selectedPlaylist != null) {
-            ObservableList<Song> songsInPlaylist = FXCollections.observableArrayList(selectedPlaylist.getSongsOnPlaylist());
-            SongsOnPlaylistListview.setItems(songsInPlaylist);
-        }
-    }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
-
+        Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
+        Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
+        pdi.addtoplaylistsong(plst, sngs);
     }
 
     @FXML
@@ -298,7 +308,7 @@ public class MytunesController {
 
     @FXML
     void PlaylistNewButton (MouseEvent event){
-        Playlist p = new Playlist("", 0, 0.0, 0);
+        Playlist p = new Playlist(0, "", 0,0.0);
 
         Dialog<ButtonType> dialogvindue = new Dialog();
         dialogvindue.setTitle("New playlist");
@@ -545,6 +555,11 @@ public class MytunesController {
     }
 
     @FXML
+    void FilterButton (MouseEvent event) {
+        filterTextField.clear();
+    }
+
+    @FXML
     void VolumeSlider (MouseEvent event){
         if (VolumeSliderButton.isValueChanging()){
             try{
@@ -552,9 +567,7 @@ public class MytunesController {
             }catch (NullPointerException e){
 
             }
-
         }
-
     }
 
     public void NextButtonclicked(MouseEvent event) throws MalformedURLException {
@@ -583,5 +596,23 @@ public class MytunesController {
         }catch (NullPointerException e){
 
         }
+    }
+
+    void filterSongs(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            SongsTableview.setItems(SongTabledata);
+            FilterButtonImage.setImage(Search);
+        } else {
+            ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
+
+            for (Song song : SongTabledata) {
+                if (song.getTitel().toLowerCase().contains(keyword.toLowerCase())) {
+                    filteredSongs.add(song);
+                    FilterButtonImage.setImage(close);
+                }
+            }
+            SongsTableview.setItems(filteredSongs);
+        }
+
     }
 }

@@ -29,7 +29,7 @@ public class PlaylistDaoimpl implements PlaylistDao {
                 Double length = Double.valueOf(rs.getString("length"));
                 int id = Integer.valueOf(rs.getString("id"));
 
-                Playlist playlist = new Playlist(name, songs, length, id);
+                Playlist playlist = new Playlist(id, name, songs, length);
                 tabeldata.add(playlist);
                 ++antal;
             }
@@ -78,5 +78,21 @@ public class PlaylistDaoimpl implements PlaylistDao {
             return false;
         }
 
+    }
+
+    public void addtoplaylistsong(Playlist playlist, Song song){
+
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "INSERT INTO PlaylistSongs (PlaylistId, SongId) VALUES (?, ?)"
+            );
+            preparedStatement.setInt(1, playlist.getId());
+            preparedStatement.setInt(2, song.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception according to your application's error handling strategy
+        }
     }
 }
