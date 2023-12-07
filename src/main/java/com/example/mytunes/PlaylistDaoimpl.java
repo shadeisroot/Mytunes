@@ -29,7 +29,7 @@ public class PlaylistDaoimpl implements PlaylistDao {
                 Double length = Double.valueOf(rs.getString("length"));
                 int id = Integer.valueOf(rs.getString("id"));
 
-                Playlist playlist = new Playlist(name, songs, length, id);
+                Playlist playlist = new Playlist(id, name, songs, length);
                 tabeldata.add(playlist);
                 ++antal;
             }

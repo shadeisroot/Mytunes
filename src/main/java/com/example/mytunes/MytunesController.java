@@ -298,7 +298,7 @@ public class MytunesController {
 
     @FXML
     void PlaylistNewButton (MouseEvent event){
-        Playlist p = new Playlist("", 0, 0.0, 0);
+        Playlist p = new Playlist(0, "", 0,0.0);
 
         Dialog<ButtonType> dialogvindue = new Dialog();
         dialogvindue.setTitle("New playlist");
