@@ -209,7 +209,6 @@ public class MytunesController {
     }
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
-
     }
 
 
