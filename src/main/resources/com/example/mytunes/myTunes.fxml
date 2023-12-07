@@ -7,6 +7,11 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mytunes.MytunesController">
    <children>
+      <ImageView fitHeight="700.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@Images/Background.png" />
+         </image>
+      </ImageView>
       <Button contentDisplay="GRAPHIC_ONLY" layoutX="1127.0" layoutY="38.0" mnemonicParsing="false" styleClass="SearchButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fx:id="FilterButton" fitHeight="25.0" fitWidth="29.0" onMouseClicked="#Filter" pickOnBounds="true" preserveRatio="true">
@@ -59,7 +64,7 @@
             <Image fx:id="mute" url="@../mytunes/Images/Sound.png" />
          </image>
       </ImageView>
-      <Button fx:id="PlayButton" contentDisplay="GRAPHIC_ONLY" layoutX="117.0" layoutY="27.0" minHeight="70.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlayPauseButton" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="PlayButton" contentDisplay="GRAPHIC_ONLY" layoutX="117.0" layoutY="27.0" minHeight="70.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlayPauseButton" style="-fx-border-radius: 100; -fx-background-radius: 100;" styleClass="PlayPauseButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fx:id="pauseplaybutton" fitHeight="40.0" fitWidth="31.0" onMouseClicked="#PlayPauseButton" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -106,8 +111,8 @@
          </graphic>
       </Button>
       <Button fx:id="SongOnPlaylistDeleteButton" layoutX="387.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistDeleteButton" styleClass="DeleteSongsOnPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
-      <Button fx:id="CloseButton" layoutX="1103.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#CloseButton" styleClass="CloseButton" text="Close" />
-      <Label fx:id="isplayingText" layoutX="501.0" layoutY="64.0" prefHeight="44.0" prefWidth="283.0" text="Label" textAlignment="CENTER">
+      <Button fx:id="CloseButton" layoutX="1103.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#CloseButton" styleClass="CloseButton" stylesheets="@../../../MyTunesCSS.css" text="Close" />
+      <Label fx:id="isplayingText" layoutX="501.0" layoutY="64.0" prefHeight="44.0" prefWidth="283.0" styleClass="IsPlaying" stylesheets="@../../../MyTunesCSS.css" text="Label" textAlignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
