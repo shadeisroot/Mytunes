@@ -39,7 +39,7 @@ import java.util.Optional;
 public class MytunesController {
     private String media_url;
     @FXML
-    private Image mute, unmute, playit, pauseit;
+    private Image mute, unmute, playit, pauseit, close, Search;
     private String mediaPath;
     private boolean id3v1 = false;
     private boolean id3v2 = false;
@@ -119,8 +119,12 @@ public class MytunesController {
 
     @FXML
     private Button SongOnPlaylistUpButton;
+
     @FXML
     private Label isplayingText;
+
+    @FXML
+    private TextField filterTextField;
 
     @FXML
     private ListView<Song> SongsOnPlaylistListview;
@@ -175,6 +179,10 @@ public class MytunesController {
 
         SongsTableview.getSelectionModel().select(0);
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+
+        filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
+            filterSongs(newValue);
+        });
     }
 
     @FXML
@@ -582,6 +590,21 @@ public class MytunesController {
             }
         }catch (NullPointerException e){
 
+        }
+    }
+
+    private void filterSongs(String keyword) {
+        if (keyword == null || keyword.isEmpty()) {
+            SongsTableview.setItems(SongTabledata);
+        } else {
+            ObservableList<Song> filteredSongs = FXCollections.observableArrayList();
+
+            for (Song song : SongTabledata) {
+                if (song.getTitel().toLowerCase().contains(keyword.toLowerCase())) {
+                    filteredSongs.add(song);
+                }
+            }
+            SongsTableview.setItems(filteredSongs);
         }
     }
 }
