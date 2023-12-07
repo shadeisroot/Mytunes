@@ -16,7 +16,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <TextField layoutX="956.0" layoutY="42.0" />
+      <TextField fx:id="filterTextField" layoutX="956.0" layoutY="42.0" />
       <Label layoutX="914.0" layoutY="46.0" text="Filter:" />
       <HBox layoutX="31.0" layoutY="174.0" prefHeight="452.0" prefWidth="1141.0" spacing="20.0">
          <children>
@@ -40,7 +40,6 @@
             <TableView fx:id="SongsTableview" prefHeight="452.0" prefWidth="670.0">
               <columns>
                 <TableColumn fx:id="ColumnTitel" minWidth="250.0" prefWidth="0.0" text="Titel" />
-                <TableColumn minWidth="0.0" prefWidth="0.0" text="Artist" />
                   <TableColumn fx:id="ColumnArtist" minWidth="52.43658447265625" prefWidth="208.5" text="Artist" />
                   <TableColumn fx:id="ColumnGenre" minWidth="0.0" prefWidth="97.2022705078125" text="Genre" />
                   <TableColumn fx:id="ColumnLength2" minWidth="52.43658447265625" prefWidth="92.647705078125" text="Length" />
