@@ -112,10 +112,11 @@
       </Button>
       <Button fx:id="SongOnPlaylistDeleteButton" layoutX="387.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistDeleteButton" styleClass="DeleteSongsOnPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
       <Button fx:id="CloseButton" layoutX="1103.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#CloseButton" styleClass="CloseButton" stylesheets="@../../../MyTunesCSS.css" text="Close" />
-      <Label fx:id="isplayingText" layoutX="501.0" layoutY="64.0" prefHeight="44.0" prefWidth="283.0" styleClass="IsPlaying" stylesheets="@../../../MyTunesCSS.css" text="Label" textAlignment="CENTER">
+      <Label fx:id="isplayingText" layoutX="500.0" layoutY="30.0" prefHeight="44.0" prefWidth="283.0" styleClass="IsPlaying" stylesheets="@../../../MyTunesCSS.css" text="Label" textAlignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
+      <Slider layoutX="369.0" layoutY="116.0" prefHeight="15.0" prefWidth="501.0" styleClass="SongSlider" stylesheets="@../../../MyTunesCSS.css" />
    </children>
 </Pane>
