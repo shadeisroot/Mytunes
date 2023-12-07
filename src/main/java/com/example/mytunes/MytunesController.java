@@ -25,6 +25,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.w3c.dom.Element;
 import org.w3c.dom.Text;
 
 import java.io.File;
@@ -189,11 +190,19 @@ public class MytunesController {
             filterSongs(newValue);
         });
 
-        PlaylistTableview.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                populateSongsOnPlaylist(newValue);
+        Playlist stuff = PlaylistTableview.getSelectionModel().getSelectedItem();
+        if (stuff != null) {
+            List<Integer> songIds = pdi.showallsongsfromPlaylist(stuff);
+
+            for (int songId : songIds) {
+                String ass = sdi.showSongById(songId);
+                System.out.println(ass);
+                System.out.println(songId);
+                // Do something else with the songId if needed
             }
-        });
+        } else {
+            System.out.println("Please select a playlist.");
+        }
 
     }
     void getplaylistname(){
