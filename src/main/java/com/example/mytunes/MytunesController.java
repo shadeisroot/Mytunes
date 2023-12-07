@@ -192,7 +192,7 @@ public class MytunesController {
             if (newValue != null) {
                 populateSongsOnPlaylist(newValue);
             }
-        });
+        })
     }
 
     void populateSongsOnPlaylist(Playlist selectedPlaylist) {
@@ -626,5 +626,6 @@ public class MytunesController {
             }
             SongsTableview.setItems(filteredSongs);
         }
+
     }
 }
