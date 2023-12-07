@@ -3,9 +3,12 @@ package com.example.mytunes;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlaylistDaoimpl implements PlaylistDao {
     private Connection con;
+    private SongDao sdi;
 
     public PlaylistDaoimpl() {
         try {
@@ -95,4 +98,30 @@ public class PlaylistDaoimpl implements PlaylistDao {
             // Handle the exception according to your application's error handling strategy
         }
     }
-}
+    public List<Integer> showallsongsfromPlaylist(Playlist playlist){
+        List<Integer> songIds = new ArrayList<>();
+        try {
+             PreparedStatement preparedStatement = con.prepareStatement(
+                    "SELECT SongId FROM dbo.PlaylistSongs WHERE PlaylistId = ?"
+            );
+
+            preparedStatement.setInt(1, playlist.getId());
+
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                int songId = resultSet.getInt("SongId");
+                songIds.add(songId);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        //for (int songId : songIds) {
+           // System.out.println(songId);
+        return songIds;
+        }
+    }

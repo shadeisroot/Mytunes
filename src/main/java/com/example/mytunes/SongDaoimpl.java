@@ -36,8 +36,9 @@ public class SongDaoimpl implements SongDao {
         }
 
     }
-    public boolean deleteSong(Song song){
-        try{
+
+    public boolean deleteSong(Song song) {
+        try {
             PreparedStatement ps = con.prepareStatement("DELETE FROM Songs WHERE Titel = ?");
             ps.setString(1, song.getTitel());
             ps.executeUpdate();
@@ -52,15 +53,15 @@ public class SongDaoimpl implements SongDao {
     public void getAllSongs(ObservableList<Song> SongTabledata) {
         SongTabledata.clear();
         int antal = 0;
-        try{
+        try {
             Statement database = con.createStatement();
             String sql = "SELECT * FROM Songs";
             ResultSet rs = database.executeQuery(sql);
             while (rs.next()) {
-                String titel     = rs.getString("Titel");
-                String artist    = rs.getString("Artist");
+                String titel = rs.getString("Titel");
+                String artist = rs.getString("Artist");
                 String genre = rs.getString("Genre");
-                Double length     = Double.valueOf(rs.getString("Length"));
+                Double length = Double.valueOf(rs.getString("Length"));
                 String url = rs.getString("Url");
                 Integer id = Integer.valueOf(rs.getString("id"));
 
@@ -69,21 +70,45 @@ public class SongDaoimpl implements SongDao {
                 SongTabledata.add(song);
                 ++antal;
             }
-        } catch (SQLException e){
-            System.err.println("Kan ikke læse records" +e);
+        } catch (SQLException e) {
+            System.err.println("Kan ikke læse records" + e);
         }
 
     }
 
     public void editSong(Song song) {
-        try{
+        try {
             Statement database = con.createStatement();
             String sql = "UPDATE Songs SET Titel='"
                     + song.getTitel() + "' WHERE Id='" + song.getId() + "'";
             database.executeUpdate(sql);
-        } catch (SQLException e){
-            System.err.println("Opdatering lykkedes ikke: "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Opdatering lykkedes ikke: " + e.getMessage());
         }
 
+    }
+
+    public String showSongById(int songId) {
+        String songTitle = null;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "SELECT Titel FROM dbo.Songs WHERE Id = ?"
+            );
+
+            preparedStatement.setInt(1, songId);
+
+            ResultSet resultSet = preparedStatement.executeQuery(); // Execute the query here
+
+            if (resultSet.next()) {
+                songTitle = resultSet.getString("Titel");
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return songTitle;
     }
 }

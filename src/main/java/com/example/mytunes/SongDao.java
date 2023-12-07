@@ -10,5 +10,6 @@ public interface SongDao {
     void getAllSongs(ObservableList<Song> SongTabledata);
 
     void editSong(Song song);
+    String showSongById(int song);
 
 }
