@@ -57,7 +57,7 @@
       <Button fx:id="SongNewButton" layoutX="538.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongNewButton" styleClass="NewSongButton" stylesheets="@../../../MyTunesCSS.css" text="New" />
       <Button fx:id="SongEditButton" layoutX="619.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongEditButton" styleClass="EditSongButton" stylesheets="@../../../MyTunesCSS.css" text="Edit" />
       <Button fx:id="SongDeleteButton" layoutX="699.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongDeleteButton" styleClass="DeleteSongButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
-      <Slider fx:id="VolumeSliderButton" layoutX="100.0" layoutY="119.0" onMouseDragged="#VolumeSlider" />
+      <Slider fx:id="VolumeSliderButton" layoutX="100.0" layoutY="119.0" onMouseDragged="#VolumeSlider" styleClass="VolumeSlider" stylesheets="@../../../MyTunesCSS.css" />
       <ImageView fx:id="VolumeButton" fitHeight="32.0" fitWidth="40.0" layoutX="56.0" layoutY="111.0" onMouseClicked="#Volumebuttonclicked" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image fx:id="unmute" url="@../mytunes/Images/mute.png" />
@@ -74,7 +74,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="NextButton" contentDisplay="GRAPHIC_ONLY" layoutX="202.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#NextButtonclicked" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="NextButton" contentDisplay="GRAPHIC_ONLY" layoutX="202.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#NextButtonclicked" style="-fx-border-radius: 100; -fx-background-radius: 100;" styleClass="NextSongButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="27.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -83,7 +83,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="RewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="48.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#Rewind" style="-fx-border-radius: 100; -fx-background-radius: 100;" text="Button">
+      <Button fx:id="RewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="48.0" layoutY="36.0" minHeight="50.0" minWidth="50.0" mnemonicParsing="false" onMouseClicked="#Rewind" style="-fx-border-radius: 100; -fx-background-radius: 100;" styleClass="LastSongButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fitHeight="33.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
                <image>
