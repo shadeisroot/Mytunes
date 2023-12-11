@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mytunes.MytunesController">
@@ -12,6 +14,11 @@
             <Image url="@Images/Background.png" />
          </image>
       </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#6fbda056" height="138.0" layoutX="36.0" layoutY="15.0" stroke="TRANSPARENT" strokeType="INSIDE" styleClass="Rectangle" width="230.0">
+         <effect>
+            <BoxBlur height="30.0" width="30.0" />
+         </effect>
+      </Rectangle>
       <Button contentDisplay="GRAPHIC_ONLY" layoutX="1127.0" layoutY="38.0" mnemonicParsing="false" styleClass="SearchButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fx:id="FilterButtonImage" fitHeight="25.0" fitWidth="29.0" onMouseClicked="#Filter" pickOnBounds="true" preserveRatio="true">
