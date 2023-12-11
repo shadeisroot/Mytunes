@@ -197,6 +197,8 @@ public class MytunesController {
             filterSongs(newValue);
         });
 
+        /*
+
         Playlist stuff = PlaylistTableview.getSelectionModel().getSelectedItem();
         if (stuff != null) {
             List<Integer> songIds = pdi.showallsongsfromPlaylist(stuff);
@@ -211,6 +213,8 @@ public class MytunesController {
         } else {
             System.out.println("Please select a playlist.");
         }
+
+         */
 
     }
     @FXML
