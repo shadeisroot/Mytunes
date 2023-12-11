@@ -26,14 +26,7 @@
 
 }
 
-.PlaylistTableview{
-    -fx-background-color:#162840;
-    -fx-text-fill: white;
-    -fx-border-color:#0F1F30;
-    -fx-border-width: 5px;
-}
-
-.SongsOnPlaylistListview{
+.PlaylistTableview, .SongsOnPlaylistTableview, .SongsOnPlaylistListview{
     -fx-background-color:#162840;
     -fx-text-fill: white;
     -fx-border-color:#0F1F30;
