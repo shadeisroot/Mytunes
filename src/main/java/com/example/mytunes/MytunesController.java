@@ -41,7 +41,7 @@ public class MytunesController {
     public TableColumn numberColumn = new TableColumn<>("Number");
     public TableColumn titleColumn = new TableColumn<>("Title");
 
-    public TableView<List<String>> SongsOnPlaylistTableview = new TableView<List<String>>();
+    public TableView SongsOnPlaylistTableview;
     private String media_url;
     @FXML
     private Image mute, unmute, playit, pauseit, close, Search;
@@ -135,10 +135,6 @@ public class MytunesController {
     private TextField filterTextField;
 
     @FXML
-    private ListView<List<String>> SongsOnPlaylistListview = new ListView<>();
-    private final ObservableList<List<String>> playlistsongdata = FXCollections.observableArrayList();
-
-    @FXML
     private TableView<Song> SongsTableview = new TableView<Song>();
 
     @FXML
@@ -157,7 +153,6 @@ public class MytunesController {
     public void initialize() {
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        SongsOnPlaylistListview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
@@ -171,7 +166,6 @@ public class MytunesController {
 
         PlaylistTableview.setItems(tabeldata);
         SongsTableview.setItems(SongTabledata);
-        SongsOnPlaylistTableview.setItems(playlistsongdata);
 
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
