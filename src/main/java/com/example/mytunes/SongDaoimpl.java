@@ -1,11 +1,11 @@
 package com.example.mytunes;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TextArea;
 
 import java.sql.*;
-import javafx.scene.control.TextArea;
+import java.util.ArrayList;
+import java.util.List;
+
 public class SongDaoimpl implements SongDao {
     private Connection con;
 
@@ -88,27 +88,31 @@ public class SongDaoimpl implements SongDao {
 
     }
 
-    public String showSongById(int songId) {
+    public List<String> showSongById(List<Integer> songId) {
         String songTitle = null;
+        List<String> songidTitle = new ArrayList<>();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(
                     "SELECT Titel FROM dbo.Songs WHERE Id = ?"
             );
 
-            preparedStatement.setInt(1, songId);
 
-            ResultSet resultSet = preparedStatement.executeQuery(); // Execute the query here
+            for (int sid : songId) {
+                preparedStatement.setInt(1, sid);
+                ResultSet resultSet = preparedStatement.executeQuery(); // Execute the query here
 
-            if (resultSet.next()) {
-                songTitle = resultSet.getString("Titel");
+
+                if (resultSet.next()) {
+                    songTitle = resultSet.getString("Titel");
+                    songidTitle.add(songTitle);
+
+                    resultSet.close();
+                }
             }
-
-            resultSet.close();
-            preparedStatement.close();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+                preparedStatement.close();
+            } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
-
-        return songTitle;
+        return songidTitle;
+        }
     }
-}
