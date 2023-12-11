@@ -462,6 +462,10 @@ public class MytunesController {
             media_url = selectedFile.toPath().toString();
             String filename = selectedFile.getName();
             mediaPath = media_url.substring(media_url.indexOf("src"));
+            if (mediaPath.contains("\\")) {
+                mediaPath = mediaPath.replaceAll("\\\\", "/");
+                System.out.println(mediaPath);
+            }
             try {
                 Mp3File mp3file = new Mp3File(mediaPath);
                 try {
