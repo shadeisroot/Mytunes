@@ -12,6 +12,6 @@ public interface SongDao {
     void getAllSongs(ObservableList<Song> SongTabledata);
 
     void editSong(Song song);
-    List<String> showSongById(List<Integer> song);
+
 
 }

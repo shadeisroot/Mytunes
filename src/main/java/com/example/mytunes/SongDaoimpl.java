@@ -88,31 +88,5 @@ public class SongDaoimpl implements SongDao {
 
     }
 
-    public List<String> showSongById(List<Integer> songId) {
-        String songTitle = null;
-        List<String> songidTitle = new ArrayList<>();
-        try {
-            PreparedStatement preparedStatement = con.prepareStatement(
-                    "SELECT Titel FROM dbo.Songs WHERE Id = ?"
-            );
 
-
-            for (int sid : songId) {
-                preparedStatement.setInt(1, sid);
-                ResultSet resultSet = preparedStatement.executeQuery(); // Execute the query here
-
-
-                if (resultSet.next()) {
-                    songTitle = resultSet.getString("Titel");
-                    songidTitle.add(songTitle);
-
-                    resultSet.close();
-                }
-            }
-                preparedStatement.close();
-            } catch (SQLException ex) {
-            throw new RuntimeException(ex);
-        }
-        return songidTitle;
-        }
     }

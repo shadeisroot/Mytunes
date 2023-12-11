@@ -2,6 +2,7 @@ package com.example.mytunes;
 
 import com.mpatric.mp3agic.*;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -37,8 +38,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class MytunesController {
-    public TableColumn<Playlist, Integer> numberColumn = new TableColumn<>("Number");
-    public TableColumn<Playlist, String> titleColumn = new TableColumn<>("Title");
+    public TableColumn numberColumn = new TableColumn<>("Number");
+    public TableColumn titleColumn = new TableColumn<>("Title");
 
     public TableView<List<String>> SongsOnPlaylistTableview = new TableView<List<String>>();
     private String media_url;
@@ -167,8 +168,6 @@ public class MytunesController {
         ColumnGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("Genre"));
         ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
 
-        numberColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(column.getTableView().getItems().indexOf(column.getValue()) + 1));
-
 
         PlaylistTableview.setItems(tabeldata);
         SongsTableview.setItems(SongTabledata);
@@ -176,6 +175,7 @@ public class MytunesController {
 
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
+
 
 
         ColumnName.setSortType(TableColumn.SortType.ASCENDING);
@@ -193,32 +193,11 @@ public class MytunesController {
 
         SongsTableview.getSelectionModel().select(0);
         PlaylistTableview.getSelectionModel().select(0);
-        playlistsongdata.add(sdi.showSongById(pdi.showallsongsfromPlaylist(PlaylistTableview.getSelectionModel().getSelectedItem())));
-
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterSongs(newValue);
         });
-
-        /*
-
-        Playlist stuff = PlaylistTableview.getSelectionModel().getSelectedItem();
-        if (stuff != null) {
-            List<Integer> songIds = pdi.showallsongsfromPlaylist(stuff);
-
-            for (int songId : songIds) {
-                String ass = sdi.showSongById(songIds);
-                System.out.println(ass);
-
-                System.out.println(songId);
-                // Do something else with the songId if needed
-            }
-        } else {
-            System.out.println("Please select a playlist.");
-        }
-
-         */
 
     }
     @FXML
