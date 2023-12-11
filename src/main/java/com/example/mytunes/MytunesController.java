@@ -132,7 +132,8 @@ public class MytunesController {
     private TextField filterTextField;
 
     @FXML
-    private ListView<Song> SongsOnPlaylistListview;
+    private ListView<List<String>> SongsOnPlaylistListview = new ListView<>();
+    private final ObservableList<List<String>> playlistsongdata = FXCollections.observableArrayList();
 
     @FXML
     private TableView<Song> SongsTableview = new TableView<Song>();
@@ -153,6 +154,7 @@ public class MytunesController {
     public void initialize() {
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        SongsOnPlaylistListview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
@@ -165,9 +167,11 @@ public class MytunesController {
 
         PlaylistTableview.setItems(tabeldata);
         SongsTableview.setItems(SongTabledata);
+        SongsOnPlaylistListview.setItems(playlistsongdata);
 
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
+
 
         ColumnName.setSortType(TableColumn.SortType.ASCENDING);
         PlaylistTableview.getSortOrder().add(ColumnName);
@@ -184,20 +188,25 @@ public class MytunesController {
 
         SongsTableview.getSelectionModel().select(0);
         PlaylistTableview.getSelectionModel().select(0);
+        playlistsongdata.add(sdi.showSongById(pdi.showallsongsfromPlaylist(PlaylistTableview.getSelectionModel().getSelectedItem())));
+
+
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterSongs(newValue);
         });
 
+        /*
 
         Playlist stuff = PlaylistTableview.getSelectionModel().getSelectedItem();
         if (stuff != null) {
             List<Integer> songIds = pdi.showallsongsfromPlaylist(stuff);
 
             for (int songId : songIds) {
-                String ass = sdi.showSongById(songId);
+                String ass = sdi.showSongById(songIds);
                 System.out.println(ass);
+
                 System.out.println(songId);
                 // Do something else with the songId if needed
             }
@@ -205,13 +214,9 @@ public class MytunesController {
             System.out.println("Please select a playlist.");
         }
 
-
-
-    }
-    void getplaylistname(){
+         */
 
     }
-
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
         Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
