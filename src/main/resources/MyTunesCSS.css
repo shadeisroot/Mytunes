@@ -46,6 +46,7 @@
     -fx-background-color:#0F1F30;
     -fx-border-width: 0;
     -fx-font-weight: bold;
+    -fx-cursor: hand;
 }
 
 .table-view .table-cell{
