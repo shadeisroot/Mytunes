@@ -4,6 +4,10 @@
     -fx-text-alignment: center;
 }
 
+.Volume{
+    -fx-cursor: hand;
+}
+
 .VolumeSlider .track, .SongSlider . track{
     /*-fx-background-color:#6FBFA2;*/
     -fx-background-color:#0C1928;
@@ -11,6 +15,7 @@
 
 .VolumeSlider .thumb, .SongSlider .thumb{
     -fx-background-color:#6FBFA2;
+    -fx-cursor: hand;
 }
 
 .VolumeSlider .thumb:hover, .SongSlider .thumb:hover{
@@ -26,7 +31,7 @@
 
 }
 
-.PlaylistTableview, .SongsOnPlaylistTableview, .SongsOnPlaylistListview{
+.PlaylistTableview, .SongsOnPlaylistTableview, .SongsTableview{
     -fx-background-color:#162840;
     -fx-text-fill: white;
     -fx-border-color:#0F1F30;
@@ -47,6 +52,7 @@
     -fx-border-color: transparent;
     -fx-text-fill: white;
     -fx-font-weight: bold;
+    -fx-cursor: hand;
 }
 
 .table-view .scroll-bar:horizontal{
@@ -55,10 +61,7 @@
 
 .table-view .virtual-flow .scroll-bar:horizontal .thumb{
     -fx-background-color:  linear-gradient(to right, #6FBFA2, #6FBFA2);
-}
-
-
-.table-view .increment-button ,.table-view .decrement-button {
+    -fx-cursor: hand;
 }
 
 .table-row-cell:selected, .table-row-cell:odd:selected {
@@ -84,11 +87,8 @@
     -fx-background-color:#162840;
 }
 
-.SongsTableview{
-    -fx-background-color:#162840;
-    -fx-text-fill: white;
-    -fx-border-color:#0F1F30;
-    -fx-border-width: 5px;
+.table-view .arrow {
+    -fx-background-color: white;
 }
 
 .NewPlaylistButton, .EditPlaylistButton, .DeletePlaylistButton, .DeleteSongsOnPlaylistButton,
@@ -97,6 +97,7 @@
     -fx-font-weight: bold;
     -fx-text-fill: white;
     -fx-background-radius: 10 0 10 0;
+    -fx-cursor: hand;
 }
 .NewPlaylistButton:hover, .EditPlaylistButton:hover, .DeletePlaylistButton:hover, .DeleteSongsOnPlaylistButton:hover,
 .NewSongButton:hover, .EditSongButton:hover, .DeleteSongButton:hover,.CloseButton:hover{
@@ -112,6 +113,7 @@
     -fx-pref-width: 40px !important;
     -fx-pref-height: 40px !important;
     -fx-background-color: #6FBFA2;
+    -fx-cursor: hand;
 
 }
 
