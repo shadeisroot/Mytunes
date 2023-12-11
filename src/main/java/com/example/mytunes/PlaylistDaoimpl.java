@@ -117,6 +117,7 @@ public class PlaylistDaoimpl implements PlaylistDao {
 
             resultSet.close();
             preparedStatement.close();
+
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
