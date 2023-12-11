@@ -21,7 +21,7 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <TextField layoutX="956.0" layoutY="42.0" styleClass="SearchField" stylesheets="@../../../MyTunesCSS.css" />
+      <TextField fx:id="filterTextField" layoutX="956.0" layoutY="42.0" styleClass="SearchField" stylesheets="@../../../MyTunesCSS.css" />
       <Label layoutX="914.0" layoutY="46.0" text="Filter:" />
       <HBox layoutX="31.0" layoutY="174.0" prefHeight="452.0" prefWidth="1141.0" spacing="20.0">
          <children>
