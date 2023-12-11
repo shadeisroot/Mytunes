@@ -1,6 +1,7 @@
 package com.example.mytunes;
 
 import com.mpatric.mp3agic.*;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -20,13 +21,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,6 +37,10 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class MytunesController {
+    public TableColumn<Playlist, Integer> numberColumn = new TableColumn<>("Number");
+    public TableColumn<Playlist, String> titleColumn = new TableColumn<>("Title");
+
+    public TableView<List<String>> SongsOnPlaylistTableview = new TableView<List<String>>();
     private String media_url;
     @FXML
     private Image mute, unmute, playit, pauseit, close, Search;
@@ -165,9 +167,12 @@ public class MytunesController {
         ColumnGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("Genre"));
         ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
 
+        numberColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(column.getTableView().getItems().indexOf(column.getValue()) + 1));
+
+
         PlaylistTableview.setItems(tabeldata);
         SongsTableview.setItems(SongTabledata);
-        SongsOnPlaylistListview.setItems(playlistsongdata);
+        SongsOnPlaylistTableview.setItems(playlistsongdata);
 
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
@@ -189,7 +194,6 @@ public class MytunesController {
         SongsTableview.getSelectionModel().select(0);
         PlaylistTableview.getSelectionModel().select(0);
         playlistsongdata.add(sdi.showSongById(pdi.showallsongsfromPlaylist(PlaylistTableview.getSelectionModel().getSelectedItem())));
-
 
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
@@ -462,6 +466,10 @@ public class MytunesController {
             media_url = selectedFile.toPath().toString();
             String filename = selectedFile.getName();
             mediaPath = media_url.substring(media_url.indexOf("src"));
+            if (mediaPath.contains("\\")) {
+                mediaPath = mediaPath.replaceAll("\\\\", "/");
+                System.out.println(mediaPath);
+            }
             try {
                 Mp3File mp3file = new Mp3File(mediaPath);
                 try {

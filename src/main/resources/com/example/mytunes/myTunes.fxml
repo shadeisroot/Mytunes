@@ -41,8 +41,8 @@
             </TableView>
             <TableView fx:id="SongsOnPlaylistTableview" prefHeight="200.0" prefWidth="300.0" styleClass="SongsOnPlaylistTableview" stylesheets="@../../../MyTunesCSS.css">
               <columns>
-                <TableColumn prefWidth="49.0" text="Nr." />
-                <TableColumn prefWidth="233.5" text="Titel" />
+                <TableColumn fx:id="numberColumn" prefWidth="41.0" text="Nr." />
+                <TableColumn fx:id="titleColumn" prefWidth="124.5" text="Titel" />
               </columns>
             </TableView>
             <Button fx:id="AddSongToPlaylistButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#AddSongToPlaylistButton" styleClass="AddSongsToPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
