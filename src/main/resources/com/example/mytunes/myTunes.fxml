@@ -13,7 +13,6 @@
          </image>
       </ImageView>
       <Button contentDisplay="GRAPHIC_ONLY" layoutX="1127.0" layoutY="38.0" mnemonicParsing="false" styleClass="SearchButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
-      <Button fx:id="FilterButton" contentDisplay="GRAPHIC_ONLY" layoutX="1127.0" layoutY="38.0" mnemonicParsing="false" onMouseClicked="#FilterButton" text="Filter">
          <graphic>
             <ImageView fx:id="FilterButtonImage" fitHeight="25.0" fitWidth="29.0" onMouseClicked="#Filter" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -21,10 +20,8 @@
                   <Image fx:id="Search" url="@../mytunes/Images/Search.png" />
                </image>
             </ImageView>
-         </graphic>
-      </Button>
+         </graphic></Button>
       <TextField layoutX="956.0" layoutY="42.0" styleClass="SearchField" stylesheets="@../../../MyTunesCSS.css" />
-      <TextField fx:id="filterTextField" layoutX="956.0" layoutY="42.0" />
       <Label layoutX="914.0" layoutY="46.0" text="Filter:" />
       <HBox layoutX="31.0" layoutY="174.0" prefHeight="452.0" prefWidth="1141.0" spacing="20.0">
          <children>
@@ -50,11 +47,7 @@
                 <TableColumn fx:id="ColumnTitel" minWidth="250.0" prefWidth="0.0" styleClass="SongsTableviewTitel" text="Titel" />
                   <TableColumn fx:id="ColumnArtist" minWidth="52.43658447265625" prefWidth="208.5" styleClass="SongsTableviewArtist" text="Artist" />
                   <TableColumn fx:id="ColumnGenre" minWidth="0.0" prefWidth="97.2022705078125" styleClass="SongsTableviewGenre" text="Genre" />
-                  <TableColumn fx:id="ColumnLength2" minWidth="52.43658447265625" prefWidth="92.647705078125" styleClass="SongsTableviewLength" text="Length" /
-                <TableColumn fx:id="ColumnTitel" minWidth="250.0" prefWidth="0.0" text="Titel" />
-                  <TableColumn fx:id="ColumnArtist" minWidth="52.43658447265625" prefWidth="208.5" text="Artist" />
-                  <TableColumn fx:id="ColumnGenre" minWidth="0.0" prefWidth="97.2022705078125" text="Genre" />
-                  <TableColumn fx:id="ColumnLength2" minWidth="52.43658447265625" prefWidth="92.647705078125" text="Length" />
+                  <TableColumn fx:id="ColumnLength2" minWidth="52.43658447265625" prefWidth="92.647705078125" styleClass="SongsTableviewLength" text="Length" />
               </columns>
             </TableView>
          </children>
