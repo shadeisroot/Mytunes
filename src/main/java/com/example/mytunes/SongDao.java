@@ -2,6 +2,8 @@ package com.example.mytunes;
 
 import javafx.collections.ObservableList;
 
+import java.util.List;
+
 public interface SongDao {
     public boolean saveSong(Song song);
 
@@ -10,9 +12,6 @@ public interface SongDao {
     void getAllSongs(ObservableList<Song> SongTabledata);
 
     void editSong(Song song);
-
-    ObservableList<String> getAllPlaylistSong(int playlistid);
-
-    String geturlfromtitle(String songtitel);
+    List<String> showSongById(List<Integer> song);
 
 }
