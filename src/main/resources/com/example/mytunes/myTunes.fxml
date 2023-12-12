@@ -32,19 +32,14 @@
       <Label layoutX="914.0" layoutY="46.0" text="Filter:" />
       <HBox layoutX="31.0" layoutY="174.0" prefHeight="452.0" prefWidth="1141.0" spacing="20.0">
          <children>
-            <TableView fx:id="PlaylistTableview" prefHeight="452.0" prefWidth="270.0" styleClass="PlaylistTableview" stylesheets="@../../../MyTunesCSS.css">
+            <TableView fx:id="PlaylistTableview" onMouseClicked="#playlistonmouseclicked" prefHeight="452.0" prefWidth="270.0" styleClass="PlaylistTableview" stylesheets="@../../../MyTunesCSS.css">
               <columns>
                 <TableColumn fx:id="ColumnName" prefWidth="126.35122489929199" styleClass="PlaylistTableviewName" text="Name" />
                 <TableColumn fx:id="ColumnSongs" prefWidth="53.40972900390625" styleClass="PlaylistTableviewSongs" text="Songs" />
                   <TableColumn fx:id="ColumnLength" prefWidth="56.09027099609375" styleClass="PlaylistTableviewLength" text="Length" />
               </columns>
             </TableView>
-            <TableView fx:id="SongsOnPlaylistTableview" prefHeight="200.0" prefWidth="200.0" styleClass="SongsOnPlaylistTableview" stylesheets="@../../../MyTunesCSS.css">
-              <columns>
-                <TableColumn fx:id="numberColumn" prefWidth="41.0" styleClass="SongsOnPlaylistTableview" text="Nr." />
-                <TableColumn fx:id="titleColumn" prefWidth="124.5" text="Titel" />
-              </columns>
-            </TableView>
+            <ListView fx:id="SongsOnPlaylistListView" onMouseClicked="#playlistsongclicked" prefHeight="200.0" prefWidth="270.0" />
             <Button fx:id="AddSongToPlaylistButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#AddSongToPlaylistButton" styleClass="AddSongsToPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
@@ -54,7 +49,7 @@
                   </ImageView>
                </graphic>
             </Button>
-            <TableView fx:id="SongsTableview" prefHeight="452.0" prefWidth="670.0" styleClass="SongsTableview" stylesheets="@../../../MyTunesCSS.css">
+            <TableView fx:id="SongsTableview" onMouseClicked="#Songstableviewclicked" prefHeight="452.0" prefWidth="670.0" styleClass="SongsTableview" stylesheets="@../../../MyTunesCSS.css">
               <columns>
                 <TableColumn fx:id="ColumnTitel" minWidth="250.0" prefWidth="0.0" styleClass="SongsTableviewTitel" text="Titel" />
                   <TableColumn fx:id="ColumnArtist" minWidth="52.43658447265625" prefWidth="208.5" styleClass="SongsTableviewArtist" text="Artist" />
