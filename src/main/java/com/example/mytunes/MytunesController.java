@@ -1,7 +1,9 @@
 package com.example.mytunes;
 
 import com.mpatric.mp3agic.*;
+import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -31,16 +33,14 @@ import java.io.IOException;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.util.EventListener;
 import java.util.List;
 import java.util.Objects;
 
 import java.util.Optional;
 
 public class MytunesController {
-    public TableColumn<Playlist, Integer> numberColumn = new TableColumn<>("Number");
-    public TableColumn<Playlist, String> titleColumn = new TableColumn<>("Title");
-
-    public TableView<List<String>> SongsOnPlaylistTableview = new TableView<List<String>>();
+    public ListView<String> SongsOnPlaylistListView = new ListView<>();
     private String media_url;
     @FXML
     private Image mute, unmute, playit, pauseit, close, Search;
@@ -82,6 +82,9 @@ public class MytunesController {
 
     @FXML
     private TableColumn<Song, String> ColumnTitel = new TableColumn();
+
+    private ObservableList<String> playlistNames;
+
 
     @FXML
     private ImageView FilterButtonImage = new ImageView();
@@ -134,10 +137,6 @@ public class MytunesController {
     private TextField filterTextField;
 
     @FXML
-    private ListView<List<String>> SongsOnPlaylistListview = new ListView<>();
-    private final ObservableList<List<String>> playlistsongdata = FXCollections.observableArrayList();
-
-    @FXML
     private TableView<Song> SongsTableview = new TableView<Song>();
 
     @FXML
@@ -145,6 +144,8 @@ public class MytunesController {
 
     @FXML
     private Slider VolumeSliderButton;
+
+    private final ObservableList<String> playlistsongtitelfromid = FXCollections.observableArrayList();
 
     private final ObservableList<Playlist> tabeldata = FXCollections.observableArrayList();
 
@@ -156,7 +157,6 @@ public class MytunesController {
     public void initialize() {
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
-        SongsOnPlaylistListview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
@@ -167,15 +167,15 @@ public class MytunesController {
         ColumnGenre.setCellValueFactory(new PropertyValueFactory<Song, String>("Genre"));
         ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
 
-        numberColumn.setCellValueFactory(column -> new ReadOnlyObjectWrapper<>(column.getTableView().getItems().indexOf(column.getValue()) + 1));
 
 
         PlaylistTableview.setItems(tabeldata);
         SongsTableview.setItems(SongTabledata);
-        SongsOnPlaylistTableview.setItems(playlistsongdata);
+
 
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
+
 
 
         ColumnName.setSortType(TableColumn.SortType.ASCENDING);
@@ -193,7 +193,6 @@ public class MytunesController {
 
         SongsTableview.getSelectionModel().select(0);
         PlaylistTableview.getSelectionModel().select(0);
-        playlistsongdata.add(sdi.showSongById(pdi.showallsongsfromPlaylist(PlaylistTableview.getSelectionModel().getSelectedItem())));
 
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
@@ -201,24 +200,9 @@ public class MytunesController {
             filterSongs(newValue);
         });
 
-        /*
 
-        Playlist stuff = PlaylistTableview.getSelectionModel().getSelectedItem();
-        if (stuff != null) {
-            List<Integer> songIds = pdi.showallsongsfromPlaylist(stuff);
-
-            for (int songId : songIds) {
-                String ass = sdi.showSongById(songIds);
-                System.out.println(ass);
-
-                System.out.println(songId);
-                // Do something else with the songId if needed
-            }
-        } else {
-            System.out.println("Please select a playlist.");
-        }
-
-         */
+        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+        SongsOnPlaylistListView.setItems(playlistNames);
 
     }
     @FXML
@@ -238,12 +222,24 @@ public class MytunesController {
     void Filter(MouseEvent event) {
 
     }
-
+    public String isselected (){
+        String selected = " ";
+        if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+            selected = "Songs";
+        } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+            selected = "Playlistsongs";
+        }
+        return selected;
+    }
 
     @FXML
     void PlayPauseButton(MouseEvent event) throws MalformedURLException {
         try {
-            path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+            if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+                path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+            } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+                path = (sdi.geturlfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+            }
             pathstring = path.replaceAll("\\s+" , "%20");
             sourcepath = player.getMediaPlayer().getMedia().getSource();
             sourcepath = sourcepath.substring(sourcepath.indexOf("src"));
@@ -260,7 +256,12 @@ public class MytunesController {
                     player.setPath(path);
                     player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                     player.getMediaPlayer().play();
-                    isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+                    if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+                        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+                    } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+                        isplayingText.setText(SongsOnPlaylistListView.getSelectionModel().getSelectedItem() + " " + "Is Playing");
+
+                    }
                     pauseplaybutton.setImage(pauseit);
                 }else{
                     player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
@@ -273,7 +274,12 @@ public class MytunesController {
                 player.setPath(path);
                 player.getMediaPlayer().volumeProperty().setValue(VolumeSliderButton.getValue());
                 player.getMediaPlayer().play();
-                isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+                if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+                    isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+                } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+                    isplayingText.setText(SongsOnPlaylistListView.getSelectionModel().getSelectedItem() + " " + "Is Playing");
+
+                }
                 pauseplaybutton.setImage(pauseit);
             }catch (NullPointerException ee){
             }
@@ -382,12 +388,26 @@ public class MytunesController {
 
     @FXML
     void Rewind (MouseEvent event) throws MalformedURLException {
-        SongsTableview.getSelectionModel().selectPrevious();
-        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+            SongsTableview.getSelectionModel().selectPrevious();
+        } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+            SongsOnPlaylistListView.getSelectionModel().selectPrevious();
+
+        }
+        if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+            path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+            path = (sdi.geturlfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+        }
         player.getMediaPlayer().stop();
         player.setPath(path);
         player.getMediaPlayer().play();
-        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+        if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+            isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+        } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+            isplayingText.setText(SongsOnPlaylistListView.getSelectionModel().getSelectedItem() + " " + "Is Playing");
+
+        }
 
     }
 
@@ -433,6 +453,8 @@ public class MytunesController {
                     SongsTableview.refresh();
                     SongsTableview.sort();
                     sdi.editSong(s);
+                    playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+                    SongsOnPlaylistListView.setItems(playlistNames);
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
@@ -603,12 +625,28 @@ public class MytunesController {
     }
 
     public void NextButtonclicked(MouseEvent event) throws MalformedURLException {
-        SongsTableview.getSelectionModel().selectNext();
-        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+
+        if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+            SongsTableview.getSelectionModel().selectNext();
+        } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+            SongsOnPlaylistListView.getSelectionModel().selectNext();
+
+        }
+        if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+            path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+        } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+            path = (sdi.geturlfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+        }
         player.getMediaPlayer().stop();
         player.setPath(path);
         player.getMediaPlayer().play();
-        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+
+        if (SongsTableview.getSelectionModel().getSelectedItem() != null){
+            isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+        } else if (SongsOnPlaylistListView.getSelectionModel().getSelectedItem() != null) {
+            isplayingText.setText(SongsOnPlaylistListView.getSelectionModel().getSelectedItem() + " " + "Is Playing");
+
+        }
 
     }
 
@@ -647,4 +685,44 @@ public class MytunesController {
         }
 
     }
-}
+
+    public void playlistonmouseclicked(MouseEvent event) {
+        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+        SongsOnPlaylistListView.setItems(playlistNames);
+    }
+
+    public void playlistsongclicked(MouseEvent event) throws MalformedURLException {
+        SongsTableview.getSelectionModel().clearSelection();
+        path = (sdi.geturlfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+        try {
+
+            if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && !Objects.equals(sourcepath, pathstring)) {
+                pauseplaybutton.setImage(playit);
+            }else if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)) {
+                pauseplaybutton.setImage(pauseit);
+            }
+
+            }catch(NullPointerException e){
+
+            }
+        }
+
+        public void Songstableviewclicked (MouseEvent event){
+            SongsOnPlaylistListView.getSelectionModel().clearSelection();
+            path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+
+            try {
+                if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && !Objects.equals(sourcepath, pathstring)) {
+                    pauseplaybutton.setImage(playit);
+                } else if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)) {
+                    pauseplaybutton.setImage(pauseit);
+                }
+            }catch(NullPointerException e){
+
+                }
+
+
+
+            }
+
+        }
