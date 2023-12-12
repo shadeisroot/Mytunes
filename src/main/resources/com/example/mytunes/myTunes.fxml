@@ -19,7 +19,7 @@
             <BoxBlur height="30.0" width="30.0" />
          </effect>
       </Rectangle>
-      <Button fx:id="FilterButton" contentDisplay="GRAPHIC_ONLY" onMouseClicked="#FilterButton" layoutX="1330.0" layoutY="41.0" mnemonicParsing="false" styleClass="SearchButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
+      <Button fx:id="FilterButton" contentDisplay="GRAPHIC_ONLY" layoutX="1330.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#FilterButton" styleClass="SearchButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fx:id="FilterButtonImage" fitHeight="25.0" fitWidth="29.0" onMouseClicked="#Filter" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -41,8 +41,8 @@
             </TableView>
             <TableView fx:id="SongsOnPlaylistTableview" prefHeight="200.0" prefWidth="300.0" styleClass="SongsOnPlaylistTableview" stylesheets="@../../../MyTunesCSS.css">
               <columns>
-                <TableColumn fx:id="numberColumn" prefWidth="41.0" text="Nr." />
-                <TableColumn fx:id="titleColumn" prefWidth="124.5" text="Titel" />
+                <TableColumn fx:id="numberColumn" prefWidth="50.0" text="Nr." />
+                <TableColumn fx:id="titleColumn" prefWidth="230.5" text="Titel" />
               </columns>
             </TableView>
             <Button fx:id="AddSongToPlaylistButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#AddSongToPlaylistButton" styleClass="AddSongsToPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
