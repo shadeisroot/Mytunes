@@ -57,33 +57,34 @@ public class PlaylistDaoimpl implements PlaylistDao {
 
     @Override
     public void editPlaylist(Playlist playlist) {
-        try{
+        try {
             Statement database = con.createStatement();
             String sql = "UPDATE Playlist SET name='"
                     + playlist.getName() + "' WHERE Id='" + playlist.getId() + "'";
             database.executeUpdate(sql);
-        } catch (SQLException e){
-            System.err.println("Opdatering lykkedes ikke: "+e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Opdatering lykkedes ikke: " + e.getMessage());
         }
 
     }
 
     public boolean newPlaylist(Playlist playlist) {
-        try{
+        try {
             Statement database = con.createStatement();
             String sql = "INSERT INTO Playlist (Name, Songs, Length) VALUES "
-                    + "('"+playlist.getName()
-                    + "', '0', '0.0')";;
+                    + "('" + playlist.getName()
+                    + "', '0', '0.0')";
+            ;
             database.executeUpdate(sql);
             return true;
-        } catch (SQLException e){
+        } catch (SQLException e) {
             System.err.println("Kan ikke indsætte playlisten");
             return false;
         }
 
     }
 
-    public void addtoplaylistsong(Playlist playlist, Song song){
+    public void addtoplaylistsong(Playlist playlist, Song song) {
 
         try {
             PreparedStatement preparedStatement = con.prepareStatement(
@@ -98,31 +99,4 @@ public class PlaylistDaoimpl implements PlaylistDao {
             // Handle the exception according to your application's error handling strategy
         }
     }
-    public List<Integer> showallsongsfromPlaylist(Playlist playlist){
-        List<Integer> songIds = new ArrayList<>();
-        try {
-             PreparedStatement preparedStatement = con.prepareStatement(
-                    "SELECT SongId FROM dbo.PlaylistSongs WHERE PlaylistId = ?"
-            );
-
-            preparedStatement.setInt(1, playlist.getId());
-
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int songId = resultSet.getInt("SongId");
-                songIds.add(songId);
-            }
-
-            resultSet.close();
-            preparedStatement.close();
-
-        }catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        //for (int songId : songIds) {
-           // System.out.println(songId);
-        return songIds;
-        }
-    }
+}

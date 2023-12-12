@@ -1,10 +1,9 @@
 package com.example.mytunes;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class SongDaoimpl implements SongDao {
     private Connection con;
@@ -87,32 +86,58 @@ public class SongDaoimpl implements SongDao {
         }
 
     }
-
-    public List<String> showSongById(List<Integer> songId) {
-        String songTitle = null;
-        List<String> songidTitle = new ArrayList<>();
+    public ObservableList<String> getAllPlaylistSong(int playlistId) {
+        ObservableList<String> playlistNameFromId = FXCollections.observableArrayList();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(
-                    "SELECT Titel FROM dbo.Songs WHERE Id = ?"
+                    "SELECT SongId FROM PlaylistSongs WHERE PlaylistId = ?"
             );
+            preparedStatement.setInt(1, playlistId);
+            ResultSet rs = preparedStatement.executeQuery();
 
+            while (rs.next()) {
+                int songId = rs.getInt("SongId");
+                PreparedStatement preparedStatement2 = con.prepareStatement(
+                        "SELECT Titel FROM Songs WHERE Id = ?"
+                );
+                preparedStatement2.setInt(1, songId);
+                ResultSet rs2 = preparedStatement2.executeQuery();
 
-            for (int sid : songId) {
-                preparedStatement.setInt(1, sid);
-                ResultSet resultSet = preparedStatement.executeQuery(); // Execute the query here
-
-
-                if (resultSet.next()) {
-                    songTitle = resultSet.getString("Titel");
-                    songidTitle.add(songTitle);
-
-                    resultSet.close();
+                if (rs2.next()) {
+                    String title = rs2.getString("Titel");
+                    playlistNameFromId.add(title);
                 }
+                rs2.close();
+                preparedStatement2.close();
             }
-                preparedStatement.close();
-            } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            rs.close();
+            preparedStatement.close();
+
+            System.out.println(playlistNameFromId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
-        return songidTitle;
-        }
+        return playlistNameFromId;
     }
+
+    public String geturlfromtitle(String songtitel){
+        String url = null;
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT Url FROM Songs WHERE Titel = ?");
+            preparedStatement.setString(1, songtitel);
+            ResultSet resultSet = preparedStatement.executeQuery(); // Use executeQuery for SELECT
+
+            if (resultSet.next()) {
+                url = resultSet.getString("Url"); // Get the URL value from the result set
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(url);
+        return url;
+    }
+
+}
