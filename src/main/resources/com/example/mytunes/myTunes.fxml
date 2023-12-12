@@ -7,9 +7,9 @@
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mytunes.MytunesController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.mytunes.MytunesController">
    <children>
-      <ImageView fitHeight="700.0" fitWidth="1200.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="700.0" fitWidth="1400.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@Images/Background.png" />
          </image>
@@ -19,7 +19,7 @@
             <BoxBlur height="30.0" width="30.0" />
          </effect>
       </Rectangle>
-      <Button contentDisplay="GRAPHIC_ONLY" layoutX="1127.0" layoutY="38.0" mnemonicParsing="false" styleClass="SearchButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
+      <Button fx:id="FilterButton" contentDisplay="GRAPHIC_ONLY" layoutX="1330.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#FilterButton" styleClass="SearchButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fx:id="FilterButtonImage" fitHeight="25.0" fitWidth="29.0" onMouseClicked="#Filter" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -28,18 +28,24 @@
                </image>
             </ImageView>
          </graphic></Button>
-      <TextField fx:id="filterTextField" layoutX="956.0" layoutY="42.0" styleClass="SearchField" stylesheets="@../../../MyTunesCSS.css" />
+      <TextField fx:id="filterTextField" layoutX="1159.0" layoutY="45.0" styleClass="SearchField" stylesheets="@../../../MyTunesCSS.css" />
       <Label layoutX="914.0" layoutY="46.0" text="Filter:" />
-      <HBox layoutX="31.0" layoutY="174.0" prefHeight="452.0" prefWidth="1141.0" spacing="20.0">
+      <HBox layoutX="31.0" layoutY="174.0" prefHeight="452.0" prefWidth="1341.0" spacing="20.0">
          <children>
-            <TableView fx:id="PlaylistTableview" onMouseClicked="#playlistonmouseclicked" prefHeight="452.0" prefWidth="270.0" styleClass="PlaylistTableview" stylesheets="@../../../MyTunesCSS.css">
+            <TableView fx:id="PlaylistTableview" onMouseClicked="#playlistonmouseclicked" prefHeight="452.0" prefWidth="300.0" styleClass="PlaylistTableview" stylesheets="@../../../MyTunesCSS.css">
+           
               <columns>
-                <TableColumn fx:id="ColumnName" prefWidth="126.35122489929199" styleClass="PlaylistTableviewName" text="Name" />
-                <TableColumn fx:id="ColumnSongs" prefWidth="53.40972900390625" styleClass="PlaylistTableviewSongs" text="Songs" />
-                  <TableColumn fx:id="ColumnLength" prefWidth="56.09027099609375" styleClass="PlaylistTableviewLength" text="Length" />
+                <TableColumn fx:id="ColumnName" prefWidth="165.5" styleClass="PlaylistTableviewName" text="Name" />
+                <TableColumn fx:id="ColumnSongs" prefWidth="57.5" styleClass="PlaylistTableviewSongs" text="Songs" />
+                  <TableColumn fx:id="ColumnLength" prefWidth="55.5" styleClass="PlaylistTableviewLength" text="Length" />
               </columns>
             </TableView>
-            <ListView fx:id="SongsOnPlaylistListView" onMouseClicked="#playlistsongclicked" prefHeight="200.0" prefWidth="270.0" />
+            <ListView fx:id="SongsOnPlaylistListView" onMouseClicked="#playlistsongclicked" prefHeight="200.0" prefWidth="300.0" stylesheets="@../../../MyTunesCSS.css"/>
+              <columns>
+                <TableColumn fx:id="numberColumn" prefWidth="50.0" text="Nr." />
+                <TableColumn fx:id="titleColumn" prefWidth="230.5" text="Titel" />
+              </columns>
+            </TableView>
             <Button fx:id="AddSongToPlaylistButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#AddSongToPlaylistButton" styleClass="AddSongsToPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
                <graphic>
                   <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
@@ -59,14 +65,14 @@
             </TableView>
          </children>
       </HBox>
-      <Button fx:id="PlaylistNewButton" layoutX="32.0" layoutY="647.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlaylistNewButton" styleClass="NewPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="New" />
-      <Button fx:id="PlaylistEditButton" layoutX="113.0" layoutY="647.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlaylistEditButton" styleClass="EditPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Edit" />
-      <Button fx:id="PlaylistDeleteButton" layoutX="193.0" layoutY="647.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlaylistDeleteButton" styleClass="DeletePlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
-      <Button fx:id="SongNewButton" layoutX="538.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongNewButton" styleClass="NewSongButton" stylesheets="@../../../MyTunesCSS.css" text="New" />
-      <Button fx:id="SongEditButton" layoutX="619.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongEditButton" styleClass="EditSongButton" stylesheets="@../../../MyTunesCSS.css" text="Edit" />
-      <Button fx:id="SongDeleteButton" layoutX="699.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongDeleteButton" styleClass="DeleteSongButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
+      <Button fx:id="PlaylistNewButton" layoutX="62.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlaylistNewButton" styleClass="NewPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="New" />
+      <Button fx:id="PlaylistEditButton" layoutX="143.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlaylistEditButton" styleClass="EditPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Edit" />
+      <Button fx:id="PlaylistDeleteButton" layoutX="223.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#PlaylistDeleteButton" styleClass="DeletePlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
+      <Button fx:id="SongNewButton" layoutX="725.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongNewButton" styleClass="NewSongButton" stylesheets="@../../../MyTunesCSS.css" text="New" />
+      <Button fx:id="SongEditButton" layoutX="806.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongEditButton" styleClass="EditSongButton" stylesheets="@../../../MyTunesCSS.css" text="Edit" />
+      <Button fx:id="SongDeleteButton" layoutX="886.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongDeleteButton" styleClass="DeleteSongButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
       <Slider fx:id="VolumeSliderButton" layoutX="100.0" layoutY="119.0" onMouseDragged="#VolumeSlider" styleClass="VolumeSlider" stylesheets="@../../../MyTunesCSS.css" />
-      <ImageView fx:id="VolumeButton" fitHeight="32.0" fitWidth="40.0" layoutX="56.0" layoutY="111.0" onMouseClicked="#Volumebuttonclicked" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="VolumeButton" fitHeight="32.0" fitWidth="40.0" layoutX="56.0" layoutY="111.0" onMouseClicked="#Volumebuttonclicked" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;" styleClass="Volume">
          <image>
             <Image fx:id="unmute" url="@../mytunes/Images/mute.png" />
             <Image fx:id="mute" url="@../mytunes/Images/Sound.png" />
@@ -100,7 +106,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="SongOnPlaylistUpButton" contentDisplay="GRAPHIC_ONLY" layoutX="290.0" layoutY="643.0" mnemonicParsing="false" styleClass="MoveUpButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
+      <Button fx:id="SongOnPlaylistUpButton" contentDisplay="GRAPHIC_ONLY" layoutX="404.0" layoutY="640.0" mnemonicParsing="false" styleClass="MoveUpButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="29.0" onMouseClicked="#SongOnPlaylistUpButton" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -109,7 +115,7 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="SongOnPlaylistDownButton" contentDisplay="GRAPHIC_ONLY" layoutX="338.0" layoutY="643.0" mnemonicParsing="false" styleClass="MoveDownButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
+      <Button fx:id="SongOnPlaylistDownButton" contentDisplay="GRAPHIC_ONLY" layoutX="452.0" layoutY="640.0" mnemonicParsing="false" styleClass="MoveDownButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="29.0" onMouseClicked="#SongOnPlaylistDownButton" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -118,13 +124,13 @@
             </ImageView>
          </graphic>
       </Button>
-      <Button fx:id="SongOnPlaylistDeleteButton" layoutX="387.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistDeleteButton" styleClass="DeleteSongsOnPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
-      <Button fx:id="CloseButton" layoutX="1103.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#CloseButton" styleClass="CloseButton" stylesheets="@../../../MyTunesCSS.css" text="Close" />
-      <Label fx:id="isplayingText" layoutX="500.0" layoutY="30.0" prefHeight="44.0" prefWidth="283.0" styleClass="IsPlaying" stylesheets="@../../../MyTunesCSS.css" text="Label" textAlignment="CENTER">
+      <Button fx:id="SongOnPlaylistDeleteButton" layoutX="501.0" layoutY="643.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistDeleteButton" styleClass="DeleteSongsOnPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Delete" />
+      <Button fx:id="CloseButton" layoutX="1302.0" layoutY="646.0" minWidth="70.0" mnemonicParsing="false" onMouseClicked="#CloseButton" styleClass="CloseButton" stylesheets="@../../../MyTunesCSS.css" text="Close" />
+      <Label fx:id="isplayingText" alignment="CENTER" layoutX="332.0" layoutY="24.0" prefHeight="44.0" prefWidth="783.0" styleClass="IsPlaying" stylesheets="@../../../MyTunesCSS.css" text="Label" textAlignment="CENTER">
          <font>
             <Font size="36.0" />
          </font>
       </Label>
-      <Slider layoutX="369.0" layoutY="116.0" prefHeight="15.0" prefWidth="501.0" styleClass="SongSlider" stylesheets="@../../../MyTunesCSS.css" />
+      <Slider layoutX="371.0" layoutY="116.0" prefHeight="15.0" prefWidth="699.0" styleClass="SongSlider" stylesheets="@../../../MyTunesCSS.css" />
    </children>
 </Pane>
