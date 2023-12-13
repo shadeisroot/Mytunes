@@ -47,6 +47,10 @@ public class PlaylistDaoimpl implements PlaylistDao {
             Statement database = con.createStatement();
             String sql = "DELETE FROM Playlist WHERE name = '" + playlist.getName() + "'";
             database.executeUpdate(sql);
+
+            String sql2 = "DELETE FROM PlaylistSongs WHERE PlaylistId = '" + playlist.getId() + "'";
+            database.executeUpdate(sql2);
+
             return true;
         } catch (SQLException e) {
             System.err.println("Sletning lykkedes ikke" + e.getMessage());

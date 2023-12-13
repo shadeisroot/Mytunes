@@ -136,8 +136,38 @@ public class SongDaoimpl implements SongDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(url);
         return url;
+    }
+
+    public void deleteplaylistsong(int id) {
+        try {
+            PreparedStatement ps = con.prepareStatement("DELETE FROM PlaylistSongs WHERE SongId = ? ");
+            ps.setInt(1, id);
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    public int getidfromtitle(String title){
+        int id = 0;
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT Id FROM Songs WHERE Titel = ?");
+            ps.setString(1, title);
+            ResultSet resultSet = ps.executeQuery(); // Use executeQuery for SELECT
+
+            if (resultSet.next()) {
+                id = resultSet.getInt("id"); // Get the URL value from the result set
+            }
+
+            resultSet.close();
+            ps.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return id;
     }
 
 }
