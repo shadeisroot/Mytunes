@@ -329,7 +329,7 @@ public class MytunesController {
         if (p != null) {
             Dialog<ButtonType> dialogvindue = new Dialog();
             dialogvindue.setTitle("Edit playlist");
-            dialogvindue.setHeaderText("Edit name on playlist");
+            dialogvindue.setHeaderText("Edit name on playlist");;
             ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
             dialogvindue.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
             TextField name = new TextField(p.getName());
