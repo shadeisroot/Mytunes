@@ -31,7 +31,9 @@
 
 }
 
-.PlaylistTableview, .SongsOnPlaylistTableview, .SongsTableview{
+
+
+.PlaylistTableview, .SongsOnPlaylistTableview, .SongsTableview, .SongsOnPlaylistListview{
     -fx-background-color:#162840;
     -fx-text-fill: white;
     -fx-border-color:#0F1F30;
@@ -49,43 +51,49 @@
     -fx-cursor: hand;
 }
 
-.table-view .table-cell{
+.table-view .table-cell, .list-view .list-cell{
     -fx-border-color: transparent;
     -fx-text-fill: white;
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
 
-.table-view .scroll-bar:horizontal{
+.table-view .scroll-bar:horizontal, .list-view .scroll-bar:horizontal{
     -fx-background-color:#0F1F30;
 }
 
-.table-view .virtual-flow .scroll-bar:horizontal .thumb{
+.table-view .virtual-flow .scroll-bar:horizontal .thumb, .list-view .virtual-flow .scroll-bar:horizontal .thumb{
     -fx-background-color:  linear-gradient(to right, #6FBFA2, #6FBFA2);
     -fx-cursor: hand;
 }
 
-.table-row-cell:selected, .table-row-cell:odd:selected {
+.table-row-cell:selected, .table-row-cell:odd:selected, .list-cell:selected, .list-cell:odd:selected {
     -fx-background-color: #6FBFA2;
     -fx-border-color: none;
     -fx-border-width: 0;
 }
-.table-row-cell:hover,.table-row-cell:odd:hover  {
+.table-row-cell:hover,.table-row-cell:odd:hover, .list-cell:hover, .list-cell:odd:hover  {
     -fx-background-color: #6FBFA2;
 }
 
-.table-row-cell{
+.table-row-cell {
     -fx-background-color: #0F3A55;
     -fx-text-fill: white !important;
     -fx-border-width: 0;
 }
 
-.table-column-cell{
+.list-cell{
+    -fx-text-fill: white !important;
     -fx-border-width: 0;
+    -fx-background-color:#162840;
 }
 
-.table-row-cell:odd{
+.table-row-cell:odd {
     -fx-background-color:#162840;
+}
+
+.list-cell:odd{
+    -fx-background-color: #0F3A55;
 }
 
 .table-view .arrow {
