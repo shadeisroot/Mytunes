@@ -40,7 +40,7 @@
                <TableColumn fx:id="ColumnLength" prefWidth="55.5" styleClass="PlaylistTableviewLength" text="Length" />
             </columns>
          </TableView>
-         <ListView fx:id="SongsOnPlaylistListView" onMouseClicked="#playlistsongclicked" prefHeight="200.0" prefWidth="300.0" stylesheets="@../../../MyTunesCSS.css"/>
+         <ListView fx:id="SongsOnPlaylistListView" onMouseClicked="#playlistsongclicked" prefHeight="200.0" prefWidth="300.0" stylesheets="@../../../MyTunesCSS.css" />
       <Button fx:id="AddSongToPlaylistButton" contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onMouseClicked="#AddSongToPlaylistButton" styleClass="AddSongsToPlaylistButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
          <graphic>
             <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
@@ -126,6 +126,7 @@
    <Font size="36.0" />
 </font>
 </Label>
-<Slider layoutX="371.0" layoutY="116.0" prefHeight="15.0" prefWidth="699.0" styleClass="SongSlider" stylesheets="@../../../MyTunesCSS.css" />
+<Slider fx:id="PlayerDuration" layoutX="371.0" layoutY="116.0" prefHeight="15.0" prefWidth="699.0" styleClass="SongSlider" stylesheets="@../../../MyTunesCSS.css" />
+      <Label fx:id="DurationLabel" layoutX="1070.0" layoutY="115.0" text="Label" />
         </children>
         </Pane>

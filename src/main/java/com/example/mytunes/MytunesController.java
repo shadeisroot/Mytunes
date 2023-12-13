@@ -4,6 +4,8 @@ import com.mpatric.mp3agic.*;
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -33,6 +35,7 @@ import java.io.IOException;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
+import java.time.Duration;
 import java.util.EventListener;
 import java.util.List;
 import java.util.Objects;
@@ -41,6 +44,8 @@ import java.util.Optional;
 
 public class MytunesController {
     public ListView<String> SongsOnPlaylistListView = new ListView<>();
+    public Slider PlayerDuration;
+    public Label DurationLabel;
     private String media_url;
     @FXML
     private Image mute, unmute, playit, pauseit, close, Search;
@@ -168,14 +173,12 @@ public class MytunesController {
         ColumnLength2.setCellValueFactory(new PropertyValueFactory<Song, String>("Length"));
 
 
-
         PlaylistTableview.setItems(tabeldata);
         SongsTableview.setItems(SongTabledata);
 
 
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
-
 
 
         ColumnName.setSortType(TableColumn.SortType.ASCENDING);
@@ -191,6 +194,10 @@ public class MytunesController {
         VolumeSliderButton.setBlockIncrement(0.1);
         VolumeSliderButton.setValue(0.5);
 
+        PlayerDuration = new Slider();
+        PlayerDuration.setMin(0);
+        PlayerDuration.setMax(100);
+
         SongsTableview.getSelectionModel().select(0);
         PlaylistTableview.getSelectionModel().select(0);
 
@@ -203,8 +210,15 @@ public class MytunesController {
 
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         SongsOnPlaylistListView.setItems(playlistNames);
-
     }
+
+    private void updateLabel(Duration duration) {
+        int minutes = (int) duration.toMinutes();
+        int seconds = (int) (duration.toSeconds() - (minutes * 60));
+        String time = String.format("Time: %02d:%02d", minutes, seconds);
+        DurationLabel.setText(time);
+    }
+
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
         Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
@@ -300,6 +314,10 @@ public class MytunesController {
             if (alert.getResult() == ButtonType.YES) {
                 if (pdi.deletePlaylist(p)){
                     tabeldata.remove(p);
+                    PlaylistTableview.refresh();
+                    playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+                    SongsOnPlaylistListView.setItems(playlistNames);
+
                 }
             }
         }
@@ -596,10 +614,16 @@ public class MytunesController {
 
     @FXML
     void SongOnPlaylistDeleteButton (MouseEvent event){
-        sdi.deleteplaylistsong(sdi.getidfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+        String pn = SongsOnPlaylistListView.getSelectionModel().getSelectedItem();
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + pn + " ?", ButtonType.YES, ButtonType.NO);
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.YES) {
+            sdi.deleteplaylistsong(sdi.getidfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+        }
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         SongsOnPlaylistListView.setItems(playlistNames);
-
     }
 
 
