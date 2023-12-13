@@ -210,6 +210,8 @@ public class MytunesController {
         Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
         Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
         pdi.addtoplaylistsong(plst, sngs);
+        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+        SongsOnPlaylistListView.setItems(playlistNames);
     }
 
     @FXML
@@ -594,6 +596,9 @@ public class MytunesController {
 
     @FXML
     void SongOnPlaylistDeleteButton (MouseEvent event){
+        sdi.deleteplaylistsong(sdi.getidfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+        SongsOnPlaylistListView.setItems(playlistNames);
 
     }
 

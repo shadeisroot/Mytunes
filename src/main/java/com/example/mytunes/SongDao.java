@@ -15,4 +15,8 @@ public interface SongDao {
 
     String geturlfromtitle(String songtitel);
 
+    void deleteplaylistsong(int id);
+
+    int getidfromtitle(String title);
+
 }
