@@ -171,26 +171,3 @@
 .Dialog *.header-panel, .Alert *.header-panel{
     -fx-background-color: #162840;
 }
-
-.NewSongDialog {
-    -fx-background-color: #162840;
-}
-
-.NewSongDialog .label {
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-}
-
-.NewSongDialog .text-field {
-    -fx-background-color:#0C1928;
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-}
-
-.NewSongDialog .button {
-    -fx-background-color: #6FBFA2;
-    -fx-font-weight: bold;
-    -fx-text-fill: white;
-    -fx-background-radius: 10 0 10 0;
-    -fx-cursor: hand;
-}

@@ -550,10 +550,8 @@ public class MytunesController {
                         Stage editStage = new Stage();
                         editStage.initModality(Modality.APPLICATION_MODAL);
                         editStage.setTitle("Add Song");
-                        editStage.getScene().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
 
                         GridPane dialogLayout = new GridPane();
-                        dialogLayout.getStyleClass().add("NewSongDialog");
                         dialogLayout.setHgap(10);
                         dialogLayout.setVgap(10);
                         dialogLayout.setPadding(new Insets(10));
