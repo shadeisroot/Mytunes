@@ -212,11 +212,13 @@ public class MytunesController {
 
 
 
-
-        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
-        SongsOnPlaylistListView.setItems(playlistNames);
+        try {
+            playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+            SongsOnPlaylistListView.setItems(playlistNames);
+        } catch (NullPointerException e){
 
         //pdi.updatesongCount(sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId()).size(), PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+        }
 
     }
 
@@ -316,6 +318,8 @@ public class MytunesController {
             Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
             String pn = PlaylistTableview.getSelectionModel().getSelectedItem().getName();
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + pn + " ?", ButtonType.YES, ButtonType.NO);
+            alert.getDialogPane().getStyleClass().add("Alert");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
             alert.showAndWait();
 
         if (p != null){
@@ -337,7 +341,9 @@ public class MytunesController {
         if (p != null) {
             Dialog<ButtonType> dialogvindue = new Dialog();
             dialogvindue.setTitle("Edit playlist");
-            dialogvindue.setHeaderText("Edit name on playlist");;
+            dialogvindue.setHeaderText("Edit name on playlist");
+            dialogvindue.getDialogPane().getStyleClass().add("Dialog");
+            dialogvindue.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
             ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
             dialogvindue.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
             TextField name = new TextField(p.getName());
@@ -359,6 +365,8 @@ public class MytunesController {
                 } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
+                alert.getDialogPane().getStyleClass().add("Alert");
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
                 alert.setHeaderText(null);
                 alert.setContentText("You already have a playlist with the name: " + enteredName + "\nThe changes has failed.");
                 alert.showAndWait();
@@ -375,6 +383,8 @@ public class MytunesController {
         Dialog<ButtonType> dialogvindue = new Dialog();
         dialogvindue.setTitle("New playlist");
         dialogvindue.setHeaderText("Add new playlist");
+        dialogvindue.getDialogPane().getStyleClass().add("Dialog");
+        dialogvindue.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
         ButtonType addButton = new ButtonType("Add", ButtonBar.ButtonData.OK_DONE);
         dialogvindue.getDialogPane().getButtonTypes().addAll(addButton, ButtonType.CANCEL);
         TextField name = new TextField();
@@ -398,6 +408,8 @@ public class MytunesController {
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
+                alert.getDialogPane().getStyleClass().add("Alert");
+                alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
                 alert.setHeaderText(null);
                 alert.setContentText("You already have a playlist with the name: " + enteredName);
                 alert.showAndWait();
@@ -444,6 +456,8 @@ public class MytunesController {
         Song song = SongsTableview.getSelectionModel().getSelectedItem();
         String sn = SongsTableview.getSelectionModel().getSelectedItem().getTitel();
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + sn + " ?", ButtonType.YES, ButtonType.NO);
+        alert.getDialogPane().getStyleClass().add("Alert");
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
         alert.showAndWait();
 
         if (song != null){
@@ -463,6 +477,8 @@ public class MytunesController {
             Dialog<ButtonType> dialogvindue = new Dialog();
             dialogvindue.setTitle("Edit song");
             dialogvindue.setHeaderText("Edit name on song");
+            dialogvindue.getDialogPane().getStyleClass().add("Dialog");
+            dialogvindue.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
             ButtonType saveButton = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
             dialogvindue.getDialogPane().getButtonTypes().addAll(saveButton, ButtonType.CANCEL);
             TextField name = new TextField(s.getTitel());
@@ -486,6 +502,8 @@ public class MytunesController {
                 } else {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Error");
+                    alert.getDialogPane().getStyleClass().add("Alert");
+                    alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
                     alert.setHeaderText(null);
                     alert.setContentText("You already have a song with the name: " + enteredTitel + "\nThe changes has failed.");
                     alert.showAndWait();
@@ -532,8 +550,10 @@ public class MytunesController {
                         Stage editStage = new Stage();
                         editStage.initModality(Modality.APPLICATION_MODAL);
                         editStage.setTitle("Add Song");
+                        editStage.getScene().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
 
                         GridPane dialogLayout = new GridPane();
+                        dialogLayout.getStyleClass().add("NewSongDialog");
                         dialogLayout.setHgap(10);
                         dialogLayout.setVgap(10);
                         dialogLayout.setPadding(new Insets(10));
@@ -625,6 +645,9 @@ public class MytunesController {
         String pn = SongsOnPlaylistListView.getSelectionModel().getSelectedItem();
 
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + pn + " ?", ButtonType.YES, ButtonType.NO);
+        alert.getDialogPane().getStyleClass().add("Alert");
+        alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
+
         alert.showAndWait();
 
         if (alert.getResult() == ButtonType.YES) {
