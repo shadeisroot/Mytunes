@@ -4,6 +4,11 @@
     -fx-text-alignment: center;
 }
 
+.Durration{
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
 .Volume{
     -fx-cursor: hand;
 }
