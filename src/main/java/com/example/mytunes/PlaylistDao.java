@@ -11,4 +11,6 @@ public interface PlaylistDao {
     boolean newPlaylist(Playlist playlist);
     void addtoplaylistsong(Playlist playlist, Song song);
 
+    //void updatesongCount(int songs, int id);
+
 }

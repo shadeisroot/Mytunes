@@ -29,6 +29,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;
@@ -165,6 +166,7 @@ public class MytunesController {
 
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
         ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
+
         ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
 
         ColumnTitel.setCellValueFactory(new PropertyValueFactory<Song, String>("Titel"));
@@ -179,6 +181,7 @@ public class MytunesController {
 
         pdi.getAllPlaylists(tabeldata);
         sdi.getAllSongs(SongTabledata);
+
 
 
         ColumnName.setSortType(TableColumn.SortType.ASCENDING);
@@ -208,8 +211,13 @@ public class MytunesController {
         });
 
 
+
+
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         SongsOnPlaylistListView.setItems(playlistNames);
+
+        //pdi.updatesongCount(sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId()).size(), PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+
     }
 
     private void updateLabel(Duration duration) {
@@ -362,7 +370,7 @@ public class MytunesController {
 
     @FXML
     void PlaylistNewButton (MouseEvent event){
-        Playlist p = new Playlist(0, "", 0,0.0);
+        Playlist p = new Playlist("", 0, 0.0,0);
 
         Dialog<ButtonType> dialogvindue = new Dialog();
         dialogvindue.setTitle("New playlist");

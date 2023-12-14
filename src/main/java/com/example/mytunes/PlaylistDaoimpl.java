@@ -28,11 +28,11 @@ public class PlaylistDaoimpl implements PlaylistDao {
             ResultSet rs = database.executeQuery(sql);
             while (rs.next()) {
                 String name = rs.getString("name");
-                Integer songs = Integer.valueOf(rs.getString("songs"));
-                Double length = Double.valueOf(rs.getString("length"));
-                int id = Integer.valueOf(rs.getString("id"));
+                Integer songs = rs.getInt("Songs");
+                Double length = rs.getDouble("length");
+                int id = rs.getInt("id");
 
-                Playlist playlist = new Playlist(id, name, songs, length);
+                Playlist playlist = new Playlist(name, songs, length, id);
                 tabeldata.add(playlist);
                 ++antal;
             }
@@ -103,4 +103,25 @@ public class PlaylistDaoimpl implements PlaylistDao {
             // Handle the exception according to your application's error handling strategy
         }
     }
+
+    //test
+    /*
+    public void updatesongCount(int songs, int id){
+
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "UPDATE Playlist SET Songs = ? WHERE id = ?"
+            );
+            preparedStatement.setInt(1, songs);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            // Handle the exception according to your application's error handling strategy
+        }
+
+    }
+
+     */
 }

@@ -15,11 +15,11 @@ public class Playlist {
 
     private SimpleIntegerProperty id;
 
-    public Playlist(Integer id ,String name, Integer songs, Double length) {
-        this.id = new SimpleIntegerProperty(id);
+    public Playlist(String name, Integer songs, Double length, Integer id) {
         this.name = new SimpleStringProperty(name);
         this.songs = new SimpleIntegerProperty(songs);
         this.length = new SimpleDoubleProperty(length);
+        this.id = new SimpleIntegerProperty(id);
     }
 
 
