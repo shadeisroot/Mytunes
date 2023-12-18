@@ -437,7 +437,6 @@ public class MytunesController {
                 PlaylistTableview.refresh();
                 pdi.newPlaylist(p);
                 pdi.getAllPlaylists(tabeldata);
-                PlaylistTableview.sort();
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Error");
@@ -497,6 +496,22 @@ public class MytunesController {
             if (alert.getResult() == ButtonType.YES) {
                 if (sdi.deleteSong(song)){
                     SongTabledata.remove(song);
+                    sdi.deleteplaylistsong(song.getId());
+                    playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+                    pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()),PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+                    int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
+                    playlistlengthfromid.setAll(pdi.getLength(PlaylistTableview.getSelectionModel().getSelectedItem().getId()));
+
+                    double sum = 0;
+                    for (double value : playlistlengthfromid) {
+                        sum += value;
+                    }
+                    pdi.updatelengthplaylist(sum, PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+
+                    pdi.getAllPlaylists(tabeldata);
+                    PlaylistTableview.getSelectionModel().select(privselect);
+                    SongsOnPlaylistListView.setItems(playlistNames);
+
                 }
             }
         }
