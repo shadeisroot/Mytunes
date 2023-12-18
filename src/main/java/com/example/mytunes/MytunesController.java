@@ -272,19 +272,19 @@ public class MytunesController {
             PlaylistTableview.getSelectionModel().select(privselect);
             SongsOnPlaylistListView.setItems(playlistNames);
         } else {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.getDialogPane().getStyleClass().add("Alert");
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
-        alert.setHeaderText(null);
-        alert.setContentText("You already have "  + chosenTitel + " on this playlist.");
-        alert.showAndWait();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.getDialogPane().getStyleClass().add("Alert");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
+            alert.setHeaderText(null);
+            alert.setContentText("You already have "  + chosenTitel + " on this playlist.");
+            alert.showAndWait();
         }
     }
 
-    private boolean isSongDuplicate(String newName) {
+    private boolean isSongDuplicate(String songTitle) {
         for (String existingSongName : SongsOnPlaylistListView.getItems()) {
-            if (existingSongName.equalsIgnoreCase(newName)) {
+            if (existingSongName.equalsIgnoreCase(songTitle)) {
                 return false;
             }
         }
