@@ -185,7 +185,6 @@ public class MytunesController {
         sdi.getAllSongs(SongTabledata);
 
 
-
         ColumnTitel.setSortType(TableColumn.SortType.ASCENDING);
         SongsTableview.getSortOrder().add(ColumnTitel);
         SongsTableview.sort();
@@ -203,11 +202,10 @@ public class MytunesController {
         PlaylistTableview.getSelectionModel().select(0);
 
 
-
         try {
             isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
-        } catch (NullPointerException e){
+        } catch (NullPointerException e) {
         }
 
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -218,15 +216,15 @@ public class MytunesController {
             playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
             SongsOnPlaylistListView.setItems(playlistNames);
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
 
         }
 
         //pdi.updatesongCount(sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId()).size(), PlaylistTableview.getSelectionModel().getSelectedItem().getId());
-        }
+    }
 
 
-    public void updateplaylistsongs(ObservableList<String> list){
+    public void updateplaylistsongs(ObservableList<String> list) {
         try {
             int playlistId = PlaylistTableview.getSelectionModel().getSelectedItem().getId();
             for (int i = 0; i < list.size(); i++) {
@@ -250,25 +248,47 @@ public class MytunesController {
     void AddSongToPlaylistButton(MouseEvent event) {
         Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
         Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
-        try {
-            pdi.addtoplaylistsong(plst, sngs);
-        }catch (NullPointerException e){
 
+        String chosenTitel = sngs.getTitel().trim();
+        if (isSongDuplicate(chosenTitel)) {
+
+            try {
+                pdi.addtoplaylistsong(plst, sngs);
+            } catch (NullPointerException e) {
+
+            }
+            playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+            pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()), PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+            int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
+            playlistlengthfromid.setAll(pdi.getLength(PlaylistTableview.getSelectionModel().getSelectedItem().getId()));
+
+            double sum = 0;
+            for (double value : playlistlengthfromid) {
+                sum += value;
+            }
+            pdi.updatelengthplaylist(sum, PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+
+            pdi.getAllPlaylists(tabeldata);
+            PlaylistTableview.getSelectionModel().select(privselect);
+            SongsOnPlaylistListView.setItems(playlistNames);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.getDialogPane().getStyleClass().add("Alert");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
+            alert.setHeaderText(null);
+            alert.setContentText("You already have "  + chosenTitel + " on this playlist.");
+            alert.showAndWait();
         }
-        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
-        pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()),PlaylistTableview.getSelectionModel().getSelectedItem().getId());
-        int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
-        playlistlengthfromid.setAll(pdi.getLength(PlaylistTableview.getSelectionModel().getSelectedItem().getId()));
+    }
 
-        double sum = 0;
-        for (double value : playlistlengthfromid) {
-            sum += value;
+    private boolean isSongDuplicate(String songTitle) {
+        for (String existingSongName : SongsOnPlaylistListView.getItems()) {
+            if (existingSongName.equalsIgnoreCase(songTitle)) {
+                return false;
+            }
         }
-        pdi.updatelengthplaylist(sum, PlaylistTableview.getSelectionModel().getSelectedItem().getId());
-
-        pdi.getAllPlaylists(tabeldata);
-        PlaylistTableview.getSelectionModel().select(privselect);
-        SongsOnPlaylistListView.setItems(playlistNames);
+        return true;
     }
 
     @FXML
