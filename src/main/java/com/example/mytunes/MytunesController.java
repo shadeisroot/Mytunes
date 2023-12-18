@@ -221,7 +221,6 @@ public class MytunesController {
         //pdi.updatesongCount(sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId()).size(), PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         }
 
-    }
 
     public void updateplaylistsongs(ObservableList<String> list){
         try {
