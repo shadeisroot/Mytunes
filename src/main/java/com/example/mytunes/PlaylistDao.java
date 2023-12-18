@@ -12,6 +12,7 @@ public interface PlaylistDao {
     void addtoplaylistsong(Playlist playlist, Song song);
     void updatePosition(int playlistId, int newPosition ,int songId);
 
-    //void updatesongCount(int songs, int id);
+    void updatesongCount(int songs, int id);
 
+   int countSongs(int id);
 }

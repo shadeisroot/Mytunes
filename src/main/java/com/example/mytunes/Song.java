@@ -9,7 +9,7 @@ public class Song {
     private SimpleStringProperty Artist;
     private SimpleStringProperty Genre;
     private SimpleStringProperty URL;
-    private double Length;
+    private SimpleDoubleProperty Length;
 
 
     private SimpleIntegerProperty id;
@@ -32,6 +32,7 @@ public class Song {
         this.Genre = new SimpleStringProperty(genre);
         this.URL = new SimpleStringProperty(url);
         this.id = new SimpleIntegerProperty(id);
+        this.Length = new SimpleDoubleProperty(length);
     }
 
     public int getId() {
@@ -46,7 +47,6 @@ public class Song {
         return id;
 
     }
-
 
 
     public String getTitel() {
@@ -86,12 +86,19 @@ public class Song {
         this.Genre.set(genre);
     }
 
+    public SimpleStringProperty titelProperty() {
+        return Titel;
+    }
+
     public double getLength() {
+        return Length.get();
+    }
+
+    public SimpleDoubleProperty lengthProperty() {
         return Length;
     }
 
     public void setLength(double length) {
-        Length = length;
+        this.Length.set(length);
     }
-
 }

@@ -120,12 +120,35 @@ public class PlaylistDaoimpl implements PlaylistDao {
     }
 
     //test
-    /*
-    public void updatesongCount(int songs, int id){
 
+    public int countSongs(int id){
+        int count = 0;
         try {
             PreparedStatement preparedStatement = con.prepareStatement(
-                    "UPDATE Playlist SET Songs = ? WHERE id = ?"
+                    "SELECT COUNT(*) FROM PlaylistSongs WHERE PlaylistId = ?"
+            );
+
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Retrieve the count from the result set
+            if (resultSet.next()) {
+                count = resultSet.getInt(1); // Getting the count from the first column
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(count);
+        return count;
+    }
+
+    public void updatesongCount(int songs, int id){
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "UPDATE Playlist SET Songs = ? WHERE Id = ?"
             );
             preparedStatement.setInt(1, songs);
             preparedStatement.setInt(2, id);
@@ -138,7 +161,7 @@ public class PlaylistDaoimpl implements PlaylistDao {
 
     }
 
-     */
+
 
 
 }

@@ -80,12 +80,14 @@ public class MytunesController {
     private TableColumn<Playlist, String> ColumnName = new TableColumn();
 
     @FXML
-    private TableColumn<Playlist, String> ColumnSongs = new TableColumn();
+    private TableColumn<Playlist, Integer> ColumnSongs = new TableColumn();
 
     @FXML
     private TableColumn<Song, String> ColumnTitel = new TableColumn();
 
     private ObservableList<String> playlistNames;
+
+    private double leangth;
 
 
     @FXML
@@ -161,7 +163,7 @@ public class MytunesController {
         SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
-        ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, String>("songs"));
+        ColumnSongs.setCellValueFactory(new PropertyValueFactory<Playlist, Integer>("songs"));
 
         ColumnLength.setCellValueFactory(new PropertyValueFactory<Playlist, String>("length"));
 
@@ -179,10 +181,6 @@ public class MytunesController {
         sdi.getAllSongs(SongTabledata);
 
 
-
-        ColumnName.setSortType(TableColumn.SortType.ASCENDING);
-        PlaylistTableview.getSortOrder().add(ColumnName);
-        PlaylistTableview.sort();
 
         ColumnTitel.setSortType(TableColumn.SortType.ASCENDING);
         SongsTableview.getSortOrder().add(ColumnTitel);
@@ -202,9 +200,11 @@ public class MytunesController {
 
 
 
+        try {
+            isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
-
-        isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
+        } catch (NullPointerException e){
+        }
 
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterSongs(newValue);
@@ -248,6 +248,10 @@ public class MytunesController {
         Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
         pdi.addtoplaylistsong(plst, sngs);
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+        pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()),PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+        int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
+        pdi.getAllPlaylists(tabeldata);
+        PlaylistTableview.getSelectionModel().select(privselect);
         SongsOnPlaylistListView.setItems(playlistNames);
     }
 
@@ -573,6 +577,7 @@ public class MytunesController {
                         TextField titleTextField = new TextField();
                         TextField genreTextField = new TextField();
                         TextField urlTextField = new TextField();
+                        TextField lengthTextField = new TextField();
 
                         dialogLayout.add(new Label("Artist:"), 0, 0);
                         dialogLayout.add(artisttTextField, 1, 0);
@@ -619,11 +624,38 @@ public class MytunesController {
                             urlTextField.setText(mediaPath);
                         }
 
+                        dialogLayout.add(new Label("Length:"), 0, 4);
+                        dialogLayout.add(lengthTextField, 1, 4);
+                        if (id3v1) {
+                            double durationInMinutes = (double) mp3file.getLengthInSeconds() / 60;
+                            leangth = Math.round(durationInMinutes * 100.0) / 100.0;;
+
+
+                            lengthTextField.setText(String.valueOf(leangth));
+                            id3v1 = false;
+                        } else if (id3v2) {
+                            double durationInMinutes = (double) mp3file.getLengthInSeconds() / 60;
+                            leangth = Math.round(durationInMinutes * 100.0) / 100.0;;
+
+
+                            lengthTextField.setText(String.valueOf(leangth));
+                            id3v2 = false;
+                        } else {
+                            double durationInMinutes = (double) mp3file.getLengthInSeconds() / 60;
+                            leangth = Math.round(durationInMinutes * 100.0) / 100.0;;
+
+
+                            lengthTextField.setText(String.valueOf(leangth));
+
+
+                        }
+
+
 
                         Button submitButton = new Button("Submit");
                         submitButton.setOnAction(e -> {
 
-                            Song ssong = new Song(0, titleTextField.getText(), artisttTextField.getText(), genreTextField.getText(), mp3file.getLengthInSeconds(), urlTextField.getText());
+                            Song ssong = new Song(0, titleTextField.getText(), artisttTextField.getText(), genreTextField.getText(), leangth, urlTextField.getText());
 
                             sdi.saveSong(ssong);
                             sdi.getAllSongs(SongTabledata);
@@ -631,9 +663,9 @@ public class MytunesController {
                             editStage.close();
                         });
 
-                        dialogLayout.add(submitButton, 1, 4);
+                        dialogLayout.add(submitButton, 1, 5);
 
-                        Scene editScene = new Scene(dialogLayout, 300, 200);
+                        Scene editScene = new Scene(dialogLayout, 300, 250);
                         editStage.setScene(editScene);
 
                         editStage.showAndWait();
@@ -663,7 +695,13 @@ public class MytunesController {
 
         if (alert.getResult() == ButtonType.YES) {
             sdi.deleteplaylistsong(sdi.getidfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+            pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()),PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+
+
         }
+        int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
+        pdi.getAllPlaylists(tabeldata);
+        PlaylistTableview.getSelectionModel().select(privselect);
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         SongsOnPlaylistListView.setItems(playlistNames);
     }
