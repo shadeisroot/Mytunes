@@ -1,5 +1,6 @@
 package com.example.mytunes;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
@@ -120,12 +121,35 @@ public class PlaylistDaoimpl implements PlaylistDao {
     }
 
     //test
-    /*
-    public void updatesongCount(int songs, int id){
 
+    public int countSongs(int id){
+        int count = 0;
         try {
             PreparedStatement preparedStatement = con.prepareStatement(
-                    "UPDATE Playlist SET Songs = ? WHERE id = ?"
+                    "SELECT COUNT(*) FROM PlaylistSongs WHERE PlaylistId = ?"
+            );
+
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            // Retrieve the count from the result set
+            if (resultSet.next()) {
+                count = resultSet.getInt(1); // Getting the count from the first column
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(count);
+        return count;
+    }
+
+    public void updatesongCount(int songs, int id){
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "UPDATE Playlist SET Songs = ? WHERE Id = ?"
             );
             preparedStatement.setInt(1, songs);
             preparedStatement.setInt(2, id);
@@ -138,7 +162,58 @@ public class PlaylistDaoimpl implements PlaylistDao {
 
     }
 
-     */
+    public void updatelengthplaylist(double length , int id) {
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "UPDATE Playlist SET Length = ? WHERE Id = ?"
+            );
+
+            preparedStatement.setDouble(1, length);
+            preparedStatement.setInt(2, id);
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public ObservableList<Double> getLength(int playlistId) {
+        ObservableList<Double> playlistlengthfromid = FXCollections.observableArrayList();
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "SELECT SongId FROM PlaylistSongs WHERE PlaylistId = ? ORDER BY Posistion"
+            );
+            preparedStatement.setInt(1, playlistId);
+            ResultSet rs = preparedStatement.executeQuery();
+
+            while (rs.next()) {
+                int songId = rs.getInt("SongId");
+                PreparedStatement preparedStatement2 = con.prepareStatement(
+                        "SELECT Length FROM Songs WHERE Id = ?"
+                );
+                preparedStatement2.setInt(1, songId);
+                ResultSet rs2 = preparedStatement2.executeQuery();
+
+                if (rs2.next()) {
+                    double length = rs2.getDouble("length");
+                    playlistlengthfromid.add((double) length);
+                }
+                rs2.close();
+                preparedStatement2.close();
+            }
+            rs.close();
+            preparedStatement.close();
+
+            System.out.println(playlistlengthfromid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return playlistlengthfromid;
+    }
+
+
+
 
 
 }
