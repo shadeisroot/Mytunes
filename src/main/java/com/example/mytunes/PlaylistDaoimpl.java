@@ -104,6 +104,21 @@ public class PlaylistDaoimpl implements PlaylistDao {
         }
     }
 
+
+    public void updatePosition(int playlistId, int newPosition ,int songId) {
+        try {
+            PreparedStatement preparedStatement = con.prepareStatement(
+                    "UPDATE PlaylistSongs SET Posistion = ? WHERE playlistId = ? AND songId = ?"
+            );
+            preparedStatement.setInt(1, newPosition);
+            preparedStatement.setInt(2, playlistId);
+            preparedStatement.setInt(3, songId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating position for the song in the playlist");
+        }
+    }
+
     //test
     /*
     public void updatesongCount(int songs, int id){
@@ -124,4 +139,6 @@ public class PlaylistDaoimpl implements PlaylistDao {
     }
 
      */
+
+
 }

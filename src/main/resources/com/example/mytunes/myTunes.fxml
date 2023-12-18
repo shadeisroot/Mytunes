@@ -100,18 +100,18 @@
    </ImageView>
 </graphic>
 </Button>
-<Button fx:id="SongOnPlaylistUpButton" contentDisplay="GRAPHIC_ONLY" layoutX="404.0" layoutY="640.0" mnemonicParsing="false" styleClass="MoveUpButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
+<Button fx:id="SongOnPlaylistUpButton" contentDisplay="GRAPHIC_ONLY" layoutX="404.0" layoutY="640.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistUpButton" styleClass="MoveUpButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
 <graphic>
-   <ImageView fitHeight="25.0" fitWidth="29.0" onMouseClicked="#SongOnPlaylistUpButton" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../mytunes/Images/up-arrow.png" />
       </image>
    </ImageView>
 </graphic>
 </Button>
-<Button fx:id="SongOnPlaylistDownButton" contentDisplay="GRAPHIC_ONLY" layoutX="452.0" layoutY="640.0" mnemonicParsing="false" styleClass="MoveDownButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
+<Button fx:id="SongOnPlaylistDownButton" contentDisplay="GRAPHIC_ONLY" layoutX="452.0" layoutY="640.0" mnemonicParsing="false" onMouseClicked="#SongOnPlaylistDownButton" styleClass="MoveDownButton" stylesheets="@../../../MyTunesCSS.css" text="Button">
 <graphic>
-   <ImageView fitHeight="25.0" fitWidth="29.0" onMouseClicked="#SongOnPlaylistDownButton" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="25.0" fitWidth="29.0" pickOnBounds="true" preserveRatio="true">
       <image>
          <Image url="@../mytunes/Images/down-arrow.png" />
       </image>

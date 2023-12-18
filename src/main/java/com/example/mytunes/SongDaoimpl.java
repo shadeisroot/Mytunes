@@ -90,7 +90,7 @@ public class SongDaoimpl implements SongDao {
         ObservableList<String> playlistNameFromId = FXCollections.observableArrayList();
         try {
             PreparedStatement preparedStatement = con.prepareStatement(
-                    "SELECT SongId FROM PlaylistSongs WHERE PlaylistId = ?"
+                    "SELECT SongId FROM PlaylistSongs WHERE PlaylistId = ? ORDER BY Posistion"
             );
             preparedStatement.setInt(1, playlistId);
             ResultSet rs = preparedStatement.executeQuery();
