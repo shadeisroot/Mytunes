@@ -11,6 +11,7 @@ public class Song {
     private SimpleStringProperty URL;
     private double Length;
 
+
     private SimpleIntegerProperty id;
 
     public String getURL() {
@@ -37,8 +38,13 @@ public class Song {
         return id.get();
     }
 
+    public void setId(int id) {
+        this.id.set(id);
+    }
+
     public SimpleIntegerProperty idProperty() {
         return id;
+
     }
 
 
@@ -46,6 +52,7 @@ public class Song {
     public String getTitel() {
         return Titel.get();
     }
+
 
     public SimpleStringProperty titleProperty() {
         return Titel;
@@ -86,4 +93,5 @@ public class Song {
     public void setLength(double length) {
         Length = length;
     }
+
 }

@@ -37,11 +37,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.time.Duration;
-import java.util.EventListener;
-import java.util.List;
-import java.util.Objects;
-
-import java.util.Optional;
+import java.util.*;
 
 public class MytunesController {
     public ListView<String> SongsOnPlaylistListView = new ListView<>();
@@ -204,20 +200,42 @@ public class MytunesController {
         SongsTableview.getSelectionModel().select(0);
         PlaylistTableview.getSelectionModel().select(0);
 
+
+
+
+
         isplayingText.setText(SongsTableview.getSelectionModel().getSelectedItem().getTitel() + " " + "Is Playing");
 
         filterTextField.textProperty().addListener((observable, oldValue, newValue) -> {
             filterSongs(newValue);
         });
 
+        try {
+            playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+            SongsOnPlaylistListView.setItems(playlistNames);
+
+        }catch (NullPointerException e){
+
+        }
 
 
 
-        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
-        SongsOnPlaylistListView.setItems(playlistNames);
 
         //pdi.updatesongCount(sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId()).size(), PlaylistTableview.getSelectionModel().getSelectedItem().getId());
 
+    }
+
+    public void updateplaylistsongs(ObservableList<String> list){
+        try {
+            int playlistId = PlaylistTableview.getSelectionModel().getSelectedItem().getId();
+            for (int i = 0; i < list.size(); i++) {
+                int songId = sdi.getidfromtitle(list.get(i));
+                pdi.updatePosition(playlistId, i + 1, songId); // Adjust the position to start from 1
+            }
+            System.out.println("Positions updated successfully.");
+        } catch (Exception e) {
+            System.err.println("Error updating positions: " + e.getMessage());
+        }
     }
 
     private void updateLabel(Duration duration) {
@@ -634,15 +652,33 @@ public class MytunesController {
         SongsOnPlaylistListView.setItems(playlistNames);
     }
 
+    private static void moveElementUp(ObservableList<String> list, String element) {
+        int index = list.indexOf(element);
+        if (index > 0 && index < list.size()) {
+            Collections.swap(list, index, index - 1);
+        }
+    }
 
+    private static void moveElementDown(ObservableList<String> list, String element) {
+        int index = list.indexOf(element);
+        if (index >= 0 && index < list.size() - 1) {
+            Collections.swap(list, index, index + 1);
+        }
+    }
     @FXML
     void SongOnPlaylistDownButton (MouseEvent event){
-
+        moveElementDown(playlistNames, SongsOnPlaylistListView.getSelectionModel().getSelectedItem());
+        SongsOnPlaylistListView.getSelectionModel().selectNext();
+        SongsOnPlaylistListView.setItems(playlistNames);
+        updateplaylistsongs(playlistNames);
     }
 
     @FXML
     void SongOnPlaylistUpButton (MouseEvent event){
-
+        moveElementUp(playlistNames, SongsOnPlaylistListView.getSelectionModel().getSelectedItem());
+        SongsOnPlaylistListView.getSelectionModel().selectPrevious();
+        SongsOnPlaylistListView.setItems(playlistNames);
+        updateplaylistsongs(playlistNames);
     }
 
     @FXML
@@ -726,11 +762,13 @@ public class MytunesController {
     public void playlistonmouseclicked(MouseEvent event) {
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         SongsOnPlaylistListView.setItems(playlistNames);
+
     }
 
     public void playlistsongclicked(MouseEvent event) throws MalformedURLException {
         SongsTableview.getSelectionModel().clearSelection();
         path = (sdi.geturlfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+
         try {
 
             if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && !Objects.equals(sourcepath, pathstring)) {
