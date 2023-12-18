@@ -1,6 +1,7 @@
 package com.example.mytunes;
 
 import com.mpatric.mp3agic.*;
+import java.text.DecimalFormat;
 import javafx.beans.Observable;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -155,6 +156,9 @@ public class MytunesController {
 
     private final ObservableList<Song> SongTabledata = FXCollections.observableArrayList();
 
+    private final ObservableList<Double> playlistlengthfromid = FXCollections.observableArrayList();
+
+
     public MytunesController() throws MalformedURLException {
     }
 
@@ -246,10 +250,22 @@ public class MytunesController {
     void AddSongToPlaylistButton(MouseEvent event) {
         Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
         Song sngs = SongsTableview.getSelectionModel().getSelectedItem();
-        pdi.addtoplaylistsong(plst, sngs);
+        try {
+            pdi.addtoplaylistsong(plst, sngs);
+        }catch (NullPointerException e){
+
+        }
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()),PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
+        playlistlengthfromid.setAll(pdi.getLength(PlaylistTableview.getSelectionModel().getSelectedItem().getId()));
+
+        double sum = 0;
+        for (double value : playlistlengthfromid) {
+            sum += value;
+        }
+        pdi.updatelengthplaylist(sum, PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+
         pdi.getAllPlaylists(tabeldata);
         PlaylistTableview.getSelectionModel().select(privselect);
         SongsOnPlaylistListView.setItems(playlistNames);

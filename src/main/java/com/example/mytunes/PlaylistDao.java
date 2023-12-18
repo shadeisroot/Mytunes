@@ -13,6 +13,8 @@ public interface PlaylistDao {
     void updatePosition(int playlistId, int newPosition ,int songId);
 
     void updatesongCount(int songs, int id);
+    int countSongs(int id);
+    ObservableList<Double> getLength(int playlistId);
+    void updatelengthplaylist(double length, int id);
 
-   int countSongs(int id);
 }
