@@ -1,5 +1,6 @@
-package com.example.mytunes;
+package com.example.mytunes.Data;
 
+import com.example.mytunes.Business.Song;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 

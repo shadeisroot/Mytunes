@@ -1,11 +1,11 @@
-package com.example.mytunes;
+package com.example.mytunes.Data;
 
+import com.example.mytunes.Business.Playlist;
+import com.example.mytunes.Business.Song;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class PlaylistDaoimpl implements PlaylistDao {
     private Connection con;

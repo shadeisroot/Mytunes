@@ -1,4 +1,4 @@
-package com.example.mytunes;
+package com.example.mytunes.Business;
 
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;

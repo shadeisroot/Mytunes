@@ -1,4 +1,4 @@
-package com.example.mytunes;
+package com.example.mytunes.Business;
 
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;

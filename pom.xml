@@ -43,6 +43,11 @@
             <artifactId>javafx-base</artifactId>
             <version>21-ea+24</version>
         </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-media</artifactId>
+            <version>20-ea+9</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -65,7 +70,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.mytunes/com.example.mytunes.MytunesApplication</mainClass>
+                            <mainClass>com.example.mytunes/com.example.mytunes.GUI.MytunesApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

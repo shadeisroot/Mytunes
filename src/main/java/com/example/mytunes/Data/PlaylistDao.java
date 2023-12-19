@@ -1,8 +1,8 @@
-package com.example.mytunes;
+package com.example.mytunes.Data;
 
+import com.example.mytunes.Business.Playlist;
+import com.example.mytunes.Business.Song;
 import javafx.collections.ObservableList;
-
-import java.util.List;
 
 public interface PlaylistDao {
     void getAllPlaylists(ObservableList<Playlist> tabeldata);

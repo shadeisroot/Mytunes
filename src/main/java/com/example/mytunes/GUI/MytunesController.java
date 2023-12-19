@@ -1,12 +1,13 @@
-package com.example.mytunes;
+package com.example.mytunes.GUI;
 
+import com.example.mytunes.Business.Player;
+import com.example.mytunes.Business.Playlist;
+import com.example.mytunes.Business.Song;
+import com.example.mytunes.Data.PlaylistDao;
+import com.example.mytunes.Data.PlaylistDaoimpl;
+import com.example.mytunes.Data.SongDao;
+import com.example.mytunes.Data.SongDaoimpl;
 import com.mpatric.mp3agic.*;
-import java.text.DecimalFormat;
-import javafx.beans.Observable;
-import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -30,7 +31,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 
 import java.io.File;
 import java.io.IOException;

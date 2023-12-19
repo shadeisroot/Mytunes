@@ -1,4 +1,4 @@
-package com.example.mytunes;
+package com.example.mytunes.GUI;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

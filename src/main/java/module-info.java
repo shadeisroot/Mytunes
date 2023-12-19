@@ -5,6 +5,10 @@ module com.example.mytunes {
     requires javafx.media;
 
 
-    opens com.example.mytunes to javafx.fxml;
-    exports com.example.mytunes;
+    exports com.example.mytunes.GUI;
+    opens com.example.mytunes.GUI to javafx.fxml;
+    exports com.example.mytunes.Data;
+    opens com.example.mytunes.Data to javafx.fxml;
+    exports com.example.mytunes.Business;
+    opens com.example.mytunes.Business to javafx.fxml;
 }
