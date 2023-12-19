@@ -738,23 +738,26 @@ public class MytunesController {
     void SongOnPlaylistDeleteButton (MouseEvent event){
         String pn = SongsOnPlaylistListView.getSelectionModel().getSelectedItem();
 
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + pn + " ?", ButtonType.YES, ButtonType.NO);
-        alert.getDialogPane().getStyleClass().add("Alert");
-        alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
+        if (pn != null){
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete " + pn + " ?", ButtonType.YES, ButtonType.NO);
+            alert.getDialogPane().getStyleClass().add("Alert");
+            alert.getDialogPane().getStylesheets().add(getClass().getResource("/MyTunesCSS.css").toExternalForm());
 
-        alert.showAndWait();
+            alert.showAndWait();
 
-        if (alert.getResult() == ButtonType.YES) {
-            sdi.deleteplaylistsong(sdi.getidfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
-            pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()),PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+            if (alert.getResult() == ButtonType.YES) {
+                sdi.deleteplaylistsong(sdi.getidfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
+                pdi.updatesongCount(pdi.countSongs(PlaylistTableview.getSelectionModel().getSelectedItem().getId()),PlaylistTableview.getSelectionModel().getSelectedItem().getId());
 
 
+            }
+            int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
+            pdi.getAllPlaylists(tabeldata);
+            PlaylistTableview.getSelectionModel().select(privselect);
+            playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
+            SongsOnPlaylistListView.setItems(playlistNames);
         }
-        int privselect = PlaylistTableview.getSelectionModel().getSelectedIndex();
-        pdi.getAllPlaylists(tabeldata);
-        PlaylistTableview.getSelectionModel().select(privselect);
-        playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
-        SongsOnPlaylistListView.setItems(playlistNames);
+
     }
 
     private static void moveElementUp(ObservableList<String> list, String element) {
