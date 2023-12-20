@@ -5,33 +5,25 @@ import com.example.mytunes.Data.PlaylistDao;
 import com.example.mytunes.Data.PlaylistDaoimpl;
 import com.example.mytunes.Data.SongDao;
 import com.example.mytunes.Data.SongDaoimpl;
-import com.mpatric.mp3agic.*;
+import com.mpatric.mp3agic.InvalidDataException;
+import com.mpatric.mp3agic.Mp3File;
+import com.mpatric.mp3agic.UnsupportedTagException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ListView;
-import javafx.scene.control.Slider;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.VBox;
 import javafx.scene.media.MediaPlayer;
-
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.Collections;
+import java.util.Objects;
 
 public class MytunesController {
 
@@ -77,8 +69,6 @@ public class MytunesController {
 
     @FXML
     private TableColumn<Song, String> ColumnTitel = new TableColumn();
-
-
 
     @FXML
     private ImageView FilterButtonImage , pauseplaybutton, VolumeButton = new ImageView();
@@ -288,9 +278,9 @@ public class MytunesController {
     //Method for deleting a playlist
     @FXML
     void PlaylistDeleteButton(MouseEvent event) {
-            Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
-            String pn = PlaylistTableview.getSelectionModel().getSelectedItem().getName();
-            alertConfirmation.alert("Are you sure you want to delete " + pn + " ?");
+        Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
+        String pn = PlaylistTableview.getSelectionModel().getSelectedItem().getName();
+        alertConfirmation.alert("Are you sure you want to delete " + pn + " ?");
 
         if (p != null){
             if (alertConfirmation.isYesno()) {
@@ -383,7 +373,7 @@ public class MytunesController {
         refreshPlaylist();
     }
 
-//Method for adding a new song
+    //Method for adding a new song
     @FXML
     void SongNewButton (MouseEvent event) throws InvalidDataException, UnsupportedTagException, IOException {
         mediaPath = new Filechooser("add new song").getMediaPath();
@@ -496,9 +486,9 @@ public class MytunesController {
             player.getMediaPlayer().play();
             isplayingText.setText(SongsOnPlaylistListView.getSelectionModel().getSelectedItem() + " " + "Is Playing");
 
-            }
-
         }
+
+    }
     //Method for clicking the volume button
     public void Volumebuttonclicked(MouseEvent event) throws URISyntaxException {
         try{
@@ -554,24 +544,24 @@ public class MytunesController {
                 pauseplaybutton.setImage(pauseit);
             }
 
-            }catch(NullPointerException e){
+        }catch(NullPointerException e){
 
-            }
         }
-        //Method for Clicking the songstableview
-        public void Songstableviewclicked (MouseEvent event){
-            SongsOnPlaylistListView.getSelectionModel().clearSelection();
-            path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
+    }
+    //Method for Clicking the songstableview
+    public void Songstableviewclicked (MouseEvent event){
+        SongsOnPlaylistListView.getSelectionModel().clearSelection();
+        path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
 
-            try {
-                if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && !Objects.equals(sourcepath, pathstring)) {
-                    pauseplaybutton.setImage(playit);
-                } else if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)) {
-                    pauseplaybutton.setImage(pauseit);
-                }
-            }catch(NullPointerException e){
-
-                }
-
+        try {
+            if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && !Objects.equals(sourcepath, pathstring)) {
+                pauseplaybutton.setImage(playit);
+            } else if (player.getMediaPlayer().getStatus().equals(MediaPlayer.Status.PLAYING) && Objects.equals(sourcepath, pathstring)) {
+                pauseplaybutton.setImage(pauseit);
             }
+        }catch(NullPointerException e){
+
         }
+
+    }
+}
