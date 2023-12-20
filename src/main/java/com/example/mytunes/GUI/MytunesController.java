@@ -101,6 +101,7 @@ public class MytunesController {
     public MytunesController() throws MalformedURLException {
     }
 
+    // Variables declaration and initialization, instance creation for various classes, and ObservableList objects
     public void initialize() {
         initializeSongsTableView();
         initializeplaylistTableView();
@@ -119,18 +120,21 @@ public class MytunesController {
 
     }
 
+    // A method to refresh the display of songs on a playlist.
     public void refreshPlaylist(){
         playlistNames = sdi.getAllPlaylistSong(PlaylistTableview.getSelectionModel().getSelectedItem().getId());
         SongsOnPlaylistListView.setItems(playlistNames);
     }
-
+    // A method to initialize and configure the VolumeSlider.
     public void initializeVolumeSlider(){
         VolumeSliderButton.setMin(0);
         VolumeSliderButton.setMax(1.0);
         VolumeSliderButton.setBlockIncrement(0.1);
         VolumeSliderButton.setValue(0.5);
     }
-
+    // Method sets up TableView element for displaying Playlists.
+    // It uses PropertyValueFactory to associate columns in TableView with properties of Playlist objects.
+    // It also uses a PlaylistDao to fetch data for display in TableView.
     public void initializeplaylistTableView(){
         PlaylistTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ColumnName.setCellValueFactory(new PropertyValueFactory<Playlist, String>("name"));
@@ -140,6 +144,11 @@ public class MytunesController {
         pdi.getAllPlaylists(tabeldata);
         PlaylistTableview.getSelectionModel().select(0);
     }
+
+    // Method sets up TableView element for displaying Songs.
+    // It uses PropertyValueFactory to associate columns in TableView with properties of Song objects.
+    // It also uses a SongDao to fetch data for display in TableView.
+
     public void initializeSongsTableView(){
         SongsTableview.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         ColumnTitel.setCellValueFactory(new PropertyValueFactory<Song, String>("Titel"));
@@ -154,7 +163,7 @@ public class MytunesController {
         SongsTableview.getSelectionModel().select(0);
 
     }
-
+    // A method to update the order of songs in a playlist.
     public void updateplaylistsongs(ObservableList<String> list) {
         try {
             int playlistId = PlaylistTableview.getSelectionModel().getSelectedItem().getId();
@@ -167,7 +176,7 @@ public class MytunesController {
             System.err.println("Error updating positions: " + e.getMessage());
         }
     }
-
+    // A method to add a song to a playlist.
     @FXML
     void AddSongToPlaylistButton(MouseEvent event) {
         Playlist plst = PlaylistTableview.getSelectionModel().getSelectedItem();
@@ -199,7 +208,7 @@ public class MytunesController {
             new AlertDialog("You already have "  + chosenTitel + " on this playlist.");
         }
     }
-
+    // A private helper function to check if a song is already added to a playlist.
     private boolean isSongDuplicate(String songTitle) {
         for (String existingSongName : SongsOnPlaylistListView.getItems()) {
             if (existingSongName.equalsIgnoreCase(songTitle)) {
@@ -208,18 +217,19 @@ public class MytunesController {
         }
         return true;
     }
-
+    // A method to close the application.
     @FXML
     void CloseButton(MouseEvent event) {
         Stage stage = (Stage) CloseButton.getScene().getWindow();
         stage.close();
     }
 
+    // Method filters songs based on a search text.
     @FXML
     void Filter(MouseEvent event) {
 
     }
-
+    // A method to handle play/pause status for a song.
     @FXML
     void PlayPauseButton(MouseEvent event) throws MalformedURLException {
         try {
@@ -275,6 +285,7 @@ public class MytunesController {
 
     }
 
+    //Method for deleting a playlist
     @FXML
     void PlaylistDeleteButton(MouseEvent event) {
             Playlist p = PlaylistTableview.getSelectionModel().getSelectedItem();
@@ -293,19 +304,22 @@ public class MytunesController {
         }
     }
 
+
+    //Method for editing Playlist
     @FXML
     void PlaylistEditButton(MouseEvent event) {
         PlaylistEditDialog playlistEditDialog = new PlaylistEditDialog(PlaylistTableview, tabeldata);
 
 
     }
-
+    //Method for adding a new playlist
     @FXML
     void PlaylistNewButton (MouseEvent event){
         NewPlaylistDialog newPlaylistDialog = new NewPlaylistDialog("add new Playlist","Add Playlist ", PlaylistTableview, tabeldata);
     }
 
 
+    //Method for playing the previous song
     @FXML
     void Rewind (MouseEvent event) throws MalformedURLException {
         if (SongsTableview.getSelectionModel().getSelectedItem() != null){
@@ -330,7 +344,7 @@ public class MytunesController {
         }
 
     }
-
+    //Method for deleting a song from the songstableview
     @FXML
     void SongDeleteButton (MouseEvent event){
         Song song = SongsTableview.getSelectionModel().getSelectedItem();
@@ -362,13 +376,14 @@ public class MytunesController {
         }
     }
 
+    //Method for Editing the song name
     @FXML
     void SongEditButton (MouseEvent event){
         SongEditDialog songEditDialog = new SongEditDialog(SongsTableview, SongTabledata);
         refreshPlaylist();
     }
 
-
+//Method for adding a new song
     @FXML
     void SongNewButton (MouseEvent event) throws InvalidDataException, UnsupportedTagException, IOException {
         mediaPath = new Filechooser("add new song").getMediaPath();
@@ -387,6 +402,7 @@ public class MytunesController {
         }
     }
 
+    //Method for Deleting a song from a playlist
     @FXML
     void SongOnPlaylistDeleteButton (MouseEvent event){
         String pn = SongsOnPlaylistListView.getSelectionModel().getSelectedItem();
@@ -407,6 +423,7 @@ public class MytunesController {
 
     }
 
+    //Method to move the song in the playlist up
     public void moveElementUp(ObservableList<String> list, String element) {
         int index = list.indexOf(element);
         if (index > 0 && index < list.size()) {
@@ -414,12 +431,16 @@ public class MytunesController {
         }
     }
 
+
+    //Method to move the song in the playlist down
     public void moveElementDown(ObservableList<String> list, String element) {
         int index = list.indexOf(element);
         if (index >= 0 && index < list.size() - 1) {
             Collections.swap(list, index, index + 1);
         }
     }
+
+    //Method for moving the song down in the database
     @FXML
     void SongOnPlaylistDownButton (MouseEvent event){
         moveElementDown(playlistNames, SongsOnPlaylistListView.getSelectionModel().getSelectedItem());
@@ -428,6 +449,8 @@ public class MytunesController {
         updateplaylistsongs(playlistNames);
     }
 
+
+    //Method for moving the song up in the database
     @FXML
     void SongOnPlaylistUpButton (MouseEvent event){
         moveElementUp(playlistNames, SongsOnPlaylistListView.getSelectionModel().getSelectedItem());
@@ -436,11 +459,14 @@ public class MytunesController {
         updateplaylistsongs(playlistNames);
     }
 
+
+    //Filters based on text
     @FXML
     void FilterButton (MouseEvent event) {
         filterTextField.clear();
     }
 
+    //Method for the volume slider to change its value
     @FXML
     void VolumeSlider (MouseEvent event){
         if (VolumeSliderButton.isValueChanging()){
@@ -452,6 +478,7 @@ public class MytunesController {
         }
     }
 
+    //Method for playing the next song when clicking next
     public void NextButtonclicked(MouseEvent event) throws MalformedURLException {
 
         if (SongsTableview.getSelectionModel().getSelectedItem() != null){
@@ -472,7 +499,7 @@ public class MytunesController {
             }
 
         }
-
+    //Method for clicking the volume button
     public void Volumebuttonclicked(MouseEvent event) throws URISyntaxException {
         try{
             if (player.getMediaPlayer().isMute()){
@@ -490,7 +517,7 @@ public class MytunesController {
 
         }
     }
-
+    //Method for Filtering
     void filterSongs(String keyword) {
         if (keyword == null || keyword.isEmpty()) {
             SongsTableview.setItems(SongTabledata);
@@ -508,11 +535,13 @@ public class MytunesController {
         }
     }
 
+    //Method for event on clicking the playlist and refreshes it
     public void playlistonmouseclicked(MouseEvent event) {
         refreshPlaylist();
 
     }
 
+    //Method for clicking the playlistsong
     public void playlistsongclicked(MouseEvent event) throws MalformedURLException {
         SongsTableview.getSelectionModel().clearSelection();
         path = (sdi.geturlfromtitle(SongsOnPlaylistListView.getSelectionModel().getSelectedItem()));
@@ -529,7 +558,7 @@ public class MytunesController {
 
             }
         }
-
+        //Method for Clicking the songstableview
         public void Songstableviewclicked (MouseEvent event){
             SongsOnPlaylistListView.getSelectionModel().clearSelection();
             path = SongsTableview.getSelectionModel().getSelectedItem().getURL();
