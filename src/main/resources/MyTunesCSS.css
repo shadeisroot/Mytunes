@@ -4,26 +4,21 @@
     -fx-text-alignment: center;
 }
 
-.Durration{
-    -fx-text-fill: white;
-    -fx-font-weight: bold;
-}
-
 .Volume{
     -fx-cursor: hand;
 }
 
-.VolumeSlider .track, .SongSlider . track{
+.VolumeSlider .track{
     /*-fx-background-color:#6FBFA2;*/
     -fx-background-color:#0C1928;
 }
 
-.VolumeSlider .thumb, .SongSlider .thumb{
+.VolumeSlider .thumb{
     -fx-background-color:#6FBFA2;
     -fx-cursor: hand;
 }
 
-.VolumeSlider .thumb:hover, .SongSlider .thumb:hover{
+.VolumeSlider .thumb:hover{
     -fx-background-color: white;
     -fx-scale-x: 0.9;
     -fx-scale-y: 0.9;
@@ -33,10 +28,7 @@
 .SearchField{
     -fx-background-color:#0C1928;
     -fx-text-fill: white;
-
 }
-
-
 
 .PlaylistTableview, .SongsOnPlaylistTableview, .SongsTableview, .SongsOnPlaylistListview{
     -fx-background-color:#162840;
@@ -77,6 +69,7 @@
     -fx-border-color: none;
     -fx-border-width: 0;
 }
+
 .table-row-cell:hover,.table-row-cell:odd:hover, .list-cell:hover, .list-cell:odd:hover  {
     -fx-background-color: #6FBFA2;
 }
@@ -113,6 +106,7 @@
     -fx-background-radius: 10 0 10 0;
     -fx-cursor: hand;
 }
+
 .NewPlaylistButton:hover, .EditPlaylistButton:hover, .DeletePlaylistButton:hover, .DeleteSongsOnPlaylistButton:hover,
 .NewSongButton:hover, .EditSongButton:hover, .DeleteSongButton:hover,.CloseButton:hover{
     -fx-text-fill:#0F1F30;
@@ -128,7 +122,6 @@
     -fx-pref-height: 40px !important;
     -fx-background-color: #6FBFA2;
     -fx-cursor: hand;
-
 }
 
 .MoveUpButton:hover, .MoveDownButton:hover, .AddSongsToPlaylistButton:hover, .SearchButton:hover, .PlayPauseButton:hover, .NextSongButton:hover, .LastSongButton:hover{
