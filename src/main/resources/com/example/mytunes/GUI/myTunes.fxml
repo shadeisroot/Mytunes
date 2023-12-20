@@ -125,7 +125,5 @@
    <Font size="36.0" />
 </font>
 </Label>
-<Slider fx:id="PlayerDuration" layoutX="371.0" layoutY="116.0" prefHeight="15.0" prefWidth="699.0" styleClass="SongSlider" stylesheets="@../../../../MyTunesCSS.css" />
-      <Label fx:id="DurationLabel" layoutX="1070.0" layoutY="115.0" styleClass="Durration" stylesheets="@../../../../MyTunesCSS.css" text="Label" />
         </children>
         </Pane>
